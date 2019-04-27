@@ -1,195 +1,132 @@
-
-<!DOCTYPE html>
 <html>
   <head>
-    
-<meta charset="utf-8" >
-
+  <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>时间驱动模型 | 琥珀川</title>
-<meta name="description" content="大道至简 知易行难">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556377656631">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556372933588">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556372933588" alt="" width="32px" height="32px">
-      </a>
-      <a href="https://huopochuan.github.io/">
-        <h1 class="site-title">琥珀川</h1>
-      </a>
-    </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
-    </div>
-  </div>
-</div>
-
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
-      
-        
-          <a href="/" class="menu purple-link">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="menu purple-link">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="menu purple-link">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="menu purple-link">
-            你好 世界
-          </a>
-        
-      
-    </div>
-  </div>
-</transition>
-
-
-      <div class="content-container">
-
-        <div class="current-tag-container">
-          <h2 class="title">
-            <i class="icon icon-pricetags-outline"></i> 时间驱动模型
-          </h2> 
-        </div>
-
-        
-<section class="post-item">
-    <div class="content">
-      <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
-        <h2 class="post-title">事件驱动模型 Handler 与 Flutter future</h2>
-      </a>
-      <div class="post-abstract">
-        <p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2019-04-16</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="https://huopochuan.github.io//tag/dpKP2l0bJ">
-                android
-                
-                  ，
-                
-              </a>
-            
-              <a href="https://huopochuan.github.io//tag/ApDFfS8rK">
-                handler
-                
-                  ，
-                
-              </a>
-            
-              <a href="https://huopochuan.github.io//tag/0svvFu3yv">
-                时间驱动模型
-                
-                  ，
-                
-              </a>
-            
-              <a href="https://huopochuan.github.io//tag/i0_68sTZ8">
-                Flutter
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://huopochuan.github.io/">
+  <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556377656631" alt="">
+  </a>
+  <h1 class="site-title">
+    琥珀川
+  </h1>
+  <p class="site-description">
+    大道至简 知易行难
+  </p>
+  <div class="menu-container">
     
-      <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
-        <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future.jpg')">
-        </div>
-      </a>
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
     
-  </section>
-
-
-<div class="pagination-container">
-  
-  
-</div>
-
-
-      </div>
-
-      <div class="site-footer">
-  <div class="slogan">大道至简 知易行难</div>
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          你好 世界
+        </a>
+      
+    
+  </div>
   <div class="social-container">
     
       
-        <a href="https://github.com/huopochuan" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
     
       
     
       
     
-      
-        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
       
     
       
     
   </div>
+</div>
+
+        <div class="current-tag-container">
+            <h2 class="title">
+                标签：#时间驱动模型
+            </h2> 
+        </div>
+        <div class="post-container">
+  
+    <article class="post">
+      <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
+        <h2 class="post-title">事件驱动模型 Handler 与 Flutter future</h2>
+      </a>
+      <div class="post-info">
+        <time class="post-time">
+          · 2019-04-16 ·
+        </time>
+        
+          <a href="https://huopochuan.github.io//tag/dpKP2l0bJ" class="post-tag">
+            # android
+          </a>
+        
+          <a href="https://huopochuan.github.io//tag/ApDFfS8rK" class="post-tag">
+            # handler
+          </a>
+        
+          <a href="https://huopochuan.github.io//tag/0svvFu3yv" class="post-tag">
+            # 时间驱动模型
+          </a>
+        
+          <a href="https://huopochuan.github.io//tag/i0_68sTZ8" class="post-tag">
+            # Flutter
+          </a>
+        
+      </div>
+      
+        <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future" class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future.jpg')">
+        </a>
+      
+      <div class="post-abstract">
+        <p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
+
+      </di>
+    </article>
+  
+</div>
+
+        <div class="pagination-container">
+  
+  
+</div>
+
+        <div class="site-footer">
   Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
 </div>
 
-
-    </div>
-    <script type="application/javascript">
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
+<script>
+  hljs.initHighlightingOnLoad()
 </script>
 
-
-
-
+      </div>
+    </div>
   </body>
 </html>
