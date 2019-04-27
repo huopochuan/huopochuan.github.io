@@ -1,0 +1,502 @@
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>事件驱动模型 Handler 与 Flutter future | 琥珀川</title>
+<meta name="description" content="大道至简 知易行难">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556372933588">
+<link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://huopochuan.github.io/">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556372933588" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://huopochuan.github.io/">
+        <h1 class="site-title">琥珀川</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            你好 世界
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future.jpg')">
+            </div>
+          
+          <h2 class="post-title">事件驱动模型 Handler 与 Flutter future</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-04-16</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://huopochuan.github.io//tag/dpKP2l0bJ">
+                    android
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://huopochuan.github.io//tag/ApDFfS8rK">
+                    handler
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://huopochuan.github.io//tag/0svvFu3yv">
+                    时间驱动模型
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://huopochuan.github.io//tag/i0_68sTZ8">
+                    Flutter
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+
+              
+       
+
+          <div class="post-content">
+            <p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
+<!-- more -->
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25o68b912j31900spn0e.jpg" alt=""></p>
+<h2 id="事件驱动">事件驱动</h2>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g299hy0iggj30km0audg5.jpg" alt="">
+以操作系统为例，我们每次的鼠标点击，键盘按下都会发出一个事件，然后加入操作系统的消息队列中，处理线程提取任务然后分发给对应的处理句柄去处理消息事件。上述的流程即可理解为事件驱动。下面是百度百科的解释</p>
+<blockquote>
+<p>早期则存在许多非事件驱动的程序，这样的程序，在需要等待某个条件触发时，会不断地检查这个条件，直到条件满足，这是很浪费cpu时间的。而事件驱动的程序，则有机会释放cpu从而进入睡眠态（注意是有机会，当然程序也可自行决定不释放cpu），当事件触发时被操作系统唤醒，这样就能更加有效地使用cpu。<br>
+一个典型的事件驱动的程序，就是一个死循环，并以一个线程的形式存在，这个死循环包括两个部分，第一个部分是按照一定的条件接收并选择一个要处理的事件，第二个部分就是事件的处理过程。程序的执行过程就是选择事件和处理事件，而当没有任何事件触发时，程序会因查询事件队列失败而进入睡眠状态，从而释放cpu。<br>
+事件驱动的程序，必定会直接或者间接拥有一个事件队列，用于存储未能及时处理的事件<br>
+事件驱动的程序，还有一个最大的好处，就是可以按照一定的顺序处理队列中的事件，而这个顺序则是由事件的触发顺序决定的，这一特性往往被用于保证某些过程的原子化。<br>
+目前windows,linux等都是事件驱动的，只有一些单片机可能是非事件驱动的。</p>
+</blockquote>
+<h2 id="事件驱动模型-handler">事件驱动模型 Handler</h2>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g2981864wuj31g20omq5d.jpg" alt=""></p>
+<p>无论在Android开发还是Android面试中经常使用和被问到的就是handler,根据上述事件驱动的描述来看handler本质就是事件驱动模型。在Android系统中每次点击事件、activity与service的启动，生命周期的执行、view的布局事件等，Android系统均会把上述事件转化成一个消息msg，放在消息队列MessageQueen中。由每个App进程的主线程去不断的获取消息并分发给句柄Handler去处理。下面我们分析一下handler中的一些事件驱动的策略。</p>
+<h3 id="androd中的几个使用场景">Androd中的几个使用场景</h3>
+<p>为了证实我们上面提出的观点，我们看看在源码里的体现，我们只看消息的接收处理的逻辑，因为Android是基于C/S架构，我们的事件产生都是经过server端产生然后通过binder通信传递给Client（App进程）。</p>
+<p>1.activity与service的启动，生命周期的执行的消息处理（ActivityThread中的H类）</p>
+<pre><code>  class H extends Handler {
+   .... 省略
+ public void handleMessage(Message msg) {
+         ....省略
+           case EXIT_APPLICATION:
+                 if (mInitialApplication != null) {
+                     mInitialApplication.onTerminate();
+                 }
+                 Looper.myLooper().quit();
+                 break;
+             case RECEIVER:
+                 Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;broadcastReceiveComp&quot;);
+                 handleReceiver((ReceiverData)msg.obj);
+                 Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+                 break;
+             case CREATE_SERVICE:
+                 Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, (&quot;serviceCreate: &quot; + String.valueOf(msg.obj)));
+                 handleCreateService((CreateServiceData)msg.obj);
+                 Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+                 break;
+             case BIND_SERVICE:
+                 Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;serviceBind&quot;);
+                 handleBindService((BindServiceData)msg.obj);
+                 Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+                 break;
+</code></pre>
+<p>2.Activity点击事件分发<br>
+当系统点击手机屏幕时，Linux内核会将硬件产生的触摸事件包装为Event存到/dev/input/event目录下，loop会通过<code>epoll机制</code>监听该事件,然后最终回调ViewRootImpl的WindowInputEventReceiver的方法，传递给对应的Activity去处理改点击事件</p>
+<h3 id="epoll机制">epoll机制</h3>
+<p>Linux本身的一个设计思想也是一切皆文件，epoll机制可以理解对文件亦或是流的监听，当该文件/流不可读（缓冲区取完），epoll机制会使线程进入休眠状态（epoll_wait），不浪费cpu资源。当文件/流可读(缓存区有数据),epoll机制会唤醒线程然后读取数据。</p>
+<h3 id="休眠阻塞">休眠阻塞</h3>
+<p>当Looper.loop()开始调用时，内部就开始死循环获取MessageQueue中的消息。如果当前时间段没有要执行的消息，如果还在不断的死循环进行消息的遍历，无疑是对CPU的浪费。所以在没有消息处理时，会使用<code>epoll机制</code>使当前线程进入休眠状态。</p>
+<pre><code> Message next() {
+        // Return here if the message loop has already quit and been disposed.
+        // This can happen if the application tries to restart a looper after quit
+        // which is not supported.
+        final long ptr = mPtr;
+        if (ptr == 0) {
+            return null;
+        }
+
+        int pendingIdleHandlerCount = -1; // -1 only during first iteration
+        int nextPollTimeoutMillis = 0;
+        for (;;) {
+            if (nextPollTimeoutMillis != 0) {
+                Binder.flushPendingCommands();
+            }
+            
+           //关键代码
+            nativePollOnce(ptr, nextPollTimeoutMillis);
+
+            synchronized (this) {
+                // Try to retrieve the next message.  Return if found.
+                final long now = SystemClock.uptimeMillis();
+                Message prevMsg = null;
+                Message msg = mMessages;
+                if (msg != null &amp;&amp; msg.target == null) {
+                    // Stalled by a barrier.  Find the next asynchronous message in the queue.
+                    do {
+                        prevMsg = msg;
+                        msg = msg.next;
+                    } while (msg != null &amp;&amp; !msg.isAsynchronous());
+                }
+                if (msg != null) {
+                    if (now &lt; msg.when) {
+                        // Next message is not ready.  Set a timeout to wake up when it is ready.
+                        nextPollTimeoutMillis = (int) Math.min(msg.when - now, Integer.MAX_VALUE);
+                    } else {
+                        // Got a message.
+                        mBlocked = false;
+                        if (prevMsg != null) {
+                            prevMsg.next = msg.next;
+                        } else {
+                            mMessages = msg.next;
+                        }
+                        msg.next = null;
+                        if (DEBUG) Log.v(TAG, &quot;Returning message: &quot; + msg);
+                        msg.markInUse();
+                        return msg;
+                    }
+                } else {
+                    // No more messages.
+                    nextPollTimeoutMillis = -1;
+                }
+</code></pre>
+<p>nativePollOnce(ptr, nextPollTimeoutMillis) 即为关键所在，该方法是个native方法，从其名字PollOnce表示轮询一次并看不出他有阻塞的含义，还有就是native内部有什么需要轮询呢？接下来我们看看native代码的实现</p>
+<pre><code>int Looper::pollInner(int timeoutMillis) {
+    ...
+    int result = POLL_WAKE;
+    mResponses.clear();
+    mResponseIndex = 0;
+    mPolling = true; //即将处于idle状态
+    struct epoll_event eventItems[EPOLL_MAX_EVENTS]; //fd最大个数为16
+    //等待事件发生或者超时，在nativeWake()方法，向管道写端写入字符，则该方法会返回；
+    int eventCount = epoll_wait(mEpollFd, eventItems, EPOLL_MAX_EVENTS, timeoutMillis);
+
+
+</code></pre>
+<p>epoll_wait(mEpollFd, eventItems, EPOLL_MAX_EVENTS, timeoutMillis) 可以看出会进入休眠状态，timeoutMillis值解释如下：<br>
+1.如果timeoutMillis =-1，一直阻塞不会超时。<br>
+2.如果timeoutMillis =0，不会阻塞，立即返回。<br>
+3.如果timeoutMillis&gt;0，最长阻塞timeoutMillis毫秒(超时)，如果期间有程序唤醒会立即返回。</p>
+<h3 id="唤醒">唤醒</h3>
+<p>上面小节我们了解了Handler的休眠逻辑，那如何唤醒呢？无非两种情况<br>
+1.指定的timeoutMillis时间已到，可以理解为自己睡醒了<br>
+2.别人叫醒<br>
+我们可以猜测一下唤醒线程的执行时机实际就是新加入的事件消息是否需要马上执行。
+我们来分析一下别人叫醒的地方。代码如下：</p>
+<pre><code>boolean enqueueMessage(Message msg, long when) {
+
+ ····
+ msg.when = when;
+            Message p = mMessages;
+            boolean needWake;
+            if (p == null || when == 0 || when &lt; p.when) {
+                // New head, wake up the event queue if blocked.
+                msg.next = p;
+                mMessages = msg;
+                needWake = mBlocked;
+            } else {
+                // Inserted within the middle of the queue.  Usually we don't have to wake
+                // up the event queue unless there is a barrier at the head of the queue
+                // and the message is the earliest asynchronous message in the queue.
+                needWake = mBlocked &amp;&amp; p.target == null &amp;&amp; msg.isAsynchronous();
+                Message prev;
+                for (;;) {
+                    prev = p;
+                    p = p.next;
+                    if (p == null || when &lt; p.when) {
+                        break;
+                    }
+                    if (needWake &amp;&amp; p.isAsynchronous()) {
+                        needWake = false;
+                    }
+                }
+                msg.next = p; // invariant: p == prev.next
+                prev.next = msg;
+            }
+
+            // We can assume mPtr != 0 because mQuitting is false.
+            if (needWake) {
+                nativeWake(mPtr);
+            }
+            
+</code></pre>
+<p>根据上述代码我们根据msg插入不同，将msg分为三类</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g23b90tfugj30gf05vdg8.jpg" alt="">
+1.如果异步线程向主线程新加入的消息是插入消息队列对头则需要唤醒队列</p>
+<pre><code>if (p == null || when == 0 || when &lt; p.when) {
+              // New head, wake up the event queue if blocked.
+              msg.next = p;
+              mMessages = msg;
+              needWake = mBlocked;
+          }
+</code></pre>
+<p>2.如果异步线程向主线程新加入的消息是<code>异步消息</code>，并且在队列的第二个位置，并且开启了<code>同步屏障</code>，则唤醒队列</p>
+<p>3.其他情况的msg,均不会唤醒消息队列</p>
+<p>大家可以看出上面强调了<code>异步线程</code>，因为主线程处于休眠状态。所以上面的方法只能异步线程调用。这个异步线程会是谁呢？留给大家一起思考。</p>
+<p>接下来看唤醒的逻辑，nativeWake方法内部关键代码如下：</p>
+<pre><code>void Looper::wake() {
+    uint64_t inc = 1;
+    // 向管道mWakeEventFd写入字符1
+    ssize_t nWrite = TEMP_FAILURE_RETRY(write(mWakeEventFd, &amp;inc, sizeof(uint64_t)));
+    if (nWrite != sizeof(uint64_t)) {
+        if (errno != EAGAIN) {
+            ALOGW(&quot;Could not write wake signal, errno=%d&quot;, errno);
+        }
+    }
+}
+</code></pre>
+<p>我们向管道中写入了数据，由于我们使用epoll监听了该管道，所以epoll_wait会被唤醒。</p>
+<h3 id="同步屏障机制sync-barrier">同步屏障机制（sync barrier）</h3>
+<p>有这样一个场景：某个消息加入消息队列后，我们希望他立即被处理掉。但是我们的消息都是按照系统运行时间排序的。我们如果达到该目的呢。如果了解同步屏障机制的话改问题就不在是一个问题。</p>
+<p>还是从代码入手</p>
+<pre><code>Message next() {
+        ....            
+           
+            nativePollOnce(ptr, nextPollTimeoutMillis);
+
+            synchronized (this) {
+                // Try to retrieve the next message.  Return if found.
+                final long now = SystemClock.uptimeMillis();
+                Message prevMsg = null;
+                Message msg = mMessages;
+                
+                //关键逻辑位置
+                if (msg != null &amp;&amp; msg.target == null) {
+                    // Stalled by a barrier.  Find the next asynchronous message in the queue.
+                    do {
+                        prevMsg = msg;
+                        msg = msg.next;
+                    } while (msg != null &amp;&amp; !msg.isAsynchronous());
+                }
+
+
+</code></pre>
+<p>从关键位置代码的逻辑可以看出只要队列头部的msg的target为null就会查找队列中的<code>异步消息</code>。</p>
+<p>我们如何发送target为null的msg到队列头部呢？可以使用该方法</p>
+<pre><code>int token = mHandler.getLooper().getQueue().postSyncBarrier();
+</code></pre>
+<p>然后我们发送消息时设置当前消息为异步消息就可以了。
+当然我们还需要移除target为null的消息,不然同步消息就永远不执行了。</p>
+<pre><code>mHandler.getLooper().getQueue().removeSyncBarrier(token)
+</code></pre>
+<p>Android系统中的触发View布局测量流程的msg就是一个异步消息，从而加速布局和绘制来减少卡顿。</p>
+<h3 id="空闲消息idelhadler">空闲消息（idelHadler）</h3>
+<pre><code>Message next() {
+   ...省略代码
+     // No more messages.
+                    nextPollTimeoutMillis = -1;
+                }
+
+                // Process the quit message now that all pending messages have been handled.
+                if (mQuitting) {
+                    dispose();
+                    return null;
+                }
+                //关键代码
+                // If first time idle, then get the number of idlers to run.
+                // Idle handles only run if the queue is empty or if the first message
+                // in the queue (possibly a barrier) is due to be handled in the future.
+                if (pendingIdleHandlerCount &lt; 0
+                        &amp;&amp; (mMessages == null || now &lt; mMessages.when)) {
+                    pendingIdleHandlerCount = mIdleHandlers.size();
+                }
+                if (pendingIdleHandlerCount &lt;= 0) {
+                    // No idle handlers to run.  Loop and wait some more.
+                    mBlocked = true;
+                    continue;
+                }
+
+                if (mPendingIdleHandlers == null) {
+                    mPendingIdleHandlers = new IdleHandler[Math.max(pendingIdleHandlerCount, 4)];
+                }
+                mPendingIdleHandlers = mIdleHandle
+</code></pre>
+<blockquote>
+<p>If first time idle, then get the number of idlers to run.Idle handles only run if the queue is empty or if the first message in the queue (possibly a barrier) is due to be handled in the future.</p>
+</blockquote>
+<p>线程轮询消息队列是发现没有要处理的消息时，发现注册了idelHadler。线程表示我就不休息了处理你吧。</p>
+<p>以上我们了解了idelHadler的执行时机。idelHadler有哪些应用场景呢？<br>
+<img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25xprh7vdj30m809ljrq.jpg" alt=""></p>
+<p>1.在开发过程中，在Activiy业务得到某个view的高度然后进行相关操作，在resume方法中必然是不好使的，因为还没有触发计算的msg并且还没有执行。 所以我们要等到消息执行完成才可以获取大小。怎么才能知道测量的消息执行完成了，idelHadler就派上了用场。我们可以在resume方法中想获取大小的逻辑，加到idelHadler回调中。</p>
+<p>2.resume方法中数据填充太耗时，我们同样可以加到idelHadler回调中加快展示速度。</p>
+<h2 id="事件驱动模型-flutter-future">事件驱动模型 Flutter future</h2>
+<p>相信一些小伙伴已经接触了Flutter开发，Flutter也是事件驱动的，也有自己的Event Loop。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25ochxfxcj30d30e23z9.jpg" alt=""></p>
+<p>可以看出其有两个消息队列 微任务队列(MicroTask queue)和事件队列(Event queue)</p>
+<ol>
+<li>事件队列包含外部事件，例如I/O, Timer，绘制事件等等</li>
+<li>微任务队列则包含有Dart内部的微任务，主要是通过scheduleMicrotask来调度</li>
+</ol>
+<p>同样我们不应该在Future执行耗时操作不然会卡。</p>
+<p>大家计算一下输出的结果是啥?</p>
+<pre><code>import 'dart:async';
+main() {
+  print('1');
+  scheduleMicrotask(() =&gt; print('3'));
+
+  new Future.delayed(new Duration(seconds:1),
+                     () =&gt; print('7'));
+  new Future(() =&gt; print('5'));
+  new Future(() =&gt; print('6'));
+
+  scheduleMicrotask(() =&gt; print('4'));
+
+  print('2');
+}
+
+</code></pre>
+<p>输出如下：</p>
+<pre><code>1
+2
+3
+4
+5
+6
+7
+</code></pre>
+<p>可以看出main方法内调用new Future() 或 scheduleMicrotask（）实质上是向队列中发送消息，main方法结束然后开始轮询消息队列执行回调。</p>
+<h2 id="总结">总结</h2>
+<p>本文通过事件驱动模型从而引出Handler和Future, 总结一下Handler中的几个关键名词 <code>epoll机制</code>,<code>休眠/唤醒策略</code>,<code>同步屏障</code>,<code>异步/同步消息</code>，<code>idelHadler</code>。Flutter Future总结的就比较少了记住两个两个任务队列 <code>微任务队列(MicroTask queue)</code>和<code>事件队列(Event queue)</code>。如有问题欢迎指正，共同学习共同进步。</p>
+<h1 id="qa">Q&amp;A</h1>
+<blockquote>
+<p>你以为你以为的就是你以为的吗？<br>
+实践是检验真理的唯一标准。</p>
+</blockquote>
+<h2 id="参考">参考</h2>
+<p><a href="https://baike.baidu.com/item/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%BC%96%E7%A8%8B/6417369?fr=aladdin">事件驱动编程</a><br>
+<a href="https://juejin.im/post/5c698a606fb9a049d81c63df#heading-18">Flutter学习之事件循环机制、数据库、网络请求</a><br>
+<a href="https://juejin.im/post/5a9a21f8518825558b3d5d35">Flutter for Android Developers - Async UI</a><br>
+<a href="https://juejin.im/post/5c4875f86fb9a049ff4e78cf">Flutter/Dart中的异步</a><br>
+<a href="https://www.jianshu.com/p/6979597125b2">你真的了解Handler吗？</a><br>
+<a href="http://www.paincker.com/android-async-message">异步消息</a><br>
+<a href="https://blog.csdn.net/asdgbc/article/details/79148180">Handler之同步屏障机制</a><br>
+<a href="http://www.sohu.com/a/145311556_675634">关于MessageQueue</a><br>
+<a href="https://mp.weixin.qq.com/s/KpeBqIEYeOzt_frANoGuSg?">你知道android的MessageQueue.IdleHandler吗</a><br>
+<a href="https://www.xuebuyuan.com/3204676.html">Android Event事件流分析</a><br>
+<a href="https://www.jianshu.com/p/c2e26c6d4ac1">Android应用处理MotionEvent的过程</a>
+<a href="https://www.cnblogs.com/welen/articles/5115213.html">事件驱动</a><br>
+<a href="https://www.zhihu.com/question/20122137/answer/14049112">epoll原理是什么</a></p>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">大道至简 知易行难</div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/huopochuan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
