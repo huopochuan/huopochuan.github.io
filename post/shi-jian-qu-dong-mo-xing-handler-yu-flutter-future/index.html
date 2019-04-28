@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>事件驱动模型 Handler 与 Flutter future | 琥珀川</title>
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556377912829">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556425998148">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
@@ -18,7 +18,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://huopochuan.github.io/">
-  <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556377912829" alt="">
+  <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556425998148" alt="">
   </a>
   <h1 class="site-title">
     琥珀川
@@ -108,6 +108,56 @@
               <div class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future.jpg')">
               </div>
             
+
+
+
+           
+          <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+  <div id="toc-article" class="toc-article">
+      <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+    <strong class="toc-title">文章目录</strong>
+           <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8">事件驱动</a></li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B-handler">事件驱动模型 Handler</a>
+<ul>
+<li><a href="#androd%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">Androd中的几个使用场景</a></li>
+<li><a href="#epoll%E6%9C%BA%E5%88%B6">epoll机制</a></li>
+<li><a href="#%E4%BC%91%E7%9C%A0%E9%98%BB%E5%A1%9E">休眠阻塞</a></li>
+<li><a href="#%E5%94%A4%E9%86%92">唤醒</a></li>
+<li><a href="#%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C%E6%9C%BA%E5%88%B6sync-barrier">同步屏障机制（sync barrier）</a></li>
+<li><a href="#%E7%A9%BA%E9%97%B2%E6%B6%88%E6%81%AFidelhadler">空闲消息（idelHadler）</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B-flutter-future">事件驱动模型 Flutter future</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#qa">Q&amp;A</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+</ul>
+
+         </div>
+   <script type="text/javascript">
+  function showToc(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:block");
+    show_toc_btn.setAttribute("style","display:none");
+    };
+  function showBtn(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:none");
+    show_toc_btn.setAttribute("style","display:block");
+    };
+   </script>
+
+
             <div class="post-content">
               <p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
 <!-- more -->
@@ -410,7 +460,7 @@ main() {
 <p>可以看出main方法内调用new Future() 或 scheduleMicrotask（）实质上是向队列中发送消息，main方法结束然后开始轮询消息队列执行回调。</p>
 <h2 id="总结">总结</h2>
 <p>本文通过事件驱动模型从而引出Handler和Future, 总结一下Handler中的几个关键名词 <code>epoll机制</code>,<code>休眠/唤醒策略</code>,<code>同步屏障</code>,<code>异步/同步消息</code>，<code>idelHadler</code>。Flutter Future总结的就比较少了记住两个两个任务队列 <code>微任务队列(MicroTask queue)</code>和<code>事件队列(Event queue)</code>。如有问题欢迎指正，共同学习共同进步。</p>
-<h1 id="qa">Q&amp;A</h1>
+<h2 id="qa">Q&amp;A</h2>
 <blockquote>
 <p>你以为你以为的就是你以为的吗？<br>
 实践是检验真理的唯一标准。</p>
