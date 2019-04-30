@@ -1,0 +1,247 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>匿名内部类使用局部变量为什么使用fianl | 琥珀川</title>
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556605367148">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://huopochuan.github.io/">
+  <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556605367148" alt="">
+  </a>
+  <h1 class="site-title">
+    琥珀川
+  </h1>
+  <p class="site-description">
+    大道至简 知易行难
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          你好 世界
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/huopochuan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+</div>
+
+      
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              匿名内部类使用局部变量为什么使用fianl
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2019-04-30 ·
+              </time>
+              
+            </div>
+            
+
+
+
+           
+          <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+  <div id="toc-article" class="toc-article">
+      <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+    <strong class="toc-title">文章目录</strong>
+           <ul class="markdownIt-TOC">
+<li><a href="#1java%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E7%B1%BB%E5%9E%8B">1.java参数传递类型</a></li>
+<li><a href="#2final%E4%BF%AE%E9%A5%B0%E5%8F%98%E9%87%8F%E7%9A%84%E5%90%AB%E4%B9%89">2.final修饰变量的含义</a></li>
+<li><a href="#3%E7%BC%96%E8%AF%91%E5%99%A8%E5%AF%B9%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C">3.编译器对匿名内部类的操作</a></li>
+<li><a href="#%E7%BB%93%E8%AE%BA">结论</a></li>
+<li><a href="#%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E4%BD%BF%E7%94%A8%E5%A4%96%E9%83%A8%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F">匿名内部类使用外部成员变量</a></li>
+<li><a href="#%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E4%BD%BF%E7%94%A8%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F">匿名内部类使用局部变量</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+         </div>
+   <script type="text/javascript">
+  function showToc(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:block");
+    show_toc_btn.setAttribute("style","display:none");
+    };
+  function showBtn(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:none");
+    show_toc_btn.setAttribute("style","display:block");
+    };
+   </script>
+    
+
+
+            <div class="post-content">
+              <p>这是在网上看到的一个观点说final可增加局部变量的生命周期，当然这个观点本人不认为正确。变量的生命周期和GC相关，而GC有个java对象可达性算法有关，final没有这功能。</p>
+<blockquote>
+<p>局部变量如果没有用final修饰,他的生命周期和方法的生命周期是一样的,当方法弹栈,这个局部变量也会消失,那么如果局部内部类对象还没有马上消失想用这个局部变量,就没有了,如果用final修饰会在类加载的时候进入常量池,即使方法弹栈,常量池的常量还在,也可以继续使用。</p>
+</blockquote>
+<!-- more -->
+<h1 id="1java参数传递类型">1.java参数传递类型</h1>
+<p>1、基本类型作为参数传递时，是传递值的拷贝，无论你怎么改变这个拷贝，原值是不会改变的
+2、对象作为参数传递时，是把对象在内存中的地址拷贝了一份传给了参数。</p>
+<h1 id="2final修饰变量的含义">2.final修饰变量的含义</h1>
+<ol>
+<li>final当修饰基本数据类型时表示不可改变其值</li>
+<li>final当修饰引用类型变量时表示不可改变引用变量的引用地址
+上面的两个校验都是编译器做的检验，如果final的使用不符合上述两种规则，将编译不通过。</li>
+</ol>
+<h1 id="3编译器对匿名内部类的操作">3.编译器对匿名内部类的操作</h1>
+<p>编译器在编译时会将匿名内部类引用的局部变量和方法参数以及外部类的引用都会被当做该构造函数的参数</p>
+<h1 id="结论">结论</h1>
+<p>匿名内部类的使用方式，让开发者可以理解为当操作外部变量时（局部变量和方法参数）应该可以生效的。但是基于上述的1，3两点是做不到的。因为匿名内部类在构造时传入的是值的拷贝，即使操作也只是操作的拷贝数据。不是真正的外部变量。所以对于局部变量和方法参数需要加final表示不可以改变值。但是匿名内部类操作外部类成员变量是可以的，因为匿名内部类可以拿到外部类的真实引用去操作。</p>
+<h1 id="匿名内部类使用外部成员变量">匿名内部类使用外部成员变量</h1>
+<pre><code>public class Outer {
+    private int x =100;
+    public int add() {
+        Inner inner =  new Inner() {
+            @Override
+            public int add() {
+                x = x +1;
+                return x;
+            }
+        };
+        return inner.add();
+    }
+   private interface Inner {
+        int add();
+    }
+}		
+</code></pre>
+<p>我们使用javac命令对上述代码编译可以看到匿名内部类实际上会产生匿名内部类的单独class文件。</p>
+<pre><code>class Outer$1 implements Inner {
+    Outer$1(Outer var1) {
+        this.this$0 = var1;
+    }
+    public int add() {
+        Outer.access$002(this.this$0, Outer.access$000(this.this$0) + 1);
+        return Outer.access$000(this.this$0);
+    }
+}
+</code></pre>
+<p>为什么匿名内部类可以访问外部类成员变量，是因为编译器在编译的时候会将外部类的引用传进来。所以可以正常的操作外部类的变量，操作外部类的变量会直接影响到外部类。</p>
+<h1 id="匿名内部类使用局部变量">匿名内部类使用局部变量</h1>
+<pre><code>
+public class Outer {
+
+    private int x =100;
+		
+    public int add(final int x) {
+
+        final int y = 1;
+        Inner inner =  new Inner() {
+            @Override
+            public int add() {
+                return x+y;
+            }
+        };
+        return inner.add();
+
+    }
+    private interface Inner {
+        int add();
+    }
+}
+</code></pre>
+<p>同样看通过javac命令看产出的匿名内部类是什么样的。</p>
+<pre><code>class Outer$2 implements Inner {
+    Outer$2(Outer var1, int var2) {
+        this.this$0 = var1;
+        this.val$x = var2;
+    }
+    public int add() {
+        return this.val$x + 1;
+    }
+}
+</code></pre>
+<p>可以看到匿名内部类的构造方法增加了两个参数，外部类引用和int类型的x。y被省略掉是因为y相当于常量编译器优化直接替换为1,已可以理解为内联。</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.zhihu.com/question/21395848/answer/262801086">java为什么匿名内部类的参数引用时final？</a>
+<a href="https://www.cnblogs.com/xdouby/p/7845498.html">博客评论</a></p>
+
+            </div>
+          </article>
+        </div>
+    
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://huopochuan.github.io//post/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke">
+              <h3 class="post-title">
+                如何傻瓜式搭建属于你自己的博客
+              </h3>
+            </a>
+          </div>  
+        
+
+        
+    
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
