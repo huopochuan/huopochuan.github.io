@@ -7,7 +7,7 @@
     
 <meta charset="utf-8" >
 
-<title>Handler内存泄露解决方案 | 琥珀川</title>
+<title>try catch finally与return问题 | 琥珀川</title>
 <meta name="description" content="大道至简 知易行难">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,9 +81,22 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">Handler内存泄露解决方案</h2>
+            <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/try-catch-finally-yu-return-wen-ti.jpeg')">
+            </div>
+          
+          <h2 class="post-title">try catch finally与return问题</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-04-30</span>
+            <span><i class="icon-calendar-outline"></i> 2019-05-02</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://huopochuan.github.io//tag/pZZYphj-H">
+                    java
+                    
+                  </a>
+                
+              </span>
             
           </div>
 
@@ -98,12 +111,7 @@
       <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
     <strong class="toc-title">文章目录</strong>
            <ul class="markdownIt-TOC">
-<li><a href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2">内存泄露</a></li>
-<li><a href="#%E5%BC%BA%E5%BC%95%E7%94%A8">强引用</a></li>
-<li><a href="#%E5%BC%B1%E5%BC%95%E7%94%A8">弱引用</a></li>
-<li><a href="#%E8%BD%AF%E5%BC%95%E7%94%A8">软引用</a></li>
-<li><a href="#%E8%99%9A%E5%BC%95%E7%94%A8">虚引用</a></li>
-<li><a href="#java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6">java垃圾回收</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
 
          </div>
@@ -125,18 +133,96 @@
 
 
           <div class="post-content">
-            <p>Handler内存泄露解决方案</p>
-<h1 id="内存泄露">内存泄露</h1>
-<h1 id="强引用">强引用</h1>
-<h1 id="弱引用">弱引用</h1>
-<h1 id="软引用">软引用</h1>
-<h1 id="虚引用">虚引用</h1>
-<h1 id="java垃圾回收">java垃圾回收</h1>
+            <p>图片于2017.5泰国团建拍摄。</p>
+<p>在开发或面试过程中我们或多或少的会遇到try catch finlly代码块中同时含有return的情况来判断return的值是多少。
+不卖关子了直接总结规律。</p>
+<ol>
+<li>函数执行到return不一定会直接返回（比如try和catch里面的），对与值类型变量会开辟一块当前方法体返回类型的空间（及值的拷贝），对于引用类型会存着引用地址的拷贝，该结果会被第二个return（finally里面的）覆盖。</li>
+<li>函数执行到try里面的内容，一定会执行finally里面的语句块，除非try里面有类似System.exit()的方法。</li>
+</ol>
+<!-- more -->
+<p>基于上述的规律我们看一下如下列子</p>
+<pre><code>class Untitled {
+	public static void main(String[] args) {
+
+		System.out.println(&quot;&quot;+m1());
+	}
+
+	private static int m1() {
+		int a = 10;	
+		try {
+			a = 20;
+			throw new RuntimeException();
+		} catch (Exception e) {
+			a = 30;
+			return a;
+		} finally {
+			a = 40;
+			return a;
+		}
+	}
+}
+</code></pre>
+<p>输出结果是40。有两retrun 下面的会覆盖上面的所以会是40</p>
+<pre><code>class Untitled {
+	public static void main(String[] args) {
+
+		System.out.println(&quot;&quot;+m1());
+	}
+
+	private static int m1() {
+		int a = 10;	
+		try {
+			a = 20;
+			throw new RuntimeException();
+		} catch (Exception e) {
+			a = 30;
+			return a;
+		} finally {
+			a = 40;
+		}
+	}
+}
+</code></pre>
+<p>输出结果是30。finally中没有return，虽然a=40，但是return在之前执行，已经在栈中开辟一块当前方法体返回类型的空间存放了30（值的拷贝）。所以a=40操作的变量a,不用影响return已经新开辟控件存储的30。</p>
+<pre><code>class Untitled {
+	public static void main(String[] args) {
+
+		System.out.println(&quot;&quot;+m1());
+	}
+
+	private static StringBuilder m1() {
+		
+		StringBuilder builder = new StringBuilder();
+       
+		try {
+			
+            builder.toString();
+			throw new RuntimeException();
+		} catch (Exception e) {
+			return builder;
+		} finally {
+			builder.append(&quot;1&quot;);
+		}
+	}
+}
+</code></pre>
+<p>输出结果是1。StringBuilder是引用类型。return会拷贝引用地址。所以操作build会影响返回结果。</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://blog.csdn.net/qq_36262896/article/details/79779953">JavaSE之彻底搞懂try,catch,finally与return的执行</a></p>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
+              <h3 class="post-title">
+                下一篇：我不喜欢这世界,我只喜欢你
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       
