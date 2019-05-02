@@ -1,58 +1,233 @@
+
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>琥珀川</title>
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556780962356">
+<meta name="description" content="大道至简 知易行难">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556782005949">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://huopochuan.github.io/">
-  <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556780962356" alt="">
-  </a>
-  <h1 class="site-title">
-    琥珀川
-  </h1>
-  <p class="site-description">
-    大道至简 知易行难
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          你好 世界
-        </a>
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://huopochuan.github.io/">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556782005949" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://huopochuan.github.io/">
+        <h1 class="site-title">琥珀川</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            你好 世界
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        
+        
+<section class="post-item">
+    <div class="content">
+      <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
+        <h2 class="post-title">我不喜欢这世界,我只喜欢你</h2>
+      </a>
+      <div class="post-abstract">
+        <p>去年读完了这本书，发现新出了部电视剧。看来电视剧才发现我已经把这部书说的啥给忘得一干二净了。。。网上买了纸质版有时间在看看。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-05-02</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://huopochuan.github.io//tag/j1Sy9CLNv">
+                生活
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
+        <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://huopochuan.github.io//post/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl">
+        <h2 class="post-title">匿名内部类使用局部变量为什么使用fianl</h2>
+      </a>
+      <div class="post-abstract">
+        <p>这是在网上看到的一个观点说final可增加局部变量的生命周期，当然这个观点本人不认为正确。变量的生命周期和GC相关，而GC有个java对象可达性算法有关，final没有这功能。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-04-30</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://huopochuan.github.io//tag/pZZYphj-H">
+                java
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://huopochuan.github.io//post/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl">
+        <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl.jpeg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://huopochuan.github.io//post/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke">
+        <h2 class="post-title">如何傻瓜式搭建属于你自己的博客</h2>
+      </a>
+      <div class="post-abstract">
+        <p>日常浏览github的时候，发现了 <a href="https://github.com/getgridea/gridea">Gridea</a> 。使用界面如下</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-04-28</span>
+        
+      </div>
+    </div>
+    
+      <a href="https://huopochuan.github.io//post/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke">
+        <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
+        <h2 class="post-title">事件驱动模型 Handler 与 Flutter future</h2>
+      </a>
+      <div class="post-abstract">
+        <p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-04-16</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://huopochuan.github.io//tag/dpKP2l0bJ">
+                android
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://huopochuan.github.io//tag/ApDFfS8rK">
+                handler
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://huopochuan.github.io//tag/0svvFu3yv">
+                时间驱动模型
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://huopochuan.github.io//tag/i0_68sTZ8">
+                Flutter
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
+        <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+
+<div class="pagination-container">
+  
+  
+</div>
+
+
+      </div>
+
+      <div class="site-footer">
+  <div class="slogan">大道至简 知易行难</div>
   <div class="social-container">
     
       
@@ -74,135 +249,26 @@
       
     
   </div>
-</div>
-
-    
-        <div class="post-container">
-  
-    <article class="post">
-      <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
-        <h2 class="post-title">我不喜欢这世界,我只喜欢你</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-05-02 ·
-        </time>
-        
-          <a href="https://huopochuan.github.io//tag/j1Sy9CLNv" class="post-tag">
-            # 生活
-          </a>
-        
-      </div>
-      
-        <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni" class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://huopochuan.github.io//post/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl">
-        <h2 class="post-title">匿名内部类使用局部变量为什么使用fianl</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-04-30 ·
-        </time>
-        
-          <a href="https://huopochuan.github.io//tag/pZZYphj-H" class="post-tag">
-            # java
-          </a>
-        
-      </div>
-      
-        <a href="https://huopochuan.github.io//post/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl" class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl.jpeg')">
-        </a>
-      
-      <div class="post-abstract">
-        <p>这是在网上看到的一个观点说final可增加局部变量的生命周期，当然这个观点本人不认为正确。变量的生命周期和GC相关，而GC有个java对象可达性算法有关，final没有这功能。</p>
-<blockquote>
-<p>局部变量如果没有用final修饰,他的生命周期和方法的生命周期是一样的,当方法弹栈,这个局部变量也会消失,那么如果局部内部类对象还没有马上消失想用这个局部变量,就没有了,如果用final修饰会在类加载的时候进入常量池,即使方法弹栈,常量池的常量还在,也可以继续使用。</p>
-</blockquote>
-
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://huopochuan.github.io//post/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke">
-        <h2 class="post-title">如何傻瓜式搭建属于你自己的博客</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-04-28 ·
-        </time>
-        
-      </div>
-      
-        <a href="https://huopochuan.github.io//post/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke" class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke.png')">
-        </a>
-      
-      <div class="post-abstract">
-        <p>日常浏览github的时候，发现了 <a href="https://github.com/getgridea/gridea">Gridea</a> 。使用界面如下</p>
-
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
-        <h2 class="post-title">事件驱动模型 Handler 与 Flutter future</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-04-16 ·
-        </time>
-        
-          <a href="https://huopochuan.github.io//tag/dpKP2l0bJ" class="post-tag">
-            # android
-          </a>
-        
-          <a href="https://huopochuan.github.io//tag/ApDFfS8rK" class="post-tag">
-            # handler
-          </a>
-        
-          <a href="https://huopochuan.github.io//tag/0svvFu3yv" class="post-tag">
-            # 时间驱动模型
-          </a>
-        
-          <a href="https://huopochuan.github.io//tag/i0_68sTZ8" class="post-tag">
-            # Flutter
-          </a>
-        
-      </div>
-      
-        <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future" class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        <p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
-
-      </di>
-    </article>
-  
-</div>
-
-    
-        <div class="pagination-container">
-  
-  
-</div>
-
-    
-        <div class="site-footer">
   Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
 </div>
 
-<script>
-  hljs.initHighlightingOnLoad()
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>

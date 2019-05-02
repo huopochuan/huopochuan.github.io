@@ -1,58 +1,133 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-  <meta charset="utf-8" />
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>生活 | 琥珀川</title>
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556780962356">
+<meta name="description" content="大道至简 知易行难">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556782005949">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://huopochuan.github.io/">
-  <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556780962356" alt="">
-  </a>
-  <h1 class="site-title">
-    琥珀川
-  </h1>
-  <p class="site-description">
-    大道至简 知易行难
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          你好 世界
-        </a>
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://huopochuan.github.io/">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556782005949" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://huopochuan.github.io/">
+        <h1 class="site-title">琥珀川</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            你好 世界
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+
+        <div class="current-tag-container">
+          <h2 class="title">
+            <i class="icon icon-pricetags-outline"></i> 生活
+          </h2> 
+        </div>
+
+        
+<section class="post-item">
+    <div class="content">
+      <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
+        <h2 class="post-title">我不喜欢这世界,我只喜欢你</h2>
+      </a>
+      <div class="post-abstract">
+        <p>去年读完了这本书，发现新出了部电视剧。看来电视剧才发现我已经把这部书说的啥给忘得一干二净了。。。网上买了纸质版有时间在看看。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-05-02</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://huopochuan.github.io//tag/j1Sy9CLNv">
+                生活
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
+        <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+
+<div class="pagination-container">
+  
+  
+</div>
+
+
+      </div>
+
+      <div class="site-footer">
+  <div class="slogan">大道至简 知易行难</div>
   <div class="social-container">
     
       
@@ -74,54 +149,26 @@
       
     
   </div>
-</div>
-
-        <div class="current-tag-container">
-            <h2 class="title">
-                标签：#生活
-            </h2> 
-        </div>
-        <div class="post-container">
-  
-    <article class="post">
-      <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
-        <h2 class="post-title">我不喜欢这世界,我只喜欢你</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-05-02 ·
-        </time>
-        
-          <a href="https://huopochuan.github.io//tag/j1Sy9CLNv" class="post-tag">
-            # 生活
-          </a>
-        
-      </div>
-      
-        <a href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni" class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-</div>
-
-        <div class="pagination-container">
-  
-  
-</div>
-
-        <div class="site-footer">
   Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
 </div>
 
-<script>
-  hljs.initHighlightingOnLoad()
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>

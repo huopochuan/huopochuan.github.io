@@ -1,101 +1,98 @@
+
+
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>如何傻瓜式搭建属于你自己的博客 | 琥珀川</title>
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556780962356">
+<meta name="description" content="大道至简 知易行难">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556782005949">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://huopochuan.github.io/">
-  <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556780962356" alt="">
-  </a>
-  <h1 class="site-title">
-    琥珀川
-  </h1>
-  <p class="site-description">
-    大道至简 知易行难
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          你好 世界
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/huopochuan" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://huopochuan.github.io/">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556782005949" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://huopochuan.github.io/">
+        <h1 class="site-title">琥珀川</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
       
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            你好 世界
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
         <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              如何傻瓜式搭建属于你自己的博客
-            </h2>
-            <div class="post-info">
-              <time class="post-time">
-                · 2019-04-28 ·
-              </time>
-              
+          
+            <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke.png')">
             </div>
+          
+          <h2 class="post-title">如何傻瓜式搭建属于你自己的博客</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-04-28</span>
             
-              <div class="post-feature-image" style="background-image: url('https://huopochuan.github.io//post-images/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke.png')">
-              </div>
-            
+          </div>
 
 
 
-           
+  
           <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
           <span class="btn-bg"></span>
           <span class="btn-text">文章导航</span>
@@ -128,8 +125,8 @@
     
 
 
-            <div class="post-content">
-              <p>日常浏览github的时候，发现了 <a href="https://github.com/getgridea/gridea">Gridea</a> 。使用界面如下</p>
+          <div class="post-content">
+            <p>日常浏览github的时候，发现了 <a href="https://github.com/getgridea/gridea">Gridea</a> 。使用界面如下</p>
 <!-- more -->
 <p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g2i9zjkx6hj31ag0u04cx.jpg" alt=""></p>
 <h1 id="get-start">get Start</h1>
@@ -179,32 +176,65 @@
 <p><a href="http://lawlite.me/2017/04/17/Hexo-yilia%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95%E5%92%8C%E6%B7%BB%E5%8A%A0%E8%A7%86%E9%A2%91/">Hexo+yilia主题实现文章目录和添加视频 </a><br>
 <a href="https://github.com/getgridea/gridea">Gridea</a></p>
 
-            </div>
-          </article>
+          </div>
         </div>
-    
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
-              <h3 class="post-title">
-                事件驱动模型 Handler 与 Flutter future
-              </h3>
-            </a>
-          </div>  
-        
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
+              <h3 class="post-title">
+                下一篇：事件驱动模型 Handler 与 Flutter future
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">大道至简 知易行难</div>
+  <div class="social-container">
     
-        <div class="site-footer">
+      
+        <a href="https://github.com/huopochuan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
   Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
 </div>
 
-<script>
-  hljs.initHighlightingOnLoad()
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>
