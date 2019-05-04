@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556962926581">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556979404998">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -31,7 +31,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556962926581" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556979404998" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -111,13 +111,12 @@
       <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
     <strong class="toc-title">文章目录</strong>
            <ul class="markdownIt-TOC">
-<li><a href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-viewgruop">伪代码 ViewGruop</a></li>
-<li><a href="#%E4%BB%A3%E7%A0%81-viewgruop">代码 ViewGruop</a></li>
+<li><a href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-viewgruop%E7%AE%80%E5%8D%95%E7%89%88">伪代码 ViewGruop（简单版）</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81-viewgruop-%E5%A4%8D%E6%9D%82%E7%89%88">代码 ViewGruop （复杂版）</a></li>
 <li><a href="#%E6%BB%91%E5%8A%A8%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F">滑动冲突解决方式</a>
 <ul>
 <li><a href="#%E5%A4%96%E9%83%A8%E6%8B%A6%E6%88%AA%E6%B3%95%E4%BF%AE%E6%94%B9%E7%88%B6view">外部拦截法（修改父View）</a></li>
 <li><a href="#%E5%86%85%E9%83%A8%E6%8B%A6%E6%88%AA%E6%B3%95">内部拦截法</a></li>
-<li><a href="#ontouch%E4%B8%8Eontouchevent">onTouch与OnTouchEvent</a></li>
 </ul>
 </li>
 <li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE">参考文献</a></li>
@@ -148,7 +147,8 @@
 </blockquote>
 <p>无论对手多么强大，纵然被一步一步逼入绝望，我们能做唯有拼尽全力。</p>
 <!-- more -->
-<h1 id="伪代码-viewgruop">伪代码 ViewGruop</h1>
+<h1 id="伪代码-viewgruop简单版">伪代码 ViewGruop（简单版）</h1>
+<p>dispatchTouchEvent代码逻辑</p>
 <pre><code>public boolean dispatchTouchEvent(MotionEvent ev) { 
    boolean consume = false;
    if(onInterceptTouchEvent(ev)) {
@@ -158,7 +158,19 @@
    }
 }
 </code></pre>
-<h1 id="代码-viewgruop">代码 ViewGruop</h1>
+<p>ViewGroup会先调用onInterceptTouchEvent方法判断是否要拦截，如果拦截就交给自己的onTouchEvent处理，如果不拦截交给匹配到的子View处理。不是很细节。</p>
+<p>view dispatchTouchEvent代码</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
+    if (mOnTouchListener != null &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED &amp;&amp;
+            mOnTouchListener.onTouch(this, event)) {
+        return true;
+    }
+    return onTouchEvent(event);
+}
+
+</code></pre>
+<p>可以看出TouchListener.onTouch优先级高于View的OnTouchEvent方法，如果TouchListener的onTouch返回true表示事件已经被消耗了，就不会交给OnTouchEvent方法处理了。</p>
+<h1 id="代码-viewgruop-复杂版">代码 ViewGruop （复杂版）</h1>
 <pre><code>public boolean dispatchTouchEvent(MotionEvent ev) {
     final int action = ev.getAction();
     final float xf = ev.getX();
@@ -204,7 +216,7 @@
         mGroupFlags &amp;= ~FLAG_DISALLOW_INTERCEPT;
     }
     final View target = mMotionTarget;
-    //目标view为空直接调用 自身onTouch
+    //目标view为空 （1.未找到匹配的view 2.down事件被自身拦截了）直接调用 自身onTouch 
     if (target == null) {
         ev.setLocation(xf, yf);
         if ((mPrivateFlags &amp; CANCEL_NEXT_UP_EVENT) != 0) {
@@ -213,6 +225,7 @@
         }
         return super.dispatchTouchEvent(ev);
     }
+		//如果拦截子View会收到ACTION_CANCEL事件
     if (!disallowIntercept &amp;&amp; onInterceptTouchEvent(ev)) {
         final float xc = scrolledXFloat - (float) target.mLeft;
         final float yc = scrolledYFloat - (float) target.mTop;
@@ -220,6 +233,7 @@
         ev.setAction(MotionEvent.ACTION_CANCEL);
         ev.setLocation(xc, yc);
         if (!target.dispatchTouchEvent(ev)) {
+	
         }
         mMotionTarget = null;
         return true;
@@ -239,6 +253,10 @@
 }
 
 </code></pre>
+<p>归纳总结
+1.消费了DOWN事件的View，后续事件不管触摸点是否在该View内部还是外部，都会分发给该View
+2.消费了DOWN事件的View，如果后续事件在其上层父View分发过程中拦截了，那么该View会收到一个CANCEL事件
+3.一个View只有可见性为VISIBLE才有可能消费触摸事件，对于那些满足条件但被设置为INVISIBLE或GONE的View，不会消费触摸事件</p>
 <h1 id="滑动冲突解决方式">滑动冲突解决方式</h1>
 <h2 id="外部拦截法修改父view">外部拦截法（修改父View）</h2>
 <p>父View</p>
@@ -282,25 +300,23 @@
    return super. dispatchTouchEvent(ev);
 }
 </code></pre>
-<h2 id="ontouch与ontouchevent">onTouch与OnTouchEvent</h2>
-<p>view dispatchTouchEvent代码 onTouch优先级高于OnTouchEvent</p>
-<pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
-    if (mOnTouchListener != null &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED &amp;&amp;
-            mOnTouchListener.onTouch(this, event)) {
-        return true;
-    }
-    return onTouchEvent(event);
-}
-
-</code></pre>
 <h1 id="参考文献">参考文献</h1>
-<p><a href="https://blog.csdn.net/guolin_blog/article/details/9153747">https://blog.csdn.net/guolin_blog/article/details/9153747</a><br>
+<p><a href="https://www.kancloud.cn/digest/defineview/120018">https://www.kancloud.cn/digest/defineview/120018</a>
+<a href="https://blog.csdn.net/guolin_blog/article/details/9153747">https://blog.csdn.net/guolin_blog/article/details/9153747</a><br>
 <a href="https://blog.csdn.net/abcdef314159/article/details/51119238">https://blog.csdn.net/abcdef314159/article/details/51119238</a></p>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://huopochuan.github.io//post/try-catch-finally-yu-return-wen-ti">
+              <h3 class="post-title">
+                下一篇：try catch finally与return问题
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       
