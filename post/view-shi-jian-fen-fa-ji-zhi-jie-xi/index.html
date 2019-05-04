@@ -1,0 +1,345 @@
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>View事件分发机制解析 | 琥珀川</title>
+<meta name="description" content="大道至简 知易行难">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556951889151">
+<link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://huopochuan.github.io/">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556951889151" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://huopochuan.github.io/">
+        <h1 class="site-title">琥珀川</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            你好 世界
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/view-shi-jian-fen-fa-ji-zhi-jie-xi.jpeg')">
+            </div>
+          
+          <h2 class="post-title">View事件分发机制解析</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-05-04</span>
+            
+          </div>
+
+
+
+  
+          <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+  <div id="toc-article" class="toc-article">
+      <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+    <strong class="toc-title">文章目录</strong>
+           <ul class="markdownIt-TOC">
+<li><a href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-viewgruop">伪代码 ViewGruop</a></li>
+<li><a href="#%E6%BB%91%E5%8A%A8%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F">滑动冲突解决方式</a>
+<ul>
+<li><a href="#%E5%A4%96%E9%83%A8%E6%8B%A6%E6%88%AA%E6%B3%95%E4%BF%AE%E6%94%B9%E7%88%B6view">外部拦截法（修改父View）</a></li>
+<li><a href="#%E5%86%85%E9%83%A8%E6%8B%A6%E6%88%AA%E6%B3%95">内部拦截法</a></li>
+<li><a href="#ontouch%E4%B8%8Eontouchevent">onTouch与OnTouchEvent</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE">参考文献</a></li>
+</ul>
+
+         </div>
+   <script type="text/javascript">
+  function showToc(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:block");
+    show_toc_btn.setAttribute("style","display:none");
+    };
+  function showBtn(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:none");
+    show_toc_btn.setAttribute("style","display:block");
+    };
+   </script>
+    
+
+
+          <div class="post-content">
+            <!-- more -->
+<h1 id="伪代码-viewgruop">伪代码 ViewGruop</h1>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent ev) { 
+   boolean consume = false;
+   if(onInterceptTouchEvent(ev)) {
+      consume = onTouchEvent(ev);
+   } else {
+      consume = child.dispatchTouchEvent(ev);
+   }
+}
+</code></pre>
+<p>#代码 ViewGruop</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent ev) {
+    final int action = ev.getAction();
+    final float xf = ev.getX();
+    final float yf = ev.getY();
+    final float scrolledXFloat = xf + mScrollX;
+    final float scrolledYFloat = yf + mScrollY;
+    final Rect frame = mTempRect;
+    boolean disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != 0;
+    //根据Action_Down事件 找到目标View
+    if (action == MotionEvent.ACTION_DOWN) {
+        if (mMotionTarget != null) {
+            mMotionTarget = null;
+        }
+        // 是否禁用拦截  或者 是否没有拦截 Down事件
+        if (disallowIntercept || !onInterceptTouchEvent(ev)) {
+            ev.setAction(MotionEvent.ACTION_DOWN);
+            final int scrolledXInt = (int) scrolledXFloat;
+            final int scrolledYInt = (int) scrolledYFloat;
+            final View[] children = mChildren;
+            final int count = mChildrenCount;
+            for (int i = count - 1; i &gt;= 0; i--) {
+                final View child = children[i];
+                if ((child.mViewFlags &amp; VISIBILITY_MASK) == VISIBLE
+                        || child.getAnimation() != null) {
+                    child.getHitRect(frame);
+                    if (frame.contains(scrolledXInt, scrolledYInt)) {
+                        final float xc = scrolledXFloat - child.mLeft;
+                        final float yc = scrolledYFloat - child.mTop;
+                        ev.setLocation(xc, yc);
+                        child.mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+                        if (child.dispatchTouchEvent(ev))  {
+                            mMotionTarget = child;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    boolean isUpOrCancel = (action == MotionEvent.ACTION_UP) ||
+            (action == MotionEvent.ACTION_CANCEL);
+    if (isUpOrCancel) {
+        mGroupFlags &amp;= ~FLAG_DISALLOW_INTERCEPT;
+    }
+    final View target = mMotionTarget;
+    //目标view为空直接调用 自身onTouch
+    if (target == null) {
+        ev.setLocation(xf, yf);
+        if ((mPrivateFlags &amp; CANCEL_NEXT_UP_EVENT) != 0) {
+            ev.setAction(MotionEvent.ACTION_CANCEL);
+            mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+    if (!disallowIntercept &amp;&amp; onInterceptTouchEvent(ev)) {
+        final float xc = scrolledXFloat - (float) target.mLeft;
+        final float yc = scrolledYFloat - (float) target.mTop;
+        mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+        ev.setAction(MotionEvent.ACTION_CANCEL);
+        ev.setLocation(xc, yc);
+        if (!target.dispatchTouchEvent(ev)) {
+        }
+        mMotionTarget = null;
+        return true;
+    }
+    if (isUpOrCancel) {
+        mMotionTarget = null;
+    }
+    final float xc = scrolledXFloat - (float) target.mLeft;
+    final float yc = scrolledYFloat - (float) target.mTop;
+    ev.setLocation(xc, yc);
+    if ((target.mPrivateFlags &amp; CANCEL_NEXT_UP_EVENT) != 0) {
+        ev.setAction(MotionEvent.ACTION_CANCEL);
+        target.mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+        mMotionTarget = null;
+    }
+    return target.dispatchTouchEvent(ev);
+}
+
+</code></pre>
+<h1 id="滑动冲突解决方式">滑动冲突解决方式</h1>
+<h2 id="外部拦截法修改父view">外部拦截法（修改父View）</h2>
+<p>父View</p>
+<pre><code>public boolean onInterceptTouchEvent(MotionEvent ev) {
+   
+   switch (ev.getAction) {
+     case Action_DOWN:
+         return faslse; //不能拦截 否则后续全部交由父View处理
+        
+     case Action_MOVE:
+         if（拦截条件）return true;
+         else return false;
+     case Action_UP:
+         return false;     
+ 
+   
+   }
+
+}
+</code></pre>
+<h2 id="内部拦截法">内部拦截法</h2>
+<p>父View不能拦截Action_DOWN事件 确保Action_DOWN 返回false</p>
+<p>子View</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent ev) {
+   
+   switch (ev.getAction) {
+     case Action_DOWN:
+         parent.requestDisallowInterceptTouchEvent(true);
+         break;
+     case Action_MOVE:
+         
+         if(父容器需要处理改事件) {
+            parent.requestDisallowInterceptTouchEvent(false);
+         }
+         
+         break;
+     case Action_UP:
+         break;    
+   
+   }
+   return super. dispatchTouchEvent(ev);
+}
+</code></pre>
+<h2 id="ontouch与ontouchevent">onTouch与OnTouchEvent</h2>
+<p>view dispatchTouchEvent代码 onTouch优先级高于OnTouchEvent</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
+    if (mOnTouchListener != null &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED &amp;&amp;
+            mOnTouchListener.onTouch(this, event)) {
+        return true;
+    }
+    return onTouchEvent(event);
+}
+
+</code></pre>
+<h1 id="参考文献">参考文献</h1>
+<p><a href="https://blog.csdn.net/guolin_blog/article/details/9153747">https://blog.csdn.net/guolin_blog/article/details/9153747</a><br>
+<a href="https://blog.csdn.net/abcdef314159/article/details/51119238">https://blog.csdn.net/abcdef314159/article/details/51119238</a></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://huopochuan.github.io//post/try-catch-finally-yu-return-wen-ti">
+              <h3 class="post-title">
+                下一篇：try catch finally与return问题
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">大道至简 知易行难</div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/huopochuan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
