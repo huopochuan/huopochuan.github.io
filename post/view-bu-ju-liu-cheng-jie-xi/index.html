@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1557649381447">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1557649524708">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -31,7 +31,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1557649381447" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1557649524708" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -434,7 +434,7 @@
 measuredWidth/measuredHeight的赋值时机是在onMeause里调用setMeasuredDimension时赋值<br>
 width/height 的赋值时机是在onLayout中调用childView.layout(int l, int t, int r, int b) 是赋值<br>
 所以在onLayout方法中可以调用getMeasureWidth调用获取子View的测量大小，但是不能调用getWidth()获取子View的布局大小</p>
-<p>2.值可能不同
+<p>2.值可能不同<br>
 当父View布局子View的时候 childView.layout(int l, int t, int r, int b)  父View布局子View的大小可能和子View的大小不同，当然这种情况比较少</p>
 <h1 id="参考">参考</h1>
 <p><a href="https://www.kancloud.cn/digest/defineview/120019">https://www.kancloud.cn/digest/defineview/120019</a></p>
