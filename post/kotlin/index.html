@@ -7,7 +7,7 @@
     
 <meta charset="utf-8" >
 
-<title>自定义控件 | 琥珀川</title>
+<title>Kotlin | 琥珀川</title>
 <meta name="description" content="大道至简 知易行难">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -81,19 +81,48 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">自定义控件</h2>
+          <h2 class="post-title">Kotlin</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-05-01</span>
+            <span><i class="icon-calendar-outline"></i> 2019-05-05</span>
             
           </div>
 
 
 
   
+          <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+  <div id="toc-article" class="toc-article">
+      <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+    <strong class="toc-title">文章目录</strong>
+           <ul class="markdownIt-TOC">
+<li><a href="#%E5%8D%8F%E7%A8%8B">协程</a></li>
+</ul>
+
+         </div>
+   <script type="text/javascript">
+  function showToc(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:block");
+    show_toc_btn.setAttribute("style","display:none");
+    };
+  function showBtn(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:none");
+    show_toc_btn.setAttribute("style","display:block");
+    };
+   </script>
+    
 
 
           <div class="post-content">
-            <p>自定义控件</p>
+            <p>Kotlin</p>
+<h1 id="协程">协程</h1>
+<p>https://zhuanlan.zhihu.com/p/61361663</p>
 
           </div>
         </div>

@@ -1,0 +1,503 @@
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>View布局流程解析 | 琥珀川</title>
+<meta name="description" content="大道至简 知易行难">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1557649060936">
+<link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://huopochuan.github.io/">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1557649060936" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://huopochuan.github.io/">
+        <h1 class="site-title">琥珀川</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            你好 世界
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/view-bu-ju-liu-cheng-jie-xi.png')">
+            </div>
+          
+          <h2 class="post-title">View布局流程解析</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-05-04</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://huopochuan.github.io//tag/dpKP2l0bJ">
+                    android
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+
+
+
+  
+          <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+  <div id="toc-article" class="toc-article">
+      <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+    <strong class="toc-title">文章目录</strong>
+           <ul class="markdownIt-TOC">
+<li><a href="#measure%E8%A7%A3%E6%9E%90">measure解析</a>
+<ul>
+<li><a href="#viewgroup-onmeasure%E6%B5%81%E7%A8%8B">ViewGroup onMeasure流程</a></li>
+<li><a href="#measurespec-%E8%A7%A3%E6%9E%90">MeasureSpec 解析</a></li>
+</ul>
+</li>
+<li><a href="#layout%E8%A7%A3%E6%9E%90">layout解析</a></li>
+<li><a href="#getwidth-%E4%B8%8E-getmeasurewidth%E5%8C%BA%E5%88%AB">getWidth() 与 getMeasureWidth()区别</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+         </div>
+   <script type="text/javascript">
+  function showToc(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:block");
+    show_toc_btn.setAttribute("style","display:none");
+    };
+  function showBtn(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:none");
+    show_toc_btn.setAttribute("style","display:block");
+    };
+   </script>
+    
+
+
+          <div class="post-content">
+            <p>说到View的布局流程我们最常说到就是onMeasure，onLayout，onDraw。onMeasure负责测量大小，onLayout负责布局，onDraw负责绘制。下面从源码的角度看一下细节。</p>
+<!-- more -->
+<h1 id="measure解析">measure解析</h1>
+<h2 id="viewgroup-onmeasure流程">ViewGroup onMeasure流程</h2>
+<p>measure方法中会调用onMeasure方法计算自身大小</p>
+<pre><code>public class View implements ... {
+			
+	 public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
+			//判断是否为强制布局，即带有“FORCE_LAYOUT”标记 以及 widthMeasureSpec或heightMeasureSpec发生了改变
+	        if ((mPrivateFlags &amp; FORCE_LAYOUT) == FORCE_LAYOUT ||
+	                widthMeasureSpec != mOldWidthMeasureSpec ||
+	                heightMeasureSpec != mOldHeightMeasureSpec) {
+	        	//清除MEASURED_DIMENSION_SET标记   ，该标记会在onMeasure()方法后被设置
+	            mPrivateFlags &amp;= ~MEASURED_DIMENSION_SET;
+
+	            if (ViewDebug.TRACE_HIERARCHY) {
+	                ViewDebug.trace(this, ViewDebug.HierarchyTraceType.ON_MEASURE);
+	            }
+	            // 1、 测量该View本身的大小
+	            onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+	            if ((mPrivateFlags &amp; MEASURED_DIMENSION_SET) != MEASURED_DIMENSION_SET) {
+	                throw new IllegalStateException(&quot;onMeasure() did not set the&quot;
+	                        + &quot; measured dimension by calling&quot;
+	                        + &quot; setMeasuredDimension()&quot;);
+	            }
+	          //下一步是layout了，添加LAYOUT_REQUIRED标记
+	            mPrivateFlags |= LAYOUT_REQUIRED;
+	        }
+	        mOldWidthMeasureSpec = widthMeasureSpec;//保存值
+	        mOldHeightMeasureSpec = heightMeasureSpec;//保存值
+	    }	
+	
+	}
+</code></pre>
+<p>ViewGroup类型的视图 onMeasure方法中会计算自身大小和计算子View大小</p>
+<pre><code>/某个ViewGroup类型的视图  
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {  
+	  //必须调用super.ononMeasure()或者直接调用setMeasuredDimension()方法设置该View大小，否则会报异常。  
+	  super.onMeasure(widthMeasureSpec , heightMeasureSpec)  
+	     //setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),  
+	     //        getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));  
+	       
+	  //一、遍历每个子View  
+	  for(int i = 0 ; i &lt; getChildCount() ; i++){  
+	    View child = getChildAt(i);  
+	    //调用子View的onMeasure，设置他们的大小,
+	    child.onMeasure(childWidthMeasureSpec, childHeightMeasureSpec);  
+	  }  
+	  //二、直接调用ViewGroup中给我们提供好的measureChildren方法、
+	  measureChildren(widthMeasureSpec, heightMeasureSpec);
+	}
+</code></pre>
+<p>设置自身计算大小</p>
+<pre><code>//为View设置宽和高
+	protected final void setMeasuredDimension(int measuredWidth, int measuredHeight) {
+        mMeasuredWidth = measuredWidth;
+        mMeasuredHeight = measuredHeight;
+
+        mPrivateFlags |= MEASURED_DIMENSION_SET;
+    }
+</code></pre>
+<p>计算子View大小</p>
+<pre><code>/widthMeasureSpec和heightMeasureSpec:父View传过来的测量要求
+	protected void measureChildren(int widthMeasureSpec, int heightMeasureSpec) {
+        final int size = mChildrenCount;
+        final View[] children = mChildren;
+        //遍历所有的View
+        for (int i = 0; i &lt; size; ++i) {
+            final View child = children[i];
+            //Gone掉的View排除
+            if ((child.mViewFlags &amp; VISIBILITY_MASK) != GONE) {
+                measureChild(child, widthMeasureSpec, heightMeasureSpec);
+            }
+        }
+    }
+</code></pre>
+<pre><code>protected void measureChild(View child, int parentWidthMeasureSpec,
+            int parentHeightMeasureSpec) {
+		// 获取子元素的布局参数
+        final LayoutParams lp = child.getLayoutParams();
+        //将父容器的测量规格以及上下和左右的边距还有子元素本身的布局参数传入getChildMeasureSpec方法计算最终测量要求 
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                mPaddingLeft + mPaddingRight, lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                mPaddingTop + mPaddingBottom, lp.height);
+        // 将计算好的宽高详细测量值传入measure方法，完成最后的测量
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+</code></pre>
+<h2 id="measurespec-解析">MeasureSpec 解析</h2>
+<p>MeasureSpec可以理解为父View传给子View的测量要求。为啥这么说呢?
+试想一下父View的大小是60dp,子View（TextView）的大小写的是WRAP_CONTENT. 父View一看子View写的是WRAP_CONTENT所以就告诉他，你最大只能60dp不能超过我呀。所以父View就将AT_MOST+60dp传给了子View。
+子View根据传过来的测量要求在测量自已，自已测量文字长度是40dp直接setMeasuredDimension()。父View在onLayout中在根据子View计算的40dp计算一下他的摆放位置，是居中呀还是左对齐呀。</p>
+<p>MeasureSpec的值由mode+size构成 size即View的建议大小，mode有三种模式如下</p>
+<ol>
+<li>UNSPECIFIED：父View没有对子View施加任何约束。它可以是任何它想要的大小。</li>
+<li>EXACTLY：父View已经确定了子View的确切尺寸。子View将被限制在给定的界限内，而忽略其本身的大小。</li>
+<li>AT_MOST：子View的大小不能超过指定的大小</li>
+</ol>
+<p>源代码如下。</p>
+<p>ViewGroup计算子View的大小如下</p>
+<pre><code>protected void measureChild(View child, int parentWidthMeasureSpec,
+            int parentHeightMeasureSpec) {
+		// 获取子元素的布局参数
+        final LayoutParams lp = child.getLayoutParams();
+        //将父容器的测量规格以及上下和左右的边距还有子元素本身的布局参数传入getChildMeasureSpec方法计算最终测量要求 
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                mPaddingLeft + mPaddingRight, lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                mPaddingTop + mPaddingBottom, lp.height);
+        // 将计算好的宽高详细测量值传入measure方法，完成最后的测量
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+</code></pre>
+<pre><code>public static int getChildMeasureSpec(int spec, int padding, int childDimension) {
+		//获取父View的测量模式
+        int specMode = MeasureSpec.getMode(spec);
+        //获取父View的测量大小
+        int specSize = MeasureSpec.getSize(spec);
+       //父View计算出的子View的大小，子View不一定用这个值
+        int size = Math.max(0, specSize - padding);
+        //声明变量用来保存实际计算的到的子View的size和mode即大小和模式
+        int resultSize = 0;
+        int resultMode = 0;
+
+        switch (specMode) {
+         // Parent has imposed an exact size on us
+        //如果父容器的模式是Exactly即确定的大小
+        case MeasureSpec.EXACTLY:
+        	//子View的高度或宽度&gt;0说明其实一个确切的值，因为match_parent和wrap_content的值是&lt;0的
+            if (childDimension &gt;= 0) {
+                resultSize = childDimension;
+                resultMode = MeasureSpec.EXACTLY;
+                //子View的高度或宽度为match_parent
+            } else if (childDimension == LayoutParams.MATCH_PARENT) {
+            	// Child wants to be our size. So be it.
+                resultSize = size;//将size即父View的大小减去边距值所得到的值赋值给resultSize
+                resultMode = MeasureSpec.EXACTLY;//指定子View的测量模式为EXACTLY
+               //子View的高度或宽度为wrap_content
+            } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+            	// Child wants to determine its own size. It can't be
+                // bigger than us.
+                resultSize = size;//将size赋值给result
+                resultMode = MeasureSpec.AT_MOST;//指定子View的测量模式为AT_MOST
+            }
+            break;
+         // Parent has imposed a maximum size on us
+        //如果父容器的测量模式是AT_MOST
+        case MeasureSpec.AT_MOST:
+            if (childDimension &gt;= 0) {
+            	// Child wants a specific size... so be it
+                resultSize = childDimension;
+                resultMode = MeasureSpec.EXACTLY;
+            } else if (childDimension == LayoutParams.MATCH_PARENT) {
+            	// Child wants to be our size, but our size is not fixed.
+                // Constrain child to not be bigger than us.
+                resultSize = size;
+                // 因为父View的大小是受到限制值的限制,所以子View的大小也应该受到父容器的限制并且不能超过父View  
+                resultMode = MeasureSpec.AT_MOST;
+            } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+            	 // Child wants to determine its own size. It can't be
+                // bigger than us.
+                resultSize = size;
+                resultMode = MeasureSpec.AT_MOST;
+            }
+            break;
+         // Parent asked to see how big we want to be
+        //如果父容器的测量模式是UNSPECIFIED即父容器的大小未受限制
+        case MeasureSpec.UNSPECIFIED:
+        	//如果自View的宽和高是一个精确的值
+            if (childDimension &gt;= 0) {
+            	 // Child wants a specific size... let him have it
+            	//子View的大小为精确值
+                resultSize = childDimension;
+                //测量的模式为EXACTLY
+                resultMode = MeasureSpec.EXACTLY;
+                //子View的宽或高为match_parent
+            } else if (childDimension == LayoutParams.MATCH_PARENT) {
+            	// Child wants to be our size... find out how big it should
+                // be
+            	//resultSize=0;因为父View的大小是未定的，所以子View的大小也是未定的
+                resultSize = 0;
+                resultMode = MeasureSpec.UNSPECIFIED;
+            } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+            	// Child wants to determine its own size.... find out how
+                // big it should be
+            	
+                resultSize = 0;
+                resultMode = MeasureSpec.UNSPECIFIED;
+            }
+            break;
+        }
+        //根据resultSize和resultMode调用makeMeasureSpec方法得到测量要求，并将其作为返回值
+        return MeasureSpec.makeMeasureSpec(resultSize, resultMode);
+    }
+</code></pre>
+<h1 id="layout解析">layout解析</h1>
+<p>onLayout方法由layout方法调用,ViewGroup类型的对象都会在Onlayout方法中调用子View的layout方法对子View进行布局。</p>
+<pre><code>public final void layout(int l, int t, int r, int b) {
+        boolean changed = setFrame(l, t, r, b);
+        if (changed || (mPrivateFlags &amp; LAYOUT_REQUIRED) == LAYOUT_REQUIRED) {
+            if (ViewDebug.TRACE_HIERARCHY) {
+                ViewDebug.trace(this, ViewDebug.HierarchyTraceType.ON_LAYOUT);
+            }
+            onLayout(changed, l, t, r, b);
+            mPrivateFlags &amp;= ~LAYOUT_REQUIRED;
+        }
+        mPrivateFlags &amp;= ~FORCE_LAYOUT;
+    }
+</code></pre>
+<pre><code>protected boolean setFrame(int left, int top, int right, int bottom) {
+        boolean changed = false;
+        if (mLeft != left || mRight != right || mTop != top || mBottom != bottom) {
+            changed = true;    
+            。。。省略部分代码。。。
+            mLeft = left;
+            mTop = top;
+            mRight = right;
+            mBottom = bottom;
+            
+            。。。省略部分代码。。。
+        }
+        return changed;
+    }
+</code></pre>
+<p>在onLayout方法中布局子View</p>
+<pre><code>@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		// 获得子View个数
+		int childCount = getChildCount();
+		// 设置一个变量保存到父View左侧的距离
+		int mLeft = 0;
+		// 遍历子View
+		for (int i = 0; i &lt; childCount; i++) {
+
+			View childView = getChildAt(i);
+			// 获得子View的高度
+			int childViewHeight = childView.getMeasuredHeight();
+			// 获得子View的宽度
+			int childViewWidth = childView.getMeasuredWidth();
+			// 让子View在竖直方向上显示在屏幕的中间位置
+			int height = sreenH / 2 - childViewHeight / 2;
+			// 调用layout给每一个子View设定位置mLeft,mTop,mRight,mBottom.左上右下
+			childView.layout(mLeft, height, mLeft + childViewWidth, height
+					+ childViewHeight);
+			// 改变下一个子View到父View左侧的距离
+			mLeft += childViewWidth;
+		}
+	}
+</code></pre>
+<h1 id="getwidth-与-getmeasurewidth区别">getWidth() 与 getMeasureWidth()区别</h1>
+<pre><code>public final int getWidth() {
+		return mRight - mLeft;
+	}
+
+	/**
+	 * Return the height of your view.
+	 * 
+	 * @return The height of your view, in pixels.
+	 */
+	public final int getHeight() {
+		return mBottom - mTop;
+	}
+
+	/**
+	 * The height of this view as measured in the most recent call to measure().
+	 * This should be used during measurement and layout calculations only. Use
+	 * {@link #getHeight()} to see how tall a view is after layout.
+	 * 
+	 * @return The measured height of this view.
+	 */
+	// 获取测量的宽度
+	public final int getMeasuredWidth() {
+		return mMeasuredWidth;
+	}
+
+	/**
+	 * The width of this view as measured in the most recent call to measure().
+	 * This should be used during measurement and layout calculations only. Use
+	 * {@link #getWidth()} to see how wide a view is after layout.
+	 * 
+	 * @return The measured width of this view.
+	 */
+	// 获取测量的高度
+	public final int getMeasuredHeight() {
+		return mMeasuredHeight;
+	}
+</code></pre>
+<p>1.赋值时机不同<br>
+measuredWidth/measuredHeight的赋值时机是在onMeause里调用setMeasuredDimension时赋值<br>
+width/height 的赋值时机是在onLayout中调用childView.layout(int l, int t, int r, int b) 是赋值<br>
+所以在onLayout方法中可以调用getMeasureWidth调用获取子View的测量大小，但是不能调用getWidth()获取子View的布局大小
+2. 值可能不同
+当父View布局子View的时候 childView.layout(int l, int t, int r, int b)  父View布局子View的大小可能和子View的大小不同，当然这种情况比较少</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.kancloud.cn/digest/defineview/120019">https://www.kancloud.cn/digest/defineview/120019</a></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://huopochuan.github.io//post/view-shi-jian-fen-fa-ji-zhi-jie-xi">
+              <h3 class="post-title">
+                下一篇：View事件分发机制解析
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">大道至简 知易行难</div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/huopochuan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1556979404998">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1557649060936">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -31,7 +31,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1556979404998" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1557649060936" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -94,6 +94,139 @@
 
           <div class="post-content">
             <p>Rxjava</p>
+<p>Rxjava如何解决内存泄露问题</p>
+<p>Scheduler.io Scheduler.computation差异点</p>
+<p>map方法</p>
+<pre><code>    public final &lt;R&gt; Observable&lt;R&gt; map(Func1&lt;? super T, ? extends R&gt; func) {
+        return lift(new OperatorMap&lt;T, R&gt;(func));
+    }
+</code></pre>
+<pre><code>public final class OperatorMap&lt;T, R&gt; implements Operator&lt;R, T&gt; {
+
+    final Func1&lt;? super T, ? extends R&gt; transformer;
+
+    public OperatorMap(Func1&lt;? super T, ? extends R&gt; transformer) {
+        this.transformer = transformer;
+    }
+
+    @Override
+    public Subscriber&lt;? super T&gt; call(final Subscriber&lt;? super R&gt; o) {
+        MapSubscriber&lt;T, R&gt; parent = new MapSubscriber&lt;T, R&gt;(o, transformer);
+        o.add(parent);
+        return parent;
+    }
+    
+    static final class MapSubscriber&lt;T, R&gt; extends Subscriber&lt;T&gt; {
+        
+        final Subscriber&lt;? super R&gt; actual;
+        
+        final Func1&lt;? super T, ? extends R&gt; mapper;
+
+        boolean done;
+        
+        public MapSubscriber(Subscriber&lt;? super R&gt; actual, Func1&lt;? super T, ? extends R&gt; mapper) {
+            this.actual = actual;
+            this.mapper = mapper;
+        }
+        
+        @Override
+        public void onNext(T t) {
+            R result;
+            
+            try {
+                result = mapper.call(t);
+            } catch (Throwable ex) {
+                Exceptions.throwIfFatal(ex);
+                unsubscribe();
+                onError(OnErrorThrowable.addValueAsLastCause(ex, t));
+                return;
+            }
+            
+            actual.onNext(result);
+        }
+        
+        @Override
+        public void onError(Throwable e) {
+            if (done) {
+                RxJavaPluginUtils.handleException(e);
+                return;
+            }
+            done = true;
+            
+            actual.onError(e);
+        }
+        
+        
+        @Override
+        public void onCompleted() {
+            if (done) {
+                return;
+            }
+            actual.onCompleted();
+        }
+        
+        @Override
+        public void setProducer(Producer p) {
+            actual.setProducer(p);
+        }
+    }
+
+}
+
+</code></pre>
+<pre><code>  public final &lt;R&gt; Observable&lt;R&gt; lift(final Operator&lt;? extends R, ? super T&gt; operator) {
+  
+        return new Observable&lt;R&gt;(new OnSubscribeLift&lt;T, R&gt;(onSubscribe, operator));
+        
+    }
+</code></pre>
+<p>subscribe方法</p>
+<pre><code>  public final Subscription subscribe(Subscriber&lt;? super T&gt; subscriber) {
+        return Observable.subscribe(subscriber, this);
+    }
+</code></pre>
+<pre><code>hook.onSubscribeStart(observable, observable.onSubscribe).call(subscriber);
+
+</code></pre>
+<p>OnSubscribeLift call方法</p>
+<pre><code>public final class OnSubscribeLift&lt;T, R&gt; implements OnSubscribe&lt;R&gt; {
+    
+    static final RxJavaObservableExecutionHook hook = RxJavaPlugins.getInstance().getObservableExecutionHook();
+
+    final OnSubscribe&lt;T&gt; parent;
+
+    final Operator&lt;? extends R, ? super T&gt; operator;
+
+    public OnSubscribeLift(OnSubscribe&lt;T&gt; parent, Operator&lt;? extends R, ? super T&gt; operator) {
+        this.parent = parent;
+        this.operator = operator;
+    }
+
+    @Override
+    public void call(Subscriber&lt;? super R&gt; o) {
+        try {
+            Subscriber&lt;? super T&gt; st = hook.onLift(operator).call(o);
+            try {
+                // new Subscriber created and being subscribed with so 'onStart' it
+                st.onStart();
+                parent.call(st);
+            } catch (Throwable e) {
+                // localized capture of errors rather than it skipping all operators 
+                // and ending up in the try/catch of the subscribe method which then
+                // prevents onErrorResumeNext and other similar approaches to error handling
+                Exceptions.throwIfFatal(e);
+                st.onError(e);
+            }
+        } catch (Throwable e) {
+            Exceptions.throwIfFatal(e);
+            // if the lift function failed all we can do is pass the error to the final Subscriber
+            // as we don't have the operator available to us
+            o.onError(e);
+        }
+    }
+}
+
+</code></pre>
 
           </div>
         </div>
