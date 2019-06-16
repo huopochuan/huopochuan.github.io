@@ -1,0 +1,1160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://huopochuan.github.io/</id>
+    <title>琥珀川</title>
+    <updated>2019-06-16T14:59:35.229Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://huopochuan.github.io/"/>
+    <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
+    <subtitle>大道至简 知易行难</subtitle>
+    <logo>https://huopochuan.github.io//images/avatar.png</logo>
+    <icon>https://huopochuan.github.io//favicon.ico</icon>
+    <rights>All rights reserved 2019, 琥珀川</rights>
+    <entry>
+        <title type="html"><![CDATA[Tangram从入门到？]]></title>
+        <id>https://huopochuan.github.io//post/tangram-diao-yan</id>
+        <link href="https://huopochuan.github.io//post/tangram-diao-yan">
+        </link>
+        <updated>2019-05-29T15:25:04.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="tangram">Tangram</h1>
+<h1 id="virtualview">VirtualView</h1>
+<p>VirtualView是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
+<h2 id="virtualview使用流程">VirtualView使用流程</h2>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g43d48jg1uj30f609haac.jpg" alt=""></p>
+<h3 id="模板文件">模板文件</h3>
+<pre><code>&lt;FrameLayout
+        layoutWidth=&quot;340rp&quot;
+        layoutHeight=&quot;wrap_content&quot;
+        action=&quot;action&quot;
+        flag=&quot;flag_exposure|flag_clickable&quot;
+        background=&quot;#FFFFFF&quot;
+        autoDimDirection=&quot;X&quot;
+        autoDimX=&quot;340&quot;
+        autoDimY=&quot;240&quot;
+        &gt;
+    &lt;NImage
+            scaleType=&quot;fit_xy&quot;
+            layoutWidth=&quot;212.5rp&quot;
+            layoutHeight=&quot;28.5rp&quot;
+            layoutMarginTop=&quot;29rp&quot;
+            layoutMarginLeft=&quot;30rp&quot;
+            layoutGravity=&quot;top|left&quot;
+            src=&quot;${titleImgUrl}&quot;/&gt;
+    &lt;NImage
+            scaleType=&quot;fit_xy&quot;
+            layoutWidth=&quot;143rp&quot;
+            layoutHeight=&quot;29rp&quot;
+            layoutMarginTop=&quot;71rp&quot;
+            layoutMarginLeft=&quot;29rp&quot;
+            layoutGravity=&quot;top|left&quot;
+            src=&quot;${subTitleImgUrl}&quot;/&gt;
+    &lt;NImage
+            scaleType=&quot;fit_xy&quot;
+            layoutWidth=&quot;120rp&quot;
+            layoutHeight=&quot;120rp&quot;
+            layoutMarginTop=&quot;112rp&quot;
+            layoutMarginLeft=&quot;29rp&quot;
+            layoutGravity=&quot;top|left&quot;
+            src=&quot;${leftImgUrl}&quot;/&gt;
+    &lt;NImage
+            scaleType=&quot;fit_xy&quot;
+            layoutWidth=&quot;150rp&quot;
+            layoutHeight=&quot;150rp&quot;
+            layoutMarginTop=&quot;81rp&quot;
+            layoutMarginLeft=&quot;185rp&quot;
+            layoutGravity=&quot;top|left&quot;
+            src=&quot;${rightImgUrl}&quot;/&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
+<h3 id="编译输出文件">编译输出文件</h3>
+<p><img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
+<h2 id="实现原理分析">实现原理分析</h2>
+<h1 id="参考">参考</h1>
+<p>http://pingguohe.net/2017/12/07/Tangram-2.html</p>
+<p>http://tangram.pingguohe.net/docs/virtualview/about-virtualview</p>
+<p>https://www.jianshu.com/p/428ffc2c234e</p>
+<p>http://pingguohe.net/2017/12/27/deep-into-virtualview-android-1.html</p>
+<p>http://pingguohe.net/2018/01/09/a-taste-of-virtualview-android.html</p>
+<p>https://juejin.im/post/5a9e5c526fb9a028bb1883fc</p>
+<p><a href="http://pingguohe.net/2016/12/20/Tangram-design-and-practice.html">苹果核 - 页面动态化的基础 —— Tangram</a>
+<a href="http://pingguohe.net/2017/03/30/what-is-tangram.html">苹果核 - Tangram是我们对界面动态化的态度</a>
+<a href="http://pingguohe.net/2017/04/24/tangram-android-design.html">苹果核 - Tangram Android 的设计说明</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[View布局流程解析]]></title>
+        <id>https://huopochuan.github.io//post/view-bu-ju-liu-cheng-jie-xi</id>
+        <link href="https://huopochuan.github.io//post/view-bu-ju-liu-cheng-jie-xi">
+        </link>
+        <updated>2019-05-04T14:22:23.000Z</updated>
+        <summary type="html"><![CDATA[<p>说到View的布局流程我们最常说到就是onMeasure，onLayout，onDraw。onMeasure负责测量大小，onLayout负责布局，onDraw负责绘制。下面从源码的角度看一下细节。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>说到View的布局流程我们最常说到就是onMeasure，onLayout，onDraw。onMeasure负责测量大小，onLayout负责布局，onDraw负责绘制。下面从源码的角度看一下细节。</p>
+<!-- more -->
+<h1 id="measure解析">measure解析</h1>
+<h2 id="viewgroup-onmeasure流程">ViewGroup onMeasure流程</h2>
+<p>measure方法中会调用onMeasure方法计算自身大小</p>
+<pre><code>public class View implements ... {
+			
+	 public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
+			//判断是否为强制布局，即带有“FORCE_LAYOUT”标记 以及 widthMeasureSpec或heightMeasureSpec发生了改变
+	        if ((mPrivateFlags &amp; FORCE_LAYOUT) == FORCE_LAYOUT ||
+	                widthMeasureSpec != mOldWidthMeasureSpec ||
+	                heightMeasureSpec != mOldHeightMeasureSpec) {
+	        	//清除MEASURED_DIMENSION_SET标记   ，该标记会在onMeasure()方法后被设置
+	            mPrivateFlags &amp;= ~MEASURED_DIMENSION_SET;
+
+	            if (ViewDebug.TRACE_HIERARCHY) {
+	                ViewDebug.trace(this, ViewDebug.HierarchyTraceType.ON_MEASURE);
+	            }
+	            // 1、 测量该View本身的大小
+	            onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+	            if ((mPrivateFlags &amp; MEASURED_DIMENSION_SET) != MEASURED_DIMENSION_SET) {
+	                throw new IllegalStateException(&quot;onMeasure() did not set the&quot;
+	                        + &quot; measured dimension by calling&quot;
+	                        + &quot; setMeasuredDimension()&quot;);
+	            }
+	          //下一步是layout了，添加LAYOUT_REQUIRED标记
+	            mPrivateFlags |= LAYOUT_REQUIRED;
+	        }
+	        mOldWidthMeasureSpec = widthMeasureSpec;//保存值
+	        mOldHeightMeasureSpec = heightMeasureSpec;//保存值
+	    }	
+	
+	}
+</code></pre>
+<p>ViewGroup类型的视图 onMeasure方法中会计算自身大小和计算子View大小</p>
+<pre><code>/某个ViewGroup类型的视图  
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {  
+	  //必须调用super.ononMeasure()或者直接调用setMeasuredDimension()方法设置该View大小，否则会报异常。  
+	  super.onMeasure(widthMeasureSpec , heightMeasureSpec)  
+	     //setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),  
+	     //        getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));  
+	       
+	  //一、遍历每个子View  
+	  for(int i = 0 ; i &lt; getChildCount() ; i++){  
+	    View child = getChildAt(i);  
+	    //调用子View的onMeasure，设置他们的大小,
+	    child.onMeasure(childWidthMeasureSpec, childHeightMeasureSpec);  
+	  }  
+	  //二、直接调用ViewGroup中给我们提供好的measureChildren方法、
+	  measureChildren(widthMeasureSpec, heightMeasureSpec);
+	}
+</code></pre>
+<p>设置自身计算大小</p>
+<pre><code>//为View设置宽和高
+	protected final void setMeasuredDimension(int measuredWidth, int measuredHeight) {
+        mMeasuredWidth = measuredWidth;
+        mMeasuredHeight = measuredHeight;
+
+        mPrivateFlags |= MEASURED_DIMENSION_SET;
+    }
+</code></pre>
+<p>计算子View大小</p>
+<pre><code>/widthMeasureSpec和heightMeasureSpec:父View传过来的测量要求
+	protected void measureChildren(int widthMeasureSpec, int heightMeasureSpec) {
+        final int size = mChildrenCount;
+        final View[] children = mChildren;
+        //遍历所有的View
+        for (int i = 0; i &lt; size; ++i) {
+            final View child = children[i];
+            //Gone掉的View排除
+            if ((child.mViewFlags &amp; VISIBILITY_MASK) != GONE) {
+                measureChild(child, widthMeasureSpec, heightMeasureSpec);
+            }
+        }
+    }
+</code></pre>
+<pre><code>protected void measureChild(View child, int parentWidthMeasureSpec,
+            int parentHeightMeasureSpec) {
+		// 获取子元素的布局参数
+        final LayoutParams lp = child.getLayoutParams();
+        //将父容器的测量规格以及上下和左右的边距还有子元素本身的布局参数传入getChildMeasureSpec方法计算最终测量要求 
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                mPaddingLeft + mPaddingRight, lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                mPaddingTop + mPaddingBottom, lp.height);
+        // 将计算好的宽高详细测量值传入measure方法，完成最后的测量
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+</code></pre>
+<h2 id="measurespec-解析">MeasureSpec 解析</h2>
+<p>MeasureSpec可以理解为父View传给子View的测量要求。为啥这么说呢?
+试想一下父View的大小是60dp,子View（TextView）的大小写的是WRAP_CONTENT. 父View一看子View写的是WRAP_CONTENT所以就告诉他，你最大只能60dp不能超过我呀。所以父View就将AT_MOST+60dp传给了子View。
+子View根据传过来的测量要求在测量自已，自已测量文字长度是40dp直接setMeasuredDimension()。父View在onLayout中在根据子View计算的40dp计算一下他的摆放位置，是居中呀还是左对齐呀。</p>
+<p>MeasureSpec的值由mode+size构成 size即View的建议大小，mode有三种模式如下</p>
+<ol>
+<li>UNSPECIFIED：父View没有对子View施加任何约束。它可以是任何它想要的大小。</li>
+<li>EXACTLY：父View已经确定了子View的确切尺寸。子View将被限制在给定的界限内，而忽略其本身的大小。</li>
+<li>AT_MOST：子View的大小不能超过指定的大小</li>
+</ol>
+<p>源代码如下。</p>
+<p>ViewGroup计算子View的大小如下</p>
+<pre><code>protected void measureChild(View child, int parentWidthMeasureSpec,
+            int parentHeightMeasureSpec) {
+		// 获取子元素的布局参数
+        final LayoutParams lp = child.getLayoutParams();
+        //将父容器的测量规格以及上下和左右的边距还有子元素本身的布局参数传入getChildMeasureSpec方法计算最终测量要求 
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                mPaddingLeft + mPaddingRight, lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                mPaddingTop + mPaddingBottom, lp.height);
+        // 将计算好的宽高详细测量值传入measure方法，完成最后的测量
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+</code></pre>
+<pre><code>public static int getChildMeasureSpec(int spec, int padding, int childDimension) {
+		//获取父View的测量模式
+        int specMode = MeasureSpec.getMode(spec);
+        //获取父View的测量大小
+        int specSize = MeasureSpec.getSize(spec);
+       //父View计算出的子View的大小，子View不一定用这个值
+        int size = Math.max(0, specSize - padding);
+        //声明变量用来保存实际计算的到的子View的size和mode即大小和模式
+        int resultSize = 0;
+        int resultMode = 0;
+
+        switch (specMode) {
+         // Parent has imposed an exact size on us
+        //如果父容器的模式是Exactly即确定的大小
+        case MeasureSpec.EXACTLY:
+        	//子View的高度或宽度&gt;0说明其实一个确切的值，因为match_parent和wrap_content的值是&lt;0的
+            if (childDimension &gt;= 0) {
+                resultSize = childDimension;
+                resultMode = MeasureSpec.EXACTLY;
+                //子View的高度或宽度为match_parent
+            } else if (childDimension == LayoutParams.MATCH_PARENT) {
+            	// Child wants to be our size. So be it.
+                resultSize = size;//将size即父View的大小减去边距值所得到的值赋值给resultSize
+                resultMode = MeasureSpec.EXACTLY;//指定子View的测量模式为EXACTLY
+               //子View的高度或宽度为wrap_content
+            } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+            	// Child wants to determine its own size. It can't be
+                // bigger than us.
+                resultSize = size;//将size赋值给result
+                resultMode = MeasureSpec.AT_MOST;//指定子View的测量模式为AT_MOST
+            }
+            break;
+         // Parent has imposed a maximum size on us
+        //如果父容器的测量模式是AT_MOST
+        case MeasureSpec.AT_MOST:
+            if (childDimension &gt;= 0) {
+            	// Child wants a specific size... so be it
+                resultSize = childDimension;
+                resultMode = MeasureSpec.EXACTLY;
+            } else if (childDimension == LayoutParams.MATCH_PARENT) {
+            	// Child wants to be our size, but our size is not fixed.
+                // Constrain child to not be bigger than us.
+                resultSize = size;
+                // 因为父View的大小是受到限制值的限制,所以子View的大小也应该受到父容器的限制并且不能超过父View  
+                resultMode = MeasureSpec.AT_MOST;
+            } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+            	 // Child wants to determine its own size. It can't be
+                // bigger than us.
+                resultSize = size;
+                resultMode = MeasureSpec.AT_MOST;
+            }
+            break;
+         // Parent asked to see how big we want to be
+        //如果父容器的测量模式是UNSPECIFIED即父容器的大小未受限制
+        case MeasureSpec.UNSPECIFIED:
+        	//如果自View的宽和高是一个精确的值
+            if (childDimension &gt;= 0) {
+            	 // Child wants a specific size... let him have it
+            	//子View的大小为精确值
+                resultSize = childDimension;
+                //测量的模式为EXACTLY
+                resultMode = MeasureSpec.EXACTLY;
+                //子View的宽或高为match_parent
+            } else if (childDimension == LayoutParams.MATCH_PARENT) {
+            	// Child wants to be our size... find out how big it should
+                // be
+            	//resultSize=0;因为父View的大小是未定的，所以子View的大小也是未定的
+                resultSize = 0;
+                resultMode = MeasureSpec.UNSPECIFIED;
+            } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+            	// Child wants to determine its own size.... find out how
+                // big it should be
+            	
+                resultSize = 0;
+                resultMode = MeasureSpec.UNSPECIFIED;
+            }
+            break;
+        }
+        //根据resultSize和resultMode调用makeMeasureSpec方法得到测量要求，并将其作为返回值
+        return MeasureSpec.makeMeasureSpec(resultSize, resultMode);
+    }
+</code></pre>
+<h1 id="layout解析">layout解析</h1>
+<p>onLayout方法由layout方法调用,ViewGroup类型的对象都会在Onlayout方法中调用子View的layout方法对子View进行布局。</p>
+<pre><code>public final void layout(int l, int t, int r, int b) {
+        boolean changed = setFrame(l, t, r, b);
+        if (changed || (mPrivateFlags &amp; LAYOUT_REQUIRED) == LAYOUT_REQUIRED) {
+            if (ViewDebug.TRACE_HIERARCHY) {
+                ViewDebug.trace(this, ViewDebug.HierarchyTraceType.ON_LAYOUT);
+            }
+            onLayout(changed, l, t, r, b);
+            mPrivateFlags &amp;= ~LAYOUT_REQUIRED;
+        }
+        mPrivateFlags &amp;= ~FORCE_LAYOUT;
+    }
+</code></pre>
+<pre><code>protected boolean setFrame(int left, int top, int right, int bottom) {
+        boolean changed = false;
+        if (mLeft != left || mRight != right || mTop != top || mBottom != bottom) {
+            changed = true;    
+            。。。省略部分代码。。。
+            mLeft = left;
+            mTop = top;
+            mRight = right;
+            mBottom = bottom;
+            
+            。。。省略部分代码。。。
+        }
+        return changed;
+    }
+</code></pre>
+<p>在onLayout方法中布局子View</p>
+<pre><code>@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		// 获得子View个数
+		int childCount = getChildCount();
+		// 设置一个变量保存到父View左侧的距离
+		int mLeft = 0;
+		// 遍历子View
+		for (int i = 0; i &lt; childCount; i++) {
+
+			View childView = getChildAt(i);
+			// 获得子View的高度
+			int childViewHeight = childView.getMeasuredHeight();
+			// 获得子View的宽度
+			int childViewWidth = childView.getMeasuredWidth();
+			// 让子View在竖直方向上显示在屏幕的中间位置
+			int height = sreenH / 2 - childViewHeight / 2;
+			// 调用layout给每一个子View设定位置mLeft,mTop,mRight,mBottom.左上右下
+			childView.layout(mLeft, height, mLeft + childViewWidth, height
+					+ childViewHeight);
+			// 改变下一个子View到父View左侧的距离
+			mLeft += childViewWidth;
+		}
+	}
+</code></pre>
+<h1 id="getwidth-与-getmeasurewidth区别">getWidth() 与 getMeasureWidth()区别</h1>
+<pre><code>public final int getWidth() {
+		return mRight - mLeft;
+	}
+
+	/**
+	 * Return the height of your view.
+	 * 
+	 * @return The height of your view, in pixels.
+	 */
+	public final int getHeight() {
+		return mBottom - mTop;
+	}
+
+	/**
+	 * The height of this view as measured in the most recent call to measure().
+	 * This should be used during measurement and layout calculations only. Use
+	 * {@link #getHeight()} to see how tall a view is after layout.
+	 * 
+	 * @return The measured height of this view.
+	 */
+	// 获取测量的宽度
+	public final int getMeasuredWidth() {
+		return mMeasuredWidth;
+	}
+
+	/**
+	 * The width of this view as measured in the most recent call to measure().
+	 * This should be used during measurement and layout calculations only. Use
+	 * {@link #getWidth()} to see how wide a view is after layout.
+	 * 
+	 * @return The measured width of this view.
+	 */
+	// 获取测量的高度
+	public final int getMeasuredHeight() {
+		return mMeasuredHeight;
+	}
+</code></pre>
+<p>1.赋值时机不同<br>
+measuredWidth/measuredHeight的赋值时机是在onMeause里调用setMeasuredDimension时赋值<br>
+width/height 的赋值时机是在onLayout中调用childView.layout(int l, int t, int r, int b) 是赋值<br>
+所以在onLayout方法中可以调用getMeasureWidth调用获取子View的测量大小，但是不能调用getWidth()获取子View的布局大小</p>
+<p>2.值可能不同<br>
+当父View布局子View的时候 childView.layout(int l, int t, int r, int b)  父View布局子View的大小可能和子View的大小不同，当然这种情况比较少</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.kancloud.cn/digest/defineview/120019">https://www.kancloud.cn/digest/defineview/120019</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[View事件分发机制解析]]></title>
+        <id>https://huopochuan.github.io//post/view-shi-jian-fen-fa-ji-zhi-jie-xi</id>
+        <link href="https://huopochuan.github.io//post/view-shi-jian-fen-fa-ji-zhi-jie-xi">
+        </link>
+        <updated>2019-05-04T02:54:23.000Z</updated>
+        <summary type="html"><![CDATA[<p>权利的游戏Episode 3 of Series 8，想起《起风了》中的一句话。</p>
+<blockquote>
+<p>起风了,唯有努力生存</p>
+</blockquote>
+<p>无论对手多么强大，纵然被一步一步逼入绝望，我们能做唯有拼尽全力。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>权利的游戏Episode 3 of Series 8，想起《起风了》中的一句话。</p>
+<blockquote>
+<p>起风了,唯有努力生存</p>
+</blockquote>
+<p>无论对手多么强大，纵然被一步一步逼入绝望，我们能做唯有拼尽全力。</p>
+<!-- more -->
+<h1 id="伪代码-viewgruop简单版">伪代码 ViewGruop（简单版）</h1>
+<p>dispatchTouchEvent代码逻辑</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent ev) { 
+   boolean consume = false;
+   if(onInterceptTouchEvent(ev)) {
+      consume = onTouchEvent(ev);
+   } else {
+      consume = child.dispatchTouchEvent(ev);
+   }
+}
+</code></pre>
+<p>ViewGroup会先调用onInterceptTouchEvent方法判断是否要拦截，如果拦截就交给自己的onTouchEvent处理，如果不拦截交给匹配到的子View处理。不是很细节。</p>
+<p>view dispatchTouchEvent代码</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
+    if (mOnTouchListener != null &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED &amp;&amp;
+            mOnTouchListener.onTouch(this, event)) {
+        return true;
+    }
+    return onTouchEvent(event);
+}
+
+</code></pre>
+<p>可以看出TouchListener.onTouch优先级高于View的OnTouchEvent方法，如果TouchListener的onTouch返回true表示事件已经被消耗了，就不会交给OnTouchEvent方法处理了。</p>
+<h1 id="代码-viewgruop-复杂版">代码 ViewGruop （复杂版）</h1>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent ev) {
+    final int action = ev.getAction();
+    final float xf = ev.getX();
+    final float yf = ev.getY();
+    final float scrolledXFloat = xf + mScrollX;
+    final float scrolledYFloat = yf + mScrollY;
+    final Rect frame = mTempRect;
+    boolean disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != 0;
+    //根据Action_Down事件 找到目标View
+    if (action == MotionEvent.ACTION_DOWN) {
+        if (mMotionTarget != null) {
+            mMotionTarget = null;
+        }
+        // 是否禁用拦截  或者 是否没有拦截 Down事件
+        if (disallowIntercept || !onInterceptTouchEvent(ev)) {
+            ev.setAction(MotionEvent.ACTION_DOWN);
+            final int scrolledXInt = (int) scrolledXFloat;
+            final int scrolledYInt = (int) scrolledYFloat;
+            final View[] children = mChildren;
+            final int count = mChildrenCount;
+            for (int i = count - 1; i &gt;= 0; i--) {
+                final View child = children[i];
+                if ((child.mViewFlags &amp; VISIBILITY_MASK) == VISIBLE
+                        || child.getAnimation() != null) {
+                    child.getHitRect(frame);
+                    if (frame.contains(scrolledXInt, scrolledYInt)) {
+                        final float xc = scrolledXFloat - child.mLeft;
+                        final float yc = scrolledYFloat - child.mTop;
+                        ev.setLocation(xc, yc);
+                        child.mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+                        if (child.dispatchTouchEvent(ev))  {
+                            mMotionTarget = child;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    boolean isUpOrCancel = (action == MotionEvent.ACTION_UP) ||
+            (action == MotionEvent.ACTION_CANCEL);
+    if (isUpOrCancel) {
+        mGroupFlags &amp;= ~FLAG_DISALLOW_INTERCEPT;
+    }
+    final View target = mMotionTarget;
+    //目标view为空 （1.未找到匹配的view 2.down事件被自身拦截了）直接调用 自身onTouch 
+    if (target == null) {
+        ev.setLocation(xf, yf);
+        if ((mPrivateFlags &amp; CANCEL_NEXT_UP_EVENT) != 0) {
+            ev.setAction(MotionEvent.ACTION_CANCEL);
+            mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+		//如果拦截子View会收到ACTION_CANCEL事件
+    if (!disallowIntercept &amp;&amp; onInterceptTouchEvent(ev)) {
+        final float xc = scrolledXFloat - (float) target.mLeft;
+        final float yc = scrolledYFloat - (float) target.mTop;
+        mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+        ev.setAction(MotionEvent.ACTION_CANCEL);
+        ev.setLocation(xc, yc);
+        if (!target.dispatchTouchEvent(ev)) {
+	
+        }
+        mMotionTarget = null;
+        return true;
+    }
+    if (isUpOrCancel) {
+        mMotionTarget = null;
+    }
+    final float xc = scrolledXFloat - (float) target.mLeft;
+    final float yc = scrolledYFloat - (float) target.mTop;
+    ev.setLocation(xc, yc);
+    if ((target.mPrivateFlags &amp; CANCEL_NEXT_UP_EVENT) != 0) {
+        ev.setAction(MotionEvent.ACTION_CANCEL);
+        target.mPrivateFlags &amp;= ~CANCEL_NEXT_UP_EVENT;
+        mMotionTarget = null;
+    }
+    return target.dispatchTouchEvent(ev);
+}
+
+</code></pre>
+<p>归纳总结
+1.消费了DOWN事件的View，后续事件不管触摸点是否在该View内部还是外部，都会分发给该View
+2.消费了DOWN事件的View，如果后续事件在其上层父View分发过程中拦截了，那么该View会收到一个CANCEL事件
+3.一个View只有可见性为VISIBLE才有可能消费触摸事件，对于那些满足条件但被设置为INVISIBLE或GONE的View，不会消费触摸事件</p>
+<h1 id="滑动冲突解决方式">滑动冲突解决方式</h1>
+<h2 id="外部拦截法修改父view">外部拦截法（修改父View）</h2>
+<p>父View</p>
+<pre><code>public boolean onInterceptTouchEvent(MotionEvent ev) {
+   
+   switch (ev.getAction) {
+     case Action_DOWN:
+         return faslse; //不能拦截 否则后续全部交由父View处理
+        
+     case Action_MOVE:
+         if（拦截条件）return true;
+         else return false;
+     case Action_UP:
+         return false;     
+ 
+   
+   }
+
+}
+</code></pre>
+<h2 id="内部拦截法">内部拦截法</h2>
+<p>父View不能拦截Action_DOWN事件 确保Action_DOWN 返回false</p>
+<p>子View</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent ev) {
+   
+   switch (ev.getAction) {
+     case Action_DOWN:
+         parent.requestDisallowInterceptTouchEvent(true);
+         break;
+     case Action_MOVE:
+         
+         if(父容器需要处理改事件) {
+            parent.requestDisallowInterceptTouchEvent(false);
+         }
+         
+         break;
+     case Action_UP:
+         break;    
+   
+   }
+   return super. dispatchTouchEvent(ev);
+}
+</code></pre>
+<h1 id="参考文献">参考文献</h1>
+<p><a href="https://www.kancloud.cn/digest/defineview/120018">https://www.kancloud.cn/digest/defineview/120018</a>
+<a href="https://blog.csdn.net/guolin_blog/article/details/9153747">https://blog.csdn.net/guolin_blog/article/details/9153747</a><br>
+<a href="https://blog.csdn.net/abcdef314159/article/details/51119238">https://blog.csdn.net/abcdef314159/article/details/51119238</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[try catch finally与return问题]]></title>
+        <id>https://huopochuan.github.io//post/try-catch-finally-yu-return-wen-ti</id>
+        <link href="https://huopochuan.github.io//post/try-catch-finally-yu-return-wen-ti">
+        </link>
+        <updated>2019-05-02T12:52:19.000Z</updated>
+        <summary type="html"><![CDATA[<p>图片于2017.5泰国团建拍摄。</p>
+<p>在开发或面试过程中我们或多或少的会遇到try catch finlly代码块中同时含有return的情况来判断return的值是多少。
+不卖关子了直接总结规律。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>图片于2017.5泰国团建拍摄。</p>
+<p>在开发或面试过程中我们或多或少的会遇到try catch finlly代码块中同时含有return的情况来判断return的值是多少。
+不卖关子了直接总结规律。</p>
+<!-- more -->
+<ol>
+<li>函数执行到return不一定会直接返回（比如try和catch里面的），对与值类型变量会开辟一块当前方法体返回类型的空间（及值的拷贝），对于引用类型会存着引用地址的拷贝，该结果会被第二个return（finally里面的）覆盖。</li>
+<li>函数执行到try里面的内容，一定会执行finally里面的语句块，除非try里面有类似System.exit()的方法。</li>
+</ol>
+<p>基于上述的规律我们看一下如下列子</p>
+<pre><code>class Untitled {
+	public static void main(String[] args) {
+
+		System.out.println(&quot;&quot;+m1());
+	}
+
+	private static int m1() {
+		int a = 10;	
+		try {
+			a = 20;
+			throw new RuntimeException();
+		} catch (Exception e) {
+			a = 30;
+			return a;
+		} finally {
+			a = 40;
+			return a;
+		}
+	}
+}
+</code></pre>
+<p>输出结果是40。有两retrun 下面的会覆盖上面的所以会是40</p>
+<pre><code>class Untitled {
+	public static void main(String[] args) {
+
+		System.out.println(&quot;&quot;+m1());
+	}
+
+	private static int m1() {
+		int a = 10;	
+		try {
+			a = 20;
+			throw new RuntimeException();
+		} catch (Exception e) {
+			a = 30;
+			return a;
+		} finally {
+			a = 40;
+		}
+	}
+}
+</code></pre>
+<p>输出结果是30。finally中没有return，虽然a=40，但是return在之前执行，已经在栈中开辟一块当前方法体返回类型的空间存放了30（值的拷贝）。所以a=40操作的变量a,不用影响return已经新开辟控件存储的30。</p>
+<pre><code>class Untitled {
+	public static void main(String[] args) {
+
+		System.out.println(&quot;&quot;+m1());
+	}
+
+	private static StringBuilder m1() {
+		
+		StringBuilder builder = new StringBuilder();
+       
+		try {
+			
+            builder.toString();
+			throw new RuntimeException();
+		} catch (Exception e) {
+			return builder;
+		} finally {
+			builder.append(&quot;1&quot;);
+		}
+	}
+}
+</code></pre>
+<p>输出结果是1。StringBuilder是引用类型。return会拷贝引用地址。所以操作build会影响返回结果。</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://blog.csdn.net/qq_36262896/article/details/79779953">JavaSE之彻底搞懂try,catch,finally与return的执行</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[我不喜欢这世界,我只喜欢你]]></title>
+        <id>https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni</id>
+        <link href="https://huopochuan.github.io//post/wo-bu-xi-huan-zhe-shi-jie-wo-zhi-xi-huan-ni">
+        </link>
+        <updated>2019-05-02T06:58:03.000Z</updated>
+        <summary type="html"><![CDATA[<p>去年读完了这本书，发现新出了部电视剧。看来电视剧才发现我已经把这部书说的啥给忘得一干二净了。。。网上买了纸质版有时间在看看。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>去年读完了这本书，发现新出了部电视剧。看来电视剧才发现我已经把这部书说的啥给忘得一干二净了。。。网上买了纸质版有时间在看看。</p>
+<!-- more -->
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g2nyu1fu45j30u0140whh.jpg" alt=""></p>
+<blockquote>
+<p>愿你永怀善意，清澈明朗</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[匿名内部类使用局部变量为什么使用fianl]]></title>
+        <id>https://huopochuan.github.io//post/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl</id>
+        <link href="https://huopochuan.github.io//post/ni-ming-nei-bu-lei-shi-yong-ju-bu-bian-liang-wei-shi-me-shi-yong-fianl">
+        </link>
+        <updated>2019-04-29T16:14:54.000Z</updated>
+        <summary type="html"><![CDATA[<p>图片于2018.5月厦门团建拍摄</p>
+<p>这是在网上看到的一个观点说final可增加局部变量的生命周期，当然这个观点本人不认为正确。变量的生命周期和GC相关，而GC有个java对象可达性算法有关，final没有这功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>图片于2018.5月厦门团建拍摄</p>
+<p>这是在网上看到的一个观点说final可增加局部变量的生命周期，当然这个观点本人不认为正确。变量的生命周期和GC相关，而GC有个java对象可达性算法有关，final没有这功能。</p>
+<!-- more -->
+<blockquote>
+<p>局部变量如果没有用final修饰,他的生命周期和方法的生命周期是一样的,当方法弹栈,这个局部变量也会消失,那么如果局部内部类对象还没有马上消失想用这个局部变量,就没有了,如果用final修饰会在类加载的时候进入常量池,即使方法弹栈,常量池的常量还在,也可以继续使用。</p>
+</blockquote>
+<h1 id="1java参数传递类型">1.java参数传递类型</h1>
+<p>1、基本类型作为参数传递时，是传递值的拷贝，无论你怎么改变这个拷贝，原值是不会改变的
+2、对象作为参数传递时，是把对象在内存中的地址拷贝了一份传给了参数。</p>
+<h1 id="2final修饰变量的含义">2.final修饰变量的含义</h1>
+<ol>
+<li>final当修饰基本数据类型时表示不可改变其值</li>
+<li>final当修饰引用类型变量时表示不可改变引用变量的引用地址
+上面的两个校验都是编译器做的检验，如果final的使用不符合上述两种规则，将编译不通过。</li>
+</ol>
+<h1 id="3编译器对匿名内部类的操作">3.编译器对匿名内部类的操作</h1>
+<p>编译器在编译时会将匿名内部类引用的局部变量和方法参数以及外部类的引用都会被当做该构造函数的参数</p>
+<h1 id="结论">结论</h1>
+<p>匿名内部类的使用方式，让开发者可以理解为当操作外部变量时（局部变量和方法参数）应该可以生效的。但是基于上述的1，3两点是做不到的。因为匿名内部类在构造时传入的是值的拷贝，即使操作也只是操作的拷贝数据。不是真正的外部变量。所以对于局部变量和方法参数需要加final表示不可以改变值。但是匿名内部类操作外部类成员变量是可以的，因为匿名内部类可以拿到外部类的真实引用去操作。</p>
+<h1 id="匿名内部类使用外部成员变量">匿名内部类使用外部成员变量</h1>
+<pre><code>public class Outer {
+    private int x =100;
+    public int add() {
+        Inner inner =  new Inner() {
+            @Override
+            public int add() {
+                x = x +1;
+                return x;
+            }
+        };
+        return inner.add();
+    }
+   private interface Inner {
+        int add();
+    }
+}		
+</code></pre>
+<p>我们使用javac命令对上述代码编译可以看到匿名内部类实际上会产生匿名内部类的单独class文件。</p>
+<pre><code>class Outer$1 implements Inner {
+    Outer$1(Outer var1) {
+        this.this$0 = var1;
+    }
+    public int add() {
+        Outer.access$002(this.this$0, Outer.access$000(this.this$0) + 1);
+        return Outer.access$000(this.this$0);
+    }
+}
+</code></pre>
+<p>为什么匿名内部类可以访问外部类成员变量，是因为编译器在编译的时候会将外部类的引用传进来。所以可以正常的操作外部类的变量，操作外部类的变量会直接影响到外部类。</p>
+<h1 id="匿名内部类使用局部变量">匿名内部类使用局部变量</h1>
+<pre><code>
+public class Outer {
+
+    private int x =100;
+		
+    public int add(final int x) {
+
+        final int y = 1;
+        Inner inner =  new Inner() {
+            @Override
+            public int add() {
+                return x+y;
+            }
+        };
+        return inner.add();
+
+    }
+    private interface Inner {
+        int add();
+    }
+}
+</code></pre>
+<p>同样看通过javac命令看产出的匿名内部类是什么样的。</p>
+<pre><code>class Outer$2 implements Inner {
+    Outer$2(Outer var1, int var2) {
+        this.this$0 = var1;
+        this.val$x = var2;
+    }
+    public int add() {
+        return this.val$x + 1;
+    }
+}
+</code></pre>
+<p>可以看到匿名内部类的构造方法增加了两个参数，外部类引用和int类型的x。y被省略掉是因为y相当于常量编译器优化直接替换为1,已可以理解为内联。</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.zhihu.com/question/21395848/answer/262801086">java为什么匿名内部类的参数引用时final？</a><br>
+<a href="https://www.cnblogs.com/xdouby/p/7845498.html">博客评论</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何傻瓜式搭建属于你自己的博客]]></title>
+        <id>https://huopochuan.github.io//post/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke</id>
+        <link href="https://huopochuan.github.io//post/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke">
+        </link>
+        <updated>2019-04-28T04:43:17.000Z</updated>
+        <summary type="html"><![CDATA[<p>日常浏览github的时候，发现了 <a href="https://github.com/getgridea/gridea">Gridea</a> 。使用界面如下</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>日常浏览github的时候，发现了 <a href="https://github.com/getgridea/gridea">Gridea</a> 。使用界面如下</p>
+<!-- more -->
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g2i9zjkx6hj31ag0u04cx.jpg" alt=""></p>
+<h1 id="get-start">get Start</h1>
+<p>只需配置github相关参数即可，点击同步会自动将静态Html文件上传的github仓库。是不是很简单！</p>
+<h1 id="优势">优势</h1>
+<ol>
+<li>主题切换更加方便</li>
+<li>图片资源上传更加方便</li>
+<li>支持自定义主题</li>
+<li>只需关注mackdown编写文章即可</li>
+</ol>
+<h1 id="如何给自己的文章添加目录">如何给自己的文章添加目录</h1>
+<p>在切换主题的时候，发现文章没有目录结构。对于大多数查阅文章的人来说，很多时候第一眼看到就是文章目录，来确认是否是自己需要学习的方向。所以目录功能还是很重要的。
+查看作者的升级记录发现支持toc但是需要自己在主题中添加 <a href="https://github.com/getgridea/gridea/releases">升级记录</a></p>
+<blockquote>
+<p>文章支持 @[toc] 显示文章目录，同时增加 post.toc 字段供主题显示</p>
+</blockquote>
+<p>Html静态文件是通过<a href="https://ejs.bootcss.com/">模块引擎EJS构建</a>，我们只需在对应主题下的post.ejs文件中添加如下代码即可。</p>
+<pre><code>&lt;p class=&quot;show-toc-btn&quot; id=&quot;show-toc-btn&quot; onclick=&quot;showToc();&quot; style=&quot;display:none&quot;&gt;
+          &lt;span class=&quot;btn-bg&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;btn-text&quot;&gt;文章导航&lt;/span&gt;
+          &lt;/p&gt;
+  &lt;div id=&quot;toc-article&quot; class=&quot;toc-article&quot;&gt;
+      &lt;span id=&quot;toc-close&quot; class=&quot;toc-close&quot; title=&quot;隐藏导航&quot; onclick=&quot;showBtn();&quot;&gt;×&lt;/span&gt;
+    &lt;strong class=&quot;toc-title&quot;&gt;文章目录&lt;/strong&gt;
+           &lt;%- post.toc %&gt;
+         &lt;/div&gt;
+   &lt;script type=&quot;text/javascript&quot;&gt;
+  function showToc(){
+    var toc_article = document.getElementById(&quot;toc-article&quot;);
+    var show_toc_btn = document.getElementById(&quot;show-toc-btn&quot;);
+    toc_article.setAttribute(&quot;style&quot;,&quot;display:block&quot;);
+    show_toc_btn.setAttribute(&quot;style&quot;,&quot;display:none&quot;);
+    };
+  function showBtn(){
+    var toc_article = document.getElementById(&quot;toc-article&quot;);
+    var show_toc_btn = document.getElementById(&quot;show-toc-btn&quot;);
+    toc_article.setAttribute(&quot;style&quot;,&quot;display:none&quot;);
+    show_toc_btn.setAttribute(&quot;style&quot;,&quot;display:block&quot;);
+    };
+   &lt;/script&gt;
+
+</code></pre>
+<p>效果如下 <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future/">博客地址</a></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g2ia03cl9fj31jl0u0jve.jpg" alt=""></p>
+<h1 id="参考">参考</h1>
+<p><a href="http://lawlite.me/2017/04/17/Hexo-yilia%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95%E5%92%8C%E6%B7%BB%E5%8A%A0%E8%A7%86%E9%A2%91/">Hexo+yilia主题实现文章目录和添加视频 </a><br>
+<a href="https://github.com/getgridea/gridea">Gridea</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[事件驱动模型 Handler 与 Flutter future]]></title>
+        <id>https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future</id>
+        <link href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
+        </link>
+        <updated>2019-04-16T14:19:05.000Z</updated>
+        <summary type="html"><![CDATA[<p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
+<!-- more -->
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25o68b912j31900spn0e.jpg" alt=""></p>
+<h2 id="事件驱动">事件驱动</h2>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g299hy0iggj30km0audg5.jpg" alt="">
+以操作系统为例，我们每次的鼠标点击，键盘按下都会发出一个事件，然后加入操作系统的消息队列中，处理线程提取任务然后分发给对应的处理句柄去处理消息事件。上述的流程即可理解为事件驱动。下面是百度百科的解释</p>
+<blockquote>
+<p>早期则存在许多非事件驱动的程序，这样的程序，在需要等待某个条件触发时，会不断地检查这个条件，直到条件满足，这是很浪费cpu时间的。而事件驱动的程序，则有机会释放cpu从而进入睡眠态（注意是有机会，当然程序也可自行决定不释放cpu），当事件触发时被操作系统唤醒，这样就能更加有效地使用cpu。<br>
+一个典型的事件驱动的程序，就是一个死循环，并以一个线程的形式存在，这个死循环包括两个部分，第一个部分是按照一定的条件接收并选择一个要处理的事件，第二个部分就是事件的处理过程。程序的执行过程就是选择事件和处理事件，而当没有任何事件触发时，程序会因查询事件队列失败而进入睡眠状态，从而释放cpu。<br>
+事件驱动的程序，必定会直接或者间接拥有一个事件队列，用于存储未能及时处理的事件<br>
+事件驱动的程序，还有一个最大的好处，就是可以按照一定的顺序处理队列中的事件，而这个顺序则是由事件的触发顺序决定的，这一特性往往被用于保证某些过程的原子化。<br>
+目前windows,linux等都是事件驱动的，只有一些单片机可能是非事件驱动的。</p>
+</blockquote>
+<h2 id="事件驱动模型-handler">事件驱动模型 Handler</h2>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g2981864wuj31g20omq5d.jpg" alt=""></p>
+<p>无论在Android开发还是Android面试中经常使用和被问到的就是handler,根据上述事件驱动的描述来看handler本质就是事件驱动模型。在Android系统中每次点击事件、activity与service的启动，生命周期的执行、view的布局事件等，Android系统均会把上述事件转化成一个消息msg，放在消息队列MessageQueen中。由每个App进程的主线程去不断的获取消息并分发给句柄Handler去处理。下面我们分析一下handler中的一些事件驱动的策略。</p>
+<h3 id="androd中的几个使用场景">Androd中的几个使用场景</h3>
+<p>为了证实我们上面提出的观点，我们看看在源码里的体现，我们只看消息的接收处理的逻辑，因为Android是基于C/S架构，我们的事件产生都是经过server端产生然后通过binder通信传递给Client（App进程）。</p>
+<p>1.activity与service的启动，生命周期的执行的消息处理（ActivityThread中的H类）</p>
+<pre><code>  class H extends Handler {
+   .... 省略
+ public void handleMessage(Message msg) {
+         ....省略
+           case EXIT_APPLICATION:
+                 if (mInitialApplication != null) {
+                     mInitialApplication.onTerminate();
+                 }
+                 Looper.myLooper().quit();
+                 break;
+             case RECEIVER:
+                 Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;broadcastReceiveComp&quot;);
+                 handleReceiver((ReceiverData)msg.obj);
+                 Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+                 break;
+             case CREATE_SERVICE:
+                 Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, (&quot;serviceCreate: &quot; + String.valueOf(msg.obj)));
+                 handleCreateService((CreateServiceData)msg.obj);
+                 Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+                 break;
+             case BIND_SERVICE:
+                 Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;serviceBind&quot;);
+                 handleBindService((BindServiceData)msg.obj);
+                 Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+                 break;
+</code></pre>
+<p>2.Activity点击事件分发<br>
+当系统点击手机屏幕时，Linux内核会将硬件产生的触摸事件包装为Event存到/dev/input/event目录下，loop会通过<code>epoll机制</code>监听该事件,然后最终回调ViewRootImpl的WindowInputEventReceiver的方法，传递给对应的Activity去处理改点击事件</p>
+<h3 id="epoll机制">epoll机制</h3>
+<p>Linux本身的一个设计思想也是一切皆文件，epoll机制可以理解对文件亦或是流的监听，当该文件/流不可读（缓冲区取完），epoll机制会使线程进入休眠状态（epoll_wait），不浪费cpu资源。当文件/流可读(缓存区有数据),epoll机制会唤醒线程然后读取数据。</p>
+<h3 id="休眠阻塞">休眠阻塞</h3>
+<p>当Looper.loop()开始调用时，内部就开始死循环获取MessageQueue中的消息。如果当前时间段没有要执行的消息，如果还在不断的死循环进行消息的遍历，无疑是对CPU的浪费。所以在没有消息处理时，会使用<code>epoll机制</code>使当前线程进入休眠状态。</p>
+<pre><code> Message next() {
+        // Return here if the message loop has already quit and been disposed.
+        // This can happen if the application tries to restart a looper after quit
+        // which is not supported.
+        final long ptr = mPtr;
+        if (ptr == 0) {
+            return null;
+        }
+
+        int pendingIdleHandlerCount = -1; // -1 only during first iteration
+        int nextPollTimeoutMillis = 0;
+        for (;;) {
+            if (nextPollTimeoutMillis != 0) {
+                Binder.flushPendingCommands();
+            }
+            
+           //关键代码
+            nativePollOnce(ptr, nextPollTimeoutMillis);
+
+            synchronized (this) {
+                // Try to retrieve the next message.  Return if found.
+                final long now = SystemClock.uptimeMillis();
+                Message prevMsg = null;
+                Message msg = mMessages;
+                if (msg != null &amp;&amp; msg.target == null) {
+                    // Stalled by a barrier.  Find the next asynchronous message in the queue.
+                    do {
+                        prevMsg = msg;
+                        msg = msg.next;
+                    } while (msg != null &amp;&amp; !msg.isAsynchronous());
+                }
+                if (msg != null) {
+                    if (now &lt; msg.when) {
+                        // Next message is not ready.  Set a timeout to wake up when it is ready.
+                        nextPollTimeoutMillis = (int) Math.min(msg.when - now, Integer.MAX_VALUE);
+                    } else {
+                        // Got a message.
+                        mBlocked = false;
+                        if (prevMsg != null) {
+                            prevMsg.next = msg.next;
+                        } else {
+                            mMessages = msg.next;
+                        }
+                        msg.next = null;
+                        if (DEBUG) Log.v(TAG, &quot;Returning message: &quot; + msg);
+                        msg.markInUse();
+                        return msg;
+                    }
+                } else {
+                    // No more messages.
+                    nextPollTimeoutMillis = -1;
+                }
+</code></pre>
+<p>nativePollOnce(ptr, nextPollTimeoutMillis) 即为关键所在，该方法是个native方法，从其名字PollOnce表示轮询一次并看不出他有阻塞的含义，还有就是native内部有什么需要轮询呢？接下来我们看看native代码的实现</p>
+<pre><code>int Looper::pollInner(int timeoutMillis) {
+    ...
+    int result = POLL_WAKE;
+    mResponses.clear();
+    mResponseIndex = 0;
+    mPolling = true; //即将处于idle状态
+    struct epoll_event eventItems[EPOLL_MAX_EVENTS]; //fd最大个数为16
+    //等待事件发生或者超时，在nativeWake()方法，向管道写端写入字符，则该方法会返回；
+    int eventCount = epoll_wait(mEpollFd, eventItems, EPOLL_MAX_EVENTS, timeoutMillis);
+
+
+</code></pre>
+<p>epoll_wait(mEpollFd, eventItems, EPOLL_MAX_EVENTS, timeoutMillis) 可以看出会进入休眠状态，timeoutMillis值解释如下：<br>
+1.如果timeoutMillis =-1，一直阻塞不会超时。<br>
+2.如果timeoutMillis =0，不会阻塞，立即返回。<br>
+3.如果timeoutMillis&gt;0，最长阻塞timeoutMillis毫秒(超时)，如果期间有程序唤醒会立即返回。</p>
+<h3 id="唤醒">唤醒</h3>
+<p>上面小节我们了解了Handler的休眠逻辑，那如何唤醒呢？无非两种情况<br>
+1.指定的timeoutMillis时间已到，可以理解为自己睡醒了<br>
+2.别人叫醒<br>
+我们可以猜测一下唤醒线程的执行时机实际就是新加入的事件消息是否需要马上执行。
+我们来分析一下别人叫醒的地方。代码如下：</p>
+<pre><code>boolean enqueueMessage(Message msg, long when) {
+
+ ····
+ msg.when = when;
+            Message p = mMessages;
+            boolean needWake;
+            if (p == null || when == 0 || when &lt; p.when) {
+                // New head, wake up the event queue if blocked.
+                msg.next = p;
+                mMessages = msg;
+                needWake = mBlocked;
+            } else {
+                // Inserted within the middle of the queue.  Usually we don't have to wake
+                // up the event queue unless there is a barrier at the head of the queue
+                // and the message is the earliest asynchronous message in the queue.
+                needWake = mBlocked &amp;&amp; p.target == null &amp;&amp; msg.isAsynchronous();
+                Message prev;
+                for (;;) {
+                    prev = p;
+                    p = p.next;
+                    if (p == null || when &lt; p.when) {
+                        break;
+                    }
+                    if (needWake &amp;&amp; p.isAsynchronous()) {
+                        needWake = false;
+                    }
+                }
+                msg.next = p; // invariant: p == prev.next
+                prev.next = msg;
+            }
+
+            // We can assume mPtr != 0 because mQuitting is false.
+            if (needWake) {
+                nativeWake(mPtr);
+            }
+            
+</code></pre>
+<p>根据上述代码我们根据msg插入不同，将msg分为三类</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g23b90tfugj30gf05vdg8.jpg" alt="">
+1.如果异步线程向主线程新加入的消息是插入消息队列对头则需要唤醒队列</p>
+<pre><code>if (p == null || when == 0 || when &lt; p.when) {
+              // New head, wake up the event queue if blocked.
+              msg.next = p;
+              mMessages = msg;
+              needWake = mBlocked;
+          }
+</code></pre>
+<p>2.如果异步线程向主线程新加入的消息是<code>异步消息</code>，并且在队列的第二个位置，并且开启了<code>同步屏障</code>，则唤醒队列</p>
+<p>3.其他情况的msg,均不会唤醒消息队列</p>
+<p>大家可以看出上面强调了<code>异步线程</code>，因为主线程处于休眠状态。所以上面的方法只能异步线程调用。这个异步线程会是谁呢？留给大家一起思考。</p>
+<p>接下来看唤醒的逻辑，nativeWake方法内部关键代码如下：</p>
+<pre><code>void Looper::wake() {
+    uint64_t inc = 1;
+    // 向管道mWakeEventFd写入字符1
+    ssize_t nWrite = TEMP_FAILURE_RETRY(write(mWakeEventFd, &amp;inc, sizeof(uint64_t)));
+    if (nWrite != sizeof(uint64_t)) {
+        if (errno != EAGAIN) {
+            ALOGW(&quot;Could not write wake signal, errno=%d&quot;, errno);
+        }
+    }
+}
+</code></pre>
+<p>我们向管道中写入了数据，由于我们使用epoll监听了该管道，所以epoll_wait会被唤醒。</p>
+<h3 id="同步屏障机制sync-barrier">同步屏障机制（sync barrier）</h3>
+<p>有这样一个场景：某个消息加入消息队列后，我们希望他立即被处理掉。但是我们的消息都是按照系统运行时间排序的。我们如果达到该目的呢。如果了解同步屏障机制的话改问题就不在是一个问题。</p>
+<p>还是从代码入手</p>
+<pre><code>Message next() {
+        ....            
+           
+            nativePollOnce(ptr, nextPollTimeoutMillis);
+
+            synchronized (this) {
+                // Try to retrieve the next message.  Return if found.
+                final long now = SystemClock.uptimeMillis();
+                Message prevMsg = null;
+                Message msg = mMessages;
+                
+                //关键逻辑位置
+                if (msg != null &amp;&amp; msg.target == null) {
+                    // Stalled by a barrier.  Find the next asynchronous message in the queue.
+                    do {
+                        prevMsg = msg;
+                        msg = msg.next;
+                    } while (msg != null &amp;&amp; !msg.isAsynchronous());
+                }
+
+
+</code></pre>
+<p>从关键位置代码的逻辑可以看出只要队列头部的msg的target为null就会查找队列中的<code>异步消息</code>。</p>
+<p>我们如何发送target为null的msg到队列头部呢？可以使用该方法</p>
+<pre><code>int token = mHandler.getLooper().getQueue().postSyncBarrier();
+</code></pre>
+<p>然后我们发送消息时设置当前消息为异步消息就可以了。
+当然我们还需要移除target为null的消息,不然同步消息就永远不执行了。</p>
+<pre><code>mHandler.getLooper().getQueue().removeSyncBarrier(token)
+</code></pre>
+<p>Android系统中的触发View布局测量流程的msg就是一个异步消息，从而加速布局和绘制来减少卡顿。</p>
+<h3 id="空闲消息idelhadler">空闲消息（idelHadler）</h3>
+<pre><code>Message next() {
+   ...省略代码
+     // No more messages.
+                    nextPollTimeoutMillis = -1;
+                }
+
+                // Process the quit message now that all pending messages have been handled.
+                if (mQuitting) {
+                    dispose();
+                    return null;
+                }
+                //关键代码
+                // If first time idle, then get the number of idlers to run.
+                // Idle handles only run if the queue is empty or if the first message
+                // in the queue (possibly a barrier) is due to be handled in the future.
+                if (pendingIdleHandlerCount &lt; 0
+                        &amp;&amp; (mMessages == null || now &lt; mMessages.when)) {
+                    pendingIdleHandlerCount = mIdleHandlers.size();
+                }
+                if (pendingIdleHandlerCount &lt;= 0) {
+                    // No idle handlers to run.  Loop and wait some more.
+                    mBlocked = true;
+                    continue;
+                }
+
+                if (mPendingIdleHandlers == null) {
+                    mPendingIdleHandlers = new IdleHandler[Math.max(pendingIdleHandlerCount, 4)];
+                }
+                mPendingIdleHandlers = mIdleHandle
+</code></pre>
+<blockquote>
+<p>If first time idle, then get the number of idlers to run.Idle handles only run if the queue is empty or if the first message in the queue (possibly a barrier) is due to be handled in the future.</p>
+</blockquote>
+<p>线程轮询消息队列是发现没有要处理的消息时，发现注册了idelHadler。线程表示我就不休息了处理你吧。</p>
+<p>以上我们了解了idelHadler的执行时机。idelHadler有哪些应用场景呢？<br>
+<img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25xprh7vdj30m809ljrq.jpg" alt=""></p>
+<p>1.在开发过程中，在Activiy业务得到某个view的高度然后进行相关操作，在resume方法中必然是不好使的，因为还没有触发计算的msg并且还没有执行。 所以我们要等到消息执行完成才可以获取大小。怎么才能知道测量的消息执行完成了，idelHadler就派上了用场。我们可以在resume方法中想获取大小的逻辑，加到idelHadler回调中。</p>
+<p>2.resume方法中数据填充太耗时，我们同样可以加到idelHadler回调中加快展示速度。</p>
+<h2 id="事件驱动模型-flutter-future">事件驱动模型 Flutter future</h2>
+<p>相信一些小伙伴已经接触了Flutter开发，Flutter也是事件驱动的，也有自己的Event Loop。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25ochxfxcj30d30e23z9.jpg" alt=""></p>
+<p>可以看出其有两个消息队列 微任务队列(MicroTask queue)和事件队列(Event queue)</p>
+<ol>
+<li>事件队列包含外部事件，例如I/O, Timer，绘制事件等等</li>
+<li>微任务队列则包含有Dart内部的微任务，主要是通过scheduleMicrotask来调度</li>
+</ol>
+<p>同样我们不应该在Future执行耗时操作不然会卡。</p>
+<p>大家计算一下输出的结果是啥?</p>
+<pre><code>import 'dart:async';
+main() {
+  print('1');
+  scheduleMicrotask(() =&gt; print('3'));
+
+  new Future.delayed(new Duration(seconds:1),
+                     () =&gt; print('7'));
+  new Future(() =&gt; print('5'));
+  new Future(() =&gt; print('6'));
+
+  scheduleMicrotask(() =&gt; print('4'));
+
+  print('2');
+}
+
+</code></pre>
+<p>输出如下：</p>
+<pre><code>1
+2
+3
+4
+5
+6
+7
+</code></pre>
+<p>可以看出main方法内调用new Future() 或 scheduleMicrotask（）实质上是向队列中发送消息，main方法结束然后开始轮询消息队列执行回调。</p>
+<h2 id="总结">总结</h2>
+<p>本文通过事件驱动模型从而引出Handler和Future, 总结一下Handler中的几个关键名词 <code>epoll机制</code>,<code>休眠/唤醒策略</code>,<code>同步屏障</code>,<code>异步/同步消息</code>，<code>idelHadler</code>。Flutter Future总结的就比较少了记住两个两个任务队列 <code>微任务队列(MicroTask queue)</code>和<code>事件队列(Event queue)</code>。如有问题欢迎指正，共同学习共同进步。</p>
+<h2 id="qa">Q&amp;A</h2>
+<blockquote>
+<p>你以为你以为的就是你以为的吗？<br>
+实践是检验真理的唯一标准。</p>
+</blockquote>
+<h2 id="参考">参考</h2>
+<p><a href="https://baike.baidu.com/item/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%BC%96%E7%A8%8B/6417369?fr=aladdin">事件驱动编程</a><br>
+<a href="https://juejin.im/post/5c698a606fb9a049d81c63df#heading-18">Flutter学习之事件循环机制、数据库、网络请求</a><br>
+<a href="https://juejin.im/post/5a9a21f8518825558b3d5d35">Flutter for Android Developers - Async UI</a><br>
+<a href="https://juejin.im/post/5c4875f86fb9a049ff4e78cf">Flutter/Dart中的异步</a><br>
+<a href="https://www.jianshu.com/p/6979597125b2">你真的了解Handler吗？</a><br>
+<a href="http://www.paincker.com/android-async-message">异步消息</a><br>
+<a href="https://blog.csdn.net/asdgbc/article/details/79148180">Handler之同步屏障机制</a><br>
+<a href="http://www.sohu.com/a/145311556_675634">关于MessageQueue</a><br>
+<a href="https://mp.weixin.qq.com/s/KpeBqIEYeOzt_frANoGuSg?">你知道android的MessageQueue.IdleHandler吗</a><br>
+<a href="https://www.xuebuyuan.com/3204676.html">Android Event事件流分析</a><br>
+<a href="https://www.jianshu.com/p/c2e26c6d4ac1">Android应用处理MotionEvent的过程</a>
+<a href="https://www.cnblogs.com/welen/articles/5115213.html">事件驱动</a><br>
+<a href="https://www.zhihu.com/question/20122137/answer/14049112">epoll原理是什么</a></p>
+]]></content>
+    </entry>
+</feed>
