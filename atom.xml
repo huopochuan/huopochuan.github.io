@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-06-16T15:01:36.728Z</updated>
+    <updated>2019-06-17T03:20:55.611Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -16,12 +16,17 @@
         <link href="https://huopochuan.github.io//post/tangram-diao-yan">
         </link>
         <updated>2019-05-29T15:25:04.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="tangram">Tangram</h1>
-<h1 id="virtualview">VirtualView</h1>
+        <summary type="html"><![CDATA[<p>Tangram不仅仅是一个Native（iOS &amp; Android）的界面开发框架，而是我们从日常工作中沉淀出的一套<strong>界面解决方案</strong>，涵盖了Native SDK，GUI操作台，后端逻辑容器，组件库机制的一整套方案。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Tangram不仅仅是一个Native（iOS &amp; Android）的界面开发框架，而是我们从日常工作中沉淀出的一套<strong>界面解决方案</strong>，涵盖了Native SDK，GUI操作台，后端逻辑容器，组件库机制的一整套方案。</p>
+<!-- more -->
+<h1 id="tangram">Tangram</h1>
+<p>使用方便，模型构建的理解</p>
+<h1 id="动态组件virtualview">动态组件VirtualView</h1>
 <p>VirtualView是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
 <h2 id="virtualview使用流程">VirtualView使用流程</h2>
 <p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g43d48jg1uj30f609haac.jpg" alt=""></p>
-<h3 id="模板文件">模板文件</h3>
+<h3 id="模板文件编写">模板文件编写</h3>
 <pre><code>&lt;FrameLayout
         layoutWidth=&quot;340rp&quot;
         layoutHeight=&quot;wrap_content&quot;
@@ -66,19 +71,22 @@
             src=&quot;${rightImgUrl}&quot;/&gt;
 &lt;/FrameLayout&gt;
 </code></pre>
-<h3 id="编译输出文件">编译输出文件</h3>
+<h3 id="编译器编译模板文件">编译器编译模板文件</h3>
 <p><img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
+<h3 id="实时预览工具">实时预览工具</h3>
+<p>https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview</p>
+<p><img src="http://wxc.58corp.com/download/attachments/30215078/screenshot.gif" alt=""></p>
 <h2 id="实现原理分析">实现原理分析</h2>
 <h1 id="参考">参考</h1>
-<p>http://pingguohe.net/2017/12/07/Tangram-2.html</p>
-<p>http://tangram.pingguohe.net/docs/virtualview/about-virtualview</p>
-<p>https://www.jianshu.com/p/428ffc2c234e</p>
-<p>http://pingguohe.net/2017/12/27/deep-into-virtualview-android-1.html</p>
-<p>http://pingguohe.net/2018/01/09/a-taste-of-virtualview-android.html</p>
-<p>https://juejin.im/post/5a9e5c526fb9a028bb1883fc</p>
-<p><a href="http://pingguohe.net/2016/12/20/Tangram-design-and-practice.html">苹果核 - 页面动态化的基础 —— Tangram</a>
-<a href="http://pingguohe.net/2017/03/30/what-is-tangram.html">苹果核 - Tangram是我们对界面动态化的态度</a>
-<a href="http://pingguohe.net/2017/04/24/tangram-android-design.html">苹果核 - Tangram Android 的设计说明</a></p>
+<p><a href="http://pingguohe.net/2017/12/07/Tangram-2.html">苹果核 - 猫客页面内组件的动态化方案-Tangram 2.0</a></p>
+<p><a href="http://tangram.pingguohe.net/docs/virtualview/about-virtualview">动态组件——VirtualView</a></p>
+<p><a href="https://www.jianshu.com/p/428ffc2c234e">Tangram + Virtualview Android 初体验</a></p>
+<p><a href="http://pingguohe.net/2017/12/27/deep-into-virtualview-android-1.html">苹果核 - VirtualView Android实现详解（一）—— 文件格式与模板编译</a></p>
+<p><a href="http://pingguohe.net/2018/01/09/a-taste-of-virtualview-android.html">苹果核 - 天猫客户端组件动态化的方案——VirtualView 上手体验</a></p>
+<p><a href="https://juejin.im/post/5a9e5c526fb9a028bb1883fc">VirtualView Android实现详解（二）—— 虚拟控件的设计与实现</a></p>
+<p><a href="http://pingguohe.net/2016/12/20/Tangram-design-and-practice.html">苹果核 - 页面动态化的基础 —— Tangram</a></p>
+<p><a href="http://pingguohe.net/2017/03/30/what-is-tangram.html">苹果核 - Tangram是我们对界面动态化的态度</a></p>
+<p><a href="http://pingguohe.net/2017/04/24/tangram-android-design.html">苹果核 - Tangram Android 的设计说明</a></p>
 ]]></content>
     </entry>
     <entry>
