@@ -7,14 +7,14 @@
     
 <meta charset="utf-8" >
 
-<title>Tangram从入门到？ | 琥珀川</title>
+<title>Tangram动态化方案探索 | 琥珀川</title>
 <meta name="description" content="大道至简 知易行难">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561308805877">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561396333523">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561308805877" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561396333523" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -90,7 +90,7 @@
             <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/tangram-diao-yan.png')">
             </div>
           
-          <h2 class="post-title">Tangram从入门到？</h2>
+          <h2 class="post-title">Tangram动态化方案探索</h2>
           <div class="post-info post-detail-info">
             <span><i class="icon-calendar-outline"></i> 2019-05-29</span>
             
@@ -107,8 +107,12 @@
       <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
     <strong class="toc-title">文章目录</strong>
            <ul class="markdownIt-TOC">
-<li><a href="#vlayout">Vlayout</a></li>
-<li><a href="#tangram">Tangram</a></li>
+<li><a href="#%E5%B8%83%E5%B1%80%E7%81%B5%E6%B4%BB%E6%80%A7vlayout">布局灵活性Vlayout</a>
+<ul>
+<li><a href="#%E5%B8%83%E5%B1%80">布局</a></li>
+<li><a href="#%E7%BB%84%E4%BB%B6">组件</a></li>
+</ul>
+</li>
 <li><a href="#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6virtualview">动态组件VirtualView</a>
 <ul>
 <li><a href="#virtualview%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B">VirtualView使用流程</a>
@@ -145,10 +149,14 @@
 
 
           <div class="post-content">
-            <p>Tangram不仅仅是一个Native（iOS &amp; Android）的界面开发框架，而是我们从日常工作中沉淀出的一套<strong>界面解决方案</strong>，涵盖了Native SDK，GUI操作台，后端逻辑容器，组件库机制的一整套方案。</p>
+            <p>近几年跨平台动态化方案盛行，从最初的Hybrid到FaceBook出品的RN和阿里出品的Weex再到Google出品的Flutter。可以看出大厂也在不断探索更快速更高效的开放模式，毕竟技术为项目服务，项目为用户服务。只要更高效的迭代方式，才能尽可能的去提升用户体验。<br>
+其实目前58app的首页，详情页可以理解为弱的跨端动态化技术，双端都支持相同的协议，根据不同的协议作出不同的UI展示和逻辑处理。而tangram实现了较强的动态化技术，及更有灵活性。可以减少发版次数。<br>
+tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
 <!-- more -->
-<h1 id="vlayout">Vlayout</h1>
-<h1 id="tangram">Tangram</h1>
+<h1 id="布局灵活性vlayout">布局灵活性Vlayout</h1>
+<p>首先我们需要理解Tangram布局模型</p>
+<h2 id="布局">布局</h2>
+<h2 id="组件">组件</h2>
 <p>使用方便，模型构建的理解</p>
 <h1 id="动态组件virtualview">动态组件VirtualView</h1>
 <p>VirtualView是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
