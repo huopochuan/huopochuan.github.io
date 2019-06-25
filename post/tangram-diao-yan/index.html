@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561481236295">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561481882620">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561481236295" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561481882620" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -108,7 +108,7 @@
     <strong class="toc-title">文章目录</strong>
            <ul class="markdownIt-TOC">
 <li><a href="#%E5%B8%83%E5%B1%80%E7%81%B5%E6%B4%BB%E6%80%A7">布局灵活性</a></li>
-<li><a href="#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6">动态组件</a>
+<li><a href="#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6virtualview">动态组件(VirtualView)</a>
 <ul>
 <li><a href="#virtualview%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B">VirtualView使用流程</a>
 <ul>
@@ -152,10 +152,25 @@ tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX F
 <h1 id="布局灵活性">布局灵活性</h1>
 <p>Tangream布局的灵活性是依赖阿里开源<a href="https://github.com/alibaba/vlayout">Vlayout</a>实现的。通过重写Recyclerview的LayoutManger实现自定义灵活布局。首先我们需要理解Tangram模型
 <img src="https://upload-images.jianshu.io/upload_images/944365-eb7c5d4acab30ace.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/680/format/webp" alt="">
-在Tangram框架中界面由卡片（Card） 和 组件（Item）构成。卡片负责布局组件，Tangram框架内置了很多Card样式。（Tangram2.0更新，对Tangram模型进行了重新的定义，从原来的『卡片』+『组件』升级成『布局』+『组件』，即原来的『卡片』认为是一种具有布局能力的组件，具备嵌套另一组件的能力）
-目前卡片(布局)支持的样式如下：
-流式(网格)布局，一拖N布局，浮动布局固定布局，吸顶布局，瀑布流布局，轮播/横向滚动布局，横向线性滚动布局。</p>
-<h1 id="动态组件">动态组件</h1>
+在Tangram框架中界面由卡片（Card） 和 组件（Item）构成。卡片负责布局组件，Tangram框架内置了很多Card样式。（Tangram2.0更新，对Tangram模型进行了重新的定义，从原来的『卡片』+『组件』升级成『布局』+『组件』，即原来的『卡片』认为是一种具有布局能力的组件，具备嵌套另一组件的能力）<br>
+目前卡片(布局)支持的样式如下：<br>
+流式(网格)布局(container-oneColumn)，一拖N布局(container-onePlusN)，浮动布局固定布局(container-float)，吸顶布局(container-sticky)，瀑布流布局(container-waterfall)等。具体可以参考<a href="http://tangram.pingguohe.net/docs/layout-support/inner-support">内置布局支持</a><br>
+当产品提出想更改布局样式的时候只需更改协议的type即可，总会有一种满足他。</p>
+<pre><code>{
+&quot;type&quot;: &quot;container-oneColumn&quot;, ---&gt; 描述布局类型
+&quot;style&quot;: { ---&gt; 描述样式
+  ...
+},
+&quot;header&quot;: { ---&gt; 描述header
+},
+&quot;items&quot;: [ ---&gt; 描述组件列表
+  ...
+],
+&quot;footer&quot;: { ---&gt; 描述footer
+}
+}
+</code></pre>
+<h1 id="动态组件virtualview">动态组件(VirtualView)</h1>
 <p>VirtualView是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
 <h2 id="virtualview使用流程">VirtualView使用流程</h2>
 <p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g4balm7kw5j30h90fsabd.jpg" alt=""></p>
