@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-06-25T16:58:04.402Z</updated>
+    <updated>2019-06-25T17:08:59.332Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -46,7 +46,8 @@ tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX F
 }
 </code></pre>
 <h1 id="动态组件virtualview">动态组件(VirtualView)</h1>
-<p>VirtualView是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
+<p>Tangram框架中将组件分为原生组件和动态组件。原生组件可以理解同我们日常开发首页item一样将编写ViewHolder然后根据type进行注册。这里重点说一下动态组件，动态组件是Tangram动态化的另一重要体现。<br>
+动态组件(VirtualView)是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
 <h2 id="virtualview使用流程">VirtualView使用流程</h2>
 <p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g4balm7kw5j30h90fsabd.jpg" alt=""></p>
 <p>可以看出VirtualView的整体框架View模板与数据分离，先下发模板布局，在下发数据进行模板填充。</p>

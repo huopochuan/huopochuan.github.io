@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561481882620">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561482537643">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561481882620" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561482537643" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -171,7 +171,8 @@ tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX F
 }
 </code></pre>
 <h1 id="动态组件virtualview">动态组件(VirtualView)</h1>
-<p>VirtualView是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
+<p>Tangram框架中将组件分为原生组件和动态组件。原生组件可以理解同我们日常开发首页item一样将编写ViewHolder然后根据type进行注册。这里重点说一下动态组件，动态组件是Tangram动态化的另一重要体现。<br>
+动态组件(VirtualView)是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
 <h2 id="virtualview使用流程">VirtualView使用流程</h2>
 <p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g4balm7kw5j30h90fsabd.jpg" alt=""></p>
 <p>可以看出VirtualView的整体框架View模板与数据分离，先下发模板布局，在下发数据进行模板填充。</p>
