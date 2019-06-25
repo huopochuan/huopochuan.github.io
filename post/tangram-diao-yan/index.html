@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561480546952">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561481236295">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561480546952" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561481236295" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -107,8 +107,8 @@
       <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
     <strong class="toc-title">文章目录</strong>
            <ul class="markdownIt-TOC">
-<li><a href="#%E5%B8%83%E5%B1%80%E7%81%B5%E6%B4%BB%E6%80%A7vlayout">布局灵活性Vlayout</a></li>
-<li><a href="#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6virtualview">动态组件VirtualView</a>
+<li><a href="#%E5%B8%83%E5%B1%80%E7%81%B5%E6%B4%BB%E6%80%A7">布局灵活性</a></li>
+<li><a href="#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6">动态组件</a>
 <ul>
 <li><a href="#virtualview%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B">VirtualView使用流程</a>
 <ul>
@@ -146,16 +146,16 @@
 
           <div class="post-content">
             <p>近几年跨平台动态化方案盛行，从最初的Hybrid到FaceBook出品的RN和阿里出品的Weex再到Google出品的Flutter。可以看出大厂也在不断探索更快速更高效的开放模式，毕竟技术为项目服务，项目为用户服务。只要更高效的迭代方式，才能尽可能的去提升用户体验。<br>
-其实目前58app的首页，详情页可以理解为弱的跨端动态化技术，双端都支持相同的协议，根据不同的协议作出不同的UI展示和逻辑处理。而tangram实现了较强的动态化技术，及更有灵活性。可以减少发版次数。<br>
+目前58app的首页，详情页均可以理解为弱的跨端动态化技术，双端都支持相同的协议，根据不同的协议作出不同的UI展示和逻辑处理。而tangram实现了较强的动态化技术，及更有灵活性。可以减少发版次数。<br>
 tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
 <!-- more -->
-<h1 id="布局灵活性vlayout">布局灵活性Vlayout</h1>
+<h1 id="布局灵活性">布局灵活性</h1>
 <p>Tangream布局的灵活性是依赖阿里开源<a href="https://github.com/alibaba/vlayout">Vlayout</a>实现的。通过重写Recyclerview的LayoutManger实现自定义灵活布局。首先我们需要理解Tangram模型
 <img src="https://upload-images.jianshu.io/upload_images/944365-eb7c5d4acab30ace.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/680/format/webp" alt="">
-在Tangram框架中界面由卡片（Card） 和 组件（Item）构成。卡片负责布局组件，Tangram框架内置了很多Card样式。（Tangram2.0更新对Tangram模型进行了重新的定义，从原来的『卡片』+『组件』升级成『布局』+『组件』，即原来的『卡片』认为是一种具有布局能力的组件，具备嵌套另一组件的能力）
+在Tangram框架中界面由卡片（Card） 和 组件（Item）构成。卡片负责布局组件，Tangram框架内置了很多Card样式。（Tangram2.0更新，对Tangram模型进行了重新的定义，从原来的『卡片』+『组件』升级成『布局』+『组件』，即原来的『卡片』认为是一种具有布局能力的组件，具备嵌套另一组件的能力）
 目前卡片(布局)支持的样式如下：
 流式(网格)布局，一拖N布局，浮动布局固定布局，吸顶布局，瀑布流布局，轮播/横向滚动布局，横向线性滚动布局。</p>
-<h1 id="动态组件virtualview">动态组件VirtualView</h1>
+<h1 id="动态组件">动态组件</h1>
 <p>VirtualView是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
 <h2 id="virtualview使用流程">VirtualView使用流程</h2>
 <p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g4balm7kw5j30h90fsabd.jpg" alt=""></p>
