@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561566449764">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561566477883">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561566449764" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561566477883" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -132,6 +132,8 @@
 <li><a href="#%E6%8E%A7%E4%BB%B6%E6%89%A9%E5%B1%95">控件扩展</a></li>
 </ul>
 </li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
 
          </div>
@@ -277,27 +279,19 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
 <p>Tangram框架为我们内置了NText， VText， NImage， VImage等这些原生控件和虚拟控件。但是有些这些控件并不能满足我们所以的业务场景，如需要展示个性话进度条的View。这种情况如何处理呢，框架为我们提供了控件扩展的能力。<br>
 1.在编译工具配置文件配置映射关系 如 <code>VIEW_ID_PicassoImage=1014</code><br>
 2. 在客户端实现并注册</p>
-<pre><code>  sViewManager.getViewFactory().registerBuilder(1014,new PicassoImage.Builder());
- ```
-# 总结
-Tangram通过提升布局灵活性和使用动态组件达到了较强了动态化能力。动态组件将我们xml布局文件的编写由native端移到server端，从而做到的界面动态化的能力。
-
-# 参考
-[苹果核 - 猫客页面内组件的动态化方案-Tangram 2.0](http://pingguohe.net/2017/12/07/Tangram-2.html)
-
-[动态组件——VirtualView](http://tangram.pingguohe.net/docs/virtualview/about-virtualview)
-
-[苹果核 - VirtualView Android实现详解（一）—— 文件格式与模板编译](http://pingguohe.net/2017/12/27/deep-into-virtualview-android-1.html)
-
-[VirtualView Android实现详解（二）—— 虚拟控件的设计与实现](https://juejin.im/post/5a9e5c526fb9a028bb1883fc)
-
-[苹果核 - 天猫客户端组件动态化的方案——VirtualView 上手体验](http://pingguohe.net/2018/01/09/a-taste-of-virtualview-android.html)
-
-[苹果核 - 页面动态化的基础 —— Tangram](http://pingguohe.net/2016/12/20/Tangram-design-and-practice.html)
-
-[苹果核 - Tangram是我们对界面动态化的态度](http://pingguohe.net/2017/03/30/what-is-tangram.html)
-
-[苹果核 - Tangram Android 的设计说明](http://pingguohe.net/2017/04/24/tangram-android-design.html)</code></pre>
+<pre><code>    sViewManager.getViewFactory().registerBuilder(1014,new PicassoImage.Builder());
+</code></pre>
+<h1 id="总结">总结</h1>
+<p>Tangram通过提升布局灵活性和使用动态组件达到了较强了动态化能力。动态组件将我们xml布局文件的编写由native端移到server端，从而做到的界面动态化的能力。</p>
+<h1 id="参考">参考</h1>
+<p><a href="http://pingguohe.net/2017/12/07/Tangram-2.html">苹果核 - 猫客页面内组件的动态化方案-Tangram 2.0</a></p>
+<p><a href="http://tangram.pingguohe.net/docs/virtualview/about-virtualview">动态组件——VirtualView</a></p>
+<p><a href="http://pingguohe.net/2017/12/27/deep-into-virtualview-android-1.html">苹果核 - VirtualView Android实现详解（一）—— 文件格式与模板编译</a></p>
+<p><a href="https://juejin.im/post/5a9e5c526fb9a028bb1883fc">VirtualView Android实现详解（二）—— 虚拟控件的设计与实现</a></p>
+<p><a href="http://pingguohe.net/2018/01/09/a-taste-of-virtualview-android.html">苹果核 - 天猫客户端组件动态化的方案——VirtualView 上手体验</a></p>
+<p><a href="http://pingguohe.net/2016/12/20/Tangram-design-and-practice.html">苹果核 - 页面动态化的基础 —— Tangram</a></p>
+<p><a href="http://pingguohe.net/2017/03/30/what-is-tangram.html">苹果核 - Tangram是我们对界面动态化的态度</a></p>
+<p><a href="http://pingguohe.net/2017/04/24/tangram-android-design.html">苹果核 - Tangram Android 的设计说明</a></p>
 
           </div>
         </div>
