@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-06-25T17:10:02.127Z</updated>
+    <updated>2019-06-26T12:54:09.072Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -45,21 +45,27 @@ tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX F
 }
 }
 </code></pre>
+<p>基于以上Tangram做到了布局灵活性的目的。</p>
 <h1 id="动态组件virtualview">动态组件(VirtualView)</h1>
-<p>Tangram框架中将组件分为原生组件和动态组件。原生组件可以理解同我们日常开发首页item一样将编写ViewHolder然后根据type进行注册。这里重点说一下动态组件，动态组件是Tangram动态化的另一重要体现。<br>
-动态组件(VirtualView)是阿里推出的组件动态更新解决方案，解决APP native页面跟新样式时，需要发版处理。适合经常做运营推广的页面。</p>
+<p>上面提到了卡片(布局)，下面介绍一下卡片操作的对象<code>组件</code>。Tangram框架中将组件分为原生组件和动态组件。原生组件可以理解同我们日常开发首页item一样将编写ViewHolder然后根据type进行注册。这里重点说一下动态组件，动态组件是Tangram动态化的另一重要体现。<br>
+动态组件(VirtualView)是阿里推出的组件动态更新解决方案，解决APP native页面更新样式时，需要发版处理。适合经常做运营推广的页面。</p>
 <h2 id="virtualview使用流程">VirtualView使用流程</h2>
 <p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g4balm7kw5j30h90fsabd.jpg" alt=""></p>
 <p>可以看出VirtualView的整体框架View模板与数据分离，先下发模板布局，在下发数据进行模板填充。</p>
 <h3 id="模板文件编写">模板文件编写</h3>
 <p>VirtualView框架内置了一些基础原子控件(NText,VText,NImage,NLine,VLine...)和基础容器控件(FrameLayout,GridLayout,VHLayout,NFrameLayout,NGridLayout,NVHLayout...)。我们可以使用这些提供的控件去编写我们的XML布局文件。（可以看到控件的命名规则是以N和V开始，有什么区别呢？）</p>
 <ol>
-<li>如何在布局文件中绑定数据？
-与DataBinding思想一致，通过EL表达式访问数据字段 如 <code>${title}</code> ，同时数据绑定支持三元运算符如 <code>@{${logoUrl} ? visible : invisible }</code></li>
 <li>
-<pre><code>事件声明
-</code></pre>
-默认情况下组件是不触发事件的，只有在模板里显示地声明了才具备触发能力。事件声明属性字段是 flag，其值可以通过 | 组合一次性声明多个。如 <code>flag=&quot;flag_exposure|flag_clickable&quot;</code></li>
+<p>如何在布局文件中绑定数据？<br>
+与DataBinding思想一致，通过EL表达式访问数据字段 如 <code>${title}</code> ，同时数据绑定支持三元运算符如 <code>@{${logoUrl} ? visible : invisible }</code></p>
+</li>
+<li>
+<p>事件声明<br>
+默认情况下组件是不触发事件的，只有在模板里显示地声明了才具备触发能力。事件声明属性字段是 flag，其值可以通过 | 组合一次性声明多个。如 <code>flag=&quot;flag_exposure|flag_clickable&quot;</code></p>
+</li>
+<li>
+<p>事件处理</p>
+</li>
 </ol>
 <pre><code>&lt;FrameLayout
         layoutWidth=&quot;340rp&quot;
@@ -104,12 +110,13 @@ tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX F
 <p><img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
 <h3 id="实时预览工具">实时预览工具</h3>
 <p>https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview</p>
-<p><img src="http://wxc.58corp.com/download/attachments/30215078/screenshot.gif" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif" alt=""></p>
 <h2 id="原生控件与虚拟控件">原生控件与虚拟控件</h2>
-<p>目前VirtualView提供的布局容器包含帧布局和线性布局，网格布局等，没有相对布局和约束布局的这些。因此当我们要实现一起布局效果的时候就需要嵌套很多次， 这样会影响渲染性能。基于以上问题VirtualView提出了原生控件与虚拟化控件，</p>
+<p>上面抛出个问题：可以看到控件的命名规则是以N和V开始，有什么区别呢？回复如下。
+目前VirtualView提供的布局容器包含帧布局和线性布局，网格布局等，没有相对布局和约束布局的这些。因此当我们要实现一起布局效果的时候就需要嵌套很多次， 这样会影响渲染性能。基于以上问题VirtualView提出了原生控件与虚拟化控件，</p>
 <p><img src="https://user-gold-cdn.xitu.io/2018/3/6/161fa989fea82cc1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
-<p>原生控件：就是通过封装了系统原生 View 来实现的控件；
-虚拟化控件：使用 canvas 绘制创建的控件，它需要依托一个原生容器控件作为宿主容器，承重其最终的展示；</p>
+<p>原生控件：就是通过封装了系统原生 View 来实现的控件；（命名规则是以N开始）<br>
+虚拟化控件：使用 canvas 绘制创建的控件，它需要依托一个原生容器控件作为宿主容器，承重其最终的展示；（命名规则是以V开始）</p>
 <blockquote>
 <p>它开创了一种虚拟化开发基础控件的技术，使用方只要按照指定协议实现一个基础控件的尺寸计算、绘制逻辑、布局逻辑，即能实现在宿主容器的 canvas 里实现直接绘制 UI 内容的，让最终渲染出来的视图结构呈现扁平化，提升组件渲染性能。同时为了解决虚拟化 View 带来的原生 View 的能力损失的问题，它支持加载和渲染原生基础控件，两者组合产生合力，既能最大限度发挥性能提升，又能满足特殊场景下的业务需求。</p>
 </blockquote>
