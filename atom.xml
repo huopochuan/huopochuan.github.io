@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-06-26T16:24:49.416Z</updated>
+    <updated>2019-06-26T16:27:31.648Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -141,8 +141,8 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
 <p>它开创了一种虚拟化开发基础控件的技术，使用方只要按照指定协议实现一个基础控件的尺寸计算、绘制逻辑、布局逻辑，即能实现在宿主容器的 canvas 里实现直接绘制 UI 内容的，让最终渲染出来的视图结构呈现扁平化，提升组件渲染性能。同时为了解决虚拟化 View 带来的原生 View 的能力损失的问题，它支持加载和渲染原生基础控件，两者组合产生合力，既能最大限度发挥性能提升，又能满足特殊场景下的业务需求。</p>
 </blockquote>
 <h2 id="控件扩展">控件扩展</h2>
-<p>Tangram框架为我们内置了NText， VText， NImage， VImage等这些原生控件和虚拟控件。但是有些这些控件并不能满足我们所以的业务场景，如需要展示个性话进度条的View。这种情况如何处理呢，框架为我们提供了控件扩展的能力。
-1.在编译工具配置文件配置映射关系 如 <code>VIEW_ID_PicassoImage=1014</code>
+<p>Tangram框架为我们内置了NText， VText， NImage， VImage等这些原生控件和虚拟控件。但是有些这些控件并不能满足我们所以的业务场景，如需要展示个性话进度条的View。这种情况如何处理呢，框架为我们提供了控件扩展的能力。<br>
+1.在编译工具配置文件配置映射关系 如 <code>VIEW_ID_PicassoImage=1014</code><br>
 2. 在客户端实现并注册</p>
 <pre><code>  sViewManager.getViewFactory().registerBuilder(1014,new PicassoImage.Builder());
  ```
