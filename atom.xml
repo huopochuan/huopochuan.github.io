@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-06-27T06:43:01.059Z</updated>
+    <updated>2019-06-27T06:43:25.516Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -18,11 +18,11 @@
         <updated>2019-06-21T15:25:04.000Z</updated>
         <summary type="html"><![CDATA[<p>近几年跨平台动态化方案盛行，从最初的Hybrid到FaceBook出品的RN和阿里出品的Weex再到Google出品的Flutter。可以看出大厂也在不断探索更快速更高效的开放模式，毕竟技术为项目服务，项目为用户服务。只有更高效的迭代方式，才能尽可能的去提升用户体验。<br>
 目前58app的首页，详情页均可以理解为弱的跨端动态化技术，双端都支持相同的协议，根据不同的协议作出不同的UI展示和逻辑处理。而tangram实现了较强的动态化技术，及更有灵活性。可以减少发版次数。<br>
-tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
+Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>近几年跨平台动态化方案盛行，从最初的Hybrid到FaceBook出品的RN和阿里出品的Weex再到Google出品的Flutter。可以看出大厂也在不断探索更快速更高效的开放模式，毕竟技术为项目服务，项目为用户服务。只有更高效的迭代方式，才能尽可能的去提升用户体验。<br>
 目前58app的首页，详情页均可以理解为弱的跨端动态化技术，双端都支持相同的协议，根据不同的协议作出不同的UI展示和逻辑处理。而tangram实现了较强的动态化技术，及更有灵活性。可以减少发版次数。<br>
-tangram也是一个动态化技术，Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
+Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
 <!-- more -->
 <h1 id="布局灵活性">布局灵活性</h1>
 <p>Tangream布局的灵活性是依赖阿里开源<a href="https://github.com/alibaba/vlayout">Vlayout</a>实现的。通过重写Recyclerview的LayoutManger实现自定义灵活布局。首先我们需要理解Tangram模型
