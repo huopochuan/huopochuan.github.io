@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-06-27T06:16:49.294Z</updated>
+    <updated>2019-06-27T06:43:01.059Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -127,7 +127,8 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
     }
 </code></pre>
 <h3 id="编译器编译模板文件">编译器编译模板文件</h3>
-<p><img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
+<p>为了提升解析效率和减少xml文件中的冗余数据，Tangram框架会将编写的xml布局文件编译为二进制文件。
+<img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
 <h3 id="实时预览工具">实时预览工具</h3>
 <p>为了提升开发效率同样推出了<a href="https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview">实时预览工具</a>。</p>
 <p><img src="https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif" alt=""></p>
