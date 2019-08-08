@@ -1,0 +1,530 @@
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Android端ORM框架调研与应用 | 琥珀川</title>
+<meta name="description" content="大道至简 知易行难">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565248126849">
+<link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://huopochuan.github.io/">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565248126849" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://huopochuan.github.io/">
+        <h1 class="site-title">琥珀川</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            你好 世界
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Android端ORM框架调研与应用</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-07-21</span>
+            
+          </div>
+
+
+
+  
+          <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+  <div id="toc-article" class="toc-article">
+      <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+    <strong class="toc-title">文章目录</strong>
+           <ul class="markdownIt-TOC">
+<li><a href="#orm%E6%98%AF%E4%BB%80%E4%B9%88">ORM是什么</a></li>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8orm">为什么使用ORM</a></li>
+<li><a href="#orm%E6%A1%86%E6%9E%B6%E9%80%89%E5%9E%8B">ORM框架选型</a>
+<ul>
+<li><a href="#orm%E6%A1%86%E6%9E%B6%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94">ORM框架性能对比</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94">使用方式对比</a>
+<ul>
+<li><a href="#greendao%E6%A1%86%E6%9E%B6">GreenDao框架</a>
+<ul>
+<li><a href="#%E5%BC%95%E5%85%A5">引入</a></li>
+<li><a href="#table%E6%98%A0%E5%B0%84">table映射</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%9D%E5%A7%8B%E5%8C%96">数据库初始化</a></li>
+<li><a href="#%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5%E6%93%8D%E4%BD%9C">增删改查操作</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8D%87%E7%BA%A7">数据库升级</a></li>
+<li><a href="#%E4%B8%8Erxjava%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8">与Rxjava配合使用</a></li>
+</ul>
+</li>
+<li><a href="#room%E6%A1%86%E6%9E%B6">ROOM框架</a>
+<ul>
+<li><a href="#%E5%BC%95%E5%85%A5-2">引入</a></li>
+<li><a href="#table%E6%98%A0%E5%B0%84-2">table映射</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%9D%E5%A7%8B%E5%8C%96-2">数据库初始化</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5%E6%93%8D%E4%BD%9C">数据增删改查操作</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8D%87%E7%BA%A7-2">数据库升级</a></li>
+<li><a href="#%E4%B8%8Erxjava2-%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8">与Rxjava2 配合使用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%AF%B9%E6%AF%94%E6%80%BB%E7%BB%93">对比总结</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BA%94%E7%94%A8">应用</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+         </div>
+   <script type="text/javascript">
+  function showToc(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:block");
+    show_toc_btn.setAttribute("style","display:none");
+    };
+  function showBtn(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:none");
+    show_toc_btn.setAttribute("style","display:block");
+    };
+   </script>
+    
+
+
+          <div class="post-content">
+            <p>摘要：ORM 表示全称为对象关系映射（Object Relational Mapping）。  O 我们理解为java对象  R 我们理解为关系型数据库(sqllite)  M 我们理解为从java对象到关系型数据库建立映射关系的过程是一种为了解决面向对象与关系型数据库存在不匹配现象的技术，简单说，orm通过描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中</p>
+<!-- more -->
+<h1 id="orm是什么">ORM是什么</h1>
+<p>ORM 表示全称为对象关系映射（Object Relational Mapping）。<br>
+O 我们理解为java对象<br>
+R 我们理解为关系型数据库(sqllite)<br>
+M 我们理解为从java对象到关系型数据库建立映射关系的过程<br>
+是一种为了解决面向对象与关系型数据库存在不匹配现象的技术，简单说，orm通过描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。<br>
+<img src="https://ws2.sinaimg.cn/large/006tNc79ly1g5rm3qck32j30ca0830sy.jpg" alt=""></p>
+<h1 id="为什么使用orm">为什么使用ORM</h1>
+<blockquote>
+<p>存在即合理</p>
+</blockquote>
+<p>ORM框架的存在大大提高了开发效率，ORM框架会自动为我们生成对象到数据库建立映射关系的逻辑，不需要我们在重复的进行代码编写。如下代码ORM框架会为我们自动生成</p>
+<pre><code>final Cursor _cursor = __db.query(_statement);
+    try {
+      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow(&quot;id&quot;);
+      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow(&quot;name&quot;);
+</code></pre>
+<h1 id="orm框架选型">ORM框架选型</h1>
+<blockquote>
+<p>没有最好，只有最合适</p>
+</blockquote>
+<p>目前业内有很多ORM框架如ORMLite, Sugar ORM, Freezer, DBFlowrequery, GreenDAO，Room，如何在众多中的框架中进行抉择？我们主要从性能和使用方式进行对比，选择最合适的。</p>
+<h2 id="orm框架性能对比">ORM框架性能对比</h2>
+<p>性能对比主要是测试Orm框架增删改查的耗时。这里github上的一个开 源项目已经明确列出了各个ORM框架的性能对比数据。 <a href="https://github.com/AlexeyZatsepin/Android-ORM-benchmark">详情地址</a><br>
+<img src="https://ws1.sinaimg.cn/large/006tNc79ly1g5qfoua77rj30nx05dq3s.jpg" alt=""><br>
+通过数据我们看出GreenDAO, Room框架的整体性能是很出色的。所以最终我们选择这两个框架中进行选择。</p>
+<h2 id="使用方式对比">使用方式对比</h2>
+<p>对于现有的ORM框架在使用方式上其实大同小异，我们在table映射，数据库初始化，增删改查操作，数据库升级和与Rxjava配合使用，这5点进行对比。</p>
+<h3 id="greendao框架">GreenDao框架</h3>
+<p>GreenDao框架目前存在两种使用方式。 一种是通过引入GreenDao的Gradle插件来生成所需要了类，另一种是新建一个java工程通过GreenDao的<a href="http://greenrobot.org/greendao/documentation/generator/">generator</a>来构造所需要的类。<br>
+本文主要讲解第一种使用方式。</p>
+<blockquote>
+<p>In most cases, we recommend to use the new Gradle plugin instead. However, some advanced features are currently only supported by the generator. For example multiple schemas.<br>
+<img src="https://ws1.sinaimg.cn/large/006tNc79ly1g5s6ghsse2j308w02kq39.jpg" alt=""></p>
+</blockquote>
+<h4 id="引入">引入</h4>
+<p>工程中引入GreenDao插件</p>
+<pre><code>// In your root build.gradle file:
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral() // add repository
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.1'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
+    }
+}
+ 
+// In your app projects build.gradle file:
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+
+greendao {
+    schemaVersion 1 //数据库版本号
+    daoPackage 'com.speedystone.greendaodemo.db'// 设置DaoMaster、DaoSession、Dao 包名
+    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+}
+
+dependencies {
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+}
+</code></pre>
+<h4 id="table映射">table映射</h4>
+<p>我们对数据库Table的创建</p>
+<pre><code>@Entity
+public class Student {
+    @Id(autoincrement = true)
+    Long id;
+    @Unique
+    int studentNo;//学号
+    int age; //年龄
+    String telPhone;//手机号
+    String sex; //性别
+    String name;//姓名
+    String address;//家庭住址
+    String schoolName;//学校名字
+    String grade;//几年级
+    }
+</code></pre>
+<h4 id="数据库初始化">数据库初始化</h4>
+<pre><code> /**
+     * 初始化GreenDao,直接在Application中进行初始化操作
+     */
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, &quot;aserbao.db&quot;);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
+    
+    private DaoSession daoSession;
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+</code></pre>
+<h4 id="增删改查操作">增删改查操作</h4>
+<ol>
+<li>添加数据</li>
+</ol>
+<pre><code>daoSession.insert(student); //插入数据
+daoSession.insertOrReplace(student);//插入或替换
+</code></pre>
+<ol start="2">
+<li>删除数据</li>
+</ol>
+<pre><code>daoSession.delete(student);
+daoSession.deleteAll(Student.class);
+</code></pre>
+<ol start="3">
+<li>修改数据</li>
+</ol>
+<pre><code>daoSession.update(student);
+</code></pre>
+<ol start="4">
+<li>查询数据<br>
+方式1：loadAll()：查询所有数据。<br>
+方式2：queryRaw()：根据条件查询。<br>
+方式3：queryBuilder() : 方便查询的创建，后面详细讲解。</li>
+</ol>
+<pre><code> List&lt;Student&gt; students = daoSession.loadAll(Student.class); //方式1
+ List&lt;Student&gt; students = daoSession.queryRaw(Student.class, &quot; where id = ?&quot;, s); //方式2
+   QueryBuilder&lt;Student&gt; qb = daoSession.queryBuilder(Student.class);
+        List&lt;Student&gt; list = qb.list(); // 方式3
+ 
+</code></pre>
+<p>方式3的使用方式比较繁琐，queryBuilder定义了很多sql语句对应的方法如 eq()，like()，between()等等。</p>
+<h4 id="数据库升级">数据库升级</h4>
+<p>GreenDao的升级思路：</p>
+<ol>
+<li>创建临时表TMP_,复制原来的数据库到临时表中；</li>
+<li>删除之前的原表；</li>
+<li>创建新表；</li>
+<li>将临时表中的数据复制到新表中，最后将TMP_表删除掉；<br>
+GreenDao数据库升级步骤较为复杂繁琐，并且我们新增加的和修改的字段做好为String类型，避免字段不能为null的情况发生。</li>
+</ol>
+<h4 id="与rxjava配合使用">与Rxjava配合使用</h4>
+<p>GreenDao支持与Rxjava一起使用每个Dao都有rx()方法返回Observable进行链式调用和线程切换操作。</p>
+<pre><code>GreenDaoUtil.getDaoSession(activity)
+            .getPeopleBeanDao()
+            .queryBuilder()
+            .where(PeopleBeanDao.Properties.Age.gt(30))
+            .rx()
+            .list()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                new Action1&lt;List&lt;PeopleBean&gt;&gt;() {
+                    @Override
+                    public void call(List&lt;PeopleBean&gt; peopleBeen) {
+                    }
+                }, 
+                new Action1&lt;Throwable&gt;() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            );
+</code></pre>
+<h3 id="room框架">ROOM框架</h3>
+<p>ROOM框架是Google在2017年Google IO大会上推出的官方数据框框架。<br>
+<img src="https://ws2.sinaimg.cn/large/006tNc79ly1g5s6ebd783j30go0f2dgo.jpg" alt=""></p>
+<h4 id="引入-2">引入</h4>
+<p>直接在对应的Moudle添加依赖即可</p>
+<pre><code>dependencies {
+ api &quot;android.arch.persistence.room:runtime:$1.1.1&quot;
+ annotationProcessor &quot;android.arch.persistence.room:compiler:$1.1.1&quot;
+}
+</code></pre>
+<h4 id="table映射-2">table映射</h4>
+<pre><code>@Entity(indices = {@Index(value = {&quot;first_name&quot;, &quot;last_name&quot;},
+        unique = true)})
+class User {
+    @PrimaryKey
+    public int id;
+
+    @ColumnInfo(name = &quot;first_name&quot;)
+    public String firstName;
+
+    @ColumnInfo(name = &quot;last_name&quot;)
+    public String lastName;
+
+}
+</code></pre>
+<h4 id="数据库初始化-2">数据库初始化</h4>
+<p>建立数据库映射关系使用Database注解，指定对应的table和版本</p>
+<pre><code>@Database(entities = {User.class}, version = 1)
+public abstract class AppDatabase extends RoomDatabase {
+
+    private static volatile AppDatabase INSTANCE;
+
+    public abstract UserDao userDao();
+
+    public static AppDatabase getInstance(Context context) {
+        if (INSTANCE == null) {
+            synchronized (AppDatabase.class) {
+                if (INSTANCE == null) {
+
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            AppDatabase.class, &quot;sample.db&quot;)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+}
+</code></pre>
+<h4 id="数据增删改查操作">数据增删改查操作</h4>
+<p>对每个数据表的操作，我们均需要定义对应的Dao，并且支持响应式查询。添加方式如下。</p>
+<pre><code>@Dao
+public interface UserDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertUsers(User... users);
+
+    @Insert
+    public void insertBothUsers(User user1, User user2);
+
+    @Insert
+    public void insertUsersAndFriends(User user, List&lt;User&gt; friends);
+
+    @Query(&quot;select * from user&quot;)
+    List&lt;User&gt; getAll();
+}
+</code></pre>
+<h4 id="数据库升级-2">数据库升级</h4>
+<p>每次升级数据库添加Migration即可，实现migrate方法添加数据库对应的修改逻辑</p>
+<pre><code>Room.databaseBuilder(getApplicationContext(), MyDb.class, &quot;database-name&quot;)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
+
+static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+    @Override
+    public void migrate(SupportSQLiteDatabase database) {
+        database.execSQL(&quot;CREATE TABLE `Fruit` (`id` INTEGER, &quot;
+                + &quot;`name` TEXT, PRIMARY KEY(`id`))&quot;);
+    }
+};
+
+static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+    @Override
+    public void migrate(SupportSQLiteDatabase database) {
+        database.execSQL(&quot;ALTER TABLE Book &quot;
+                + &quot; ADD COLUMN pub_year INTEGER&quot;);
+    }
+};
+
+</code></pre>
+<h4 id="与rxjava2-配合使用">与Rxjava2 配合使用</h4>
+<p>由于Room是不能在主线程进行数据库操作的，一在主线程操作，系统就会用java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time. 所以Room支持与Rxjava2配合使用，支持Completable，Single，Maybe，Observable和Flowable</p>
+<pre><code>@Query(“SELECT * FROM Users WHERE id = :userId”)
+Single&lt;User&gt; getUserById(String userId);
+</code></pre>
+<h2 id="对比总结">对比总结</h2>
+<p>通过在使用方式对比，最终决定选择Room框架，主要存在如下几点：</p>
+<ol>
+<li>Room是基于编译时注解，而GreenDao是基于插件来实现自动生成代码。</li>
+<li></li>
+</ol>
+<h1 id="应用">应用</h1>
+<h1 id="总结">总结</h1>
+<h1 id="参考">参考</h1>
+<p>http://greenrobot.org/greendao/<br>
+https://developer.android.com/training/data-storage/room/index.html<br>
+https://github.com/AlexeyZatsepin/Android-ORM-benchmark<br>
+http://liuduo.me/2016/04/02/sqlitelockandwal/<br>
+https://www.jianshu.com/p/b3adf609353a<br>
+https://www.jianshu.com/p/53083f782ea2<br>
+https://blog.csdn.net/pingping_010/article/details/80669282<br>
+https://www.jianshu.com/p/5b75206c24b1<br>
+https://blog.csdn.net/Ricardo6/article/details/88385613<br>
+https://juejin.im/post/5a420ff2f265da431b6d7518<br>
+https://www.jianshu.com/p/2f8e57e440d8<br>
+https://blog.csdn.net/robothost/article/details/70209086</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://huopochuan.github.io//post/tangram-diao-yan">
+              <h3 class="post-title">
+                下一篇：Tangram动态化方案探索
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">大道至简 知易行难</div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/huopochuan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/coderchuan" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd8a2c3e875dce32a5a7f',
+        clientSecret: '3007d9b48f166494b11f24dfc97fad0e42e4957c',
+        repo: 'huopochuan.github.io',
+        owner: 'huopochuan',
+        admin: ['huopochuan'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

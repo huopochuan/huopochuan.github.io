@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561620965667">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565248126849">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561620965667" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565248126849" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -160,8 +160,8 @@
 Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
 <!-- more -->
 <h1 id="布局灵活性">布局灵活性</h1>
-<p>Tangream布局的灵活性是依赖阿里开源<a href="https://github.com/alibaba/vlayout">Vlayout</a>实现的。通过重写Recyclerview的LayoutManger实现自定义灵活布局。首先我们需要理解Tangram模型
-<img src="https://upload-images.jianshu.io/upload_images/944365-eb7c5d4acab30ace.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/680/format/webp" alt="">
+<p>Tangream布局的灵活性是依赖阿里开源<a href="https://github.com/alibaba/vlayout">Vlayout</a>实现的。通过重写Recyclerview的LayoutManger实现自定义灵活布局。首先我们需要理解Tangram模型<br>
+<img src="https://upload-images.jianshu.io/upload_images/944365-eb7c5d4acab30ace.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/680/format/webp" alt=""><br>
 在Tangram框架中界面由卡片（Card） 和 组件（Item）构成。卡片负责布局组件，Tangram框架内置了很多Card样式。（Tangram2.0更新，对Tangram模型进行了重新的定义，从原来的『卡片』+『组件』升级成『布局』+『组件』，即原来的『卡片』认为是一种具有布局能力的组件，具备嵌套另一组件的能力）<br>
 目前卡片(布局)支持的样式如下：<br>
 流式(网格)布局(container-oneColumn)，一拖N布局(container-onePlusN)，浮动布局固定布局(container-float)，吸顶布局(container-sticky)，瀑布流布局(container-waterfall)等。具体可以参考<a href="http://tangram.pingguohe.net/docs/layout-support/inner-support">内置布局支持</a><br>
@@ -232,7 +232,7 @@ Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化�
 默认情况下组件是不触发事件的，只有在模板里显示地声明了才具备触发能力。事件声明属性字段是 flag，其值可以通过 | 组合一次性声明多个。如 <code>flag=&quot;flag_exposure|flag_clickable&quot;</code></p>
 </li>
 <li>
-<p>事件处理
+<p>事件处理<br>
 上面我们提出了Tangram是面向界面的动态化，server下发的也是布局模板。所以Tangram不像RN,Weex,Fultter那样可以编写业务逻辑，Tangram的事件处理需要端去内置处理。</p>
 </li>
 </ol>
@@ -262,13 +262,13 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
     }
 </code></pre>
 <h3 id="编译器编译模板文件">编译器编译模板文件</h3>
-<p>为了提升解析效率和减少xml文件中的冗余数据，Tangram框架会将编写的xml布局文件编译为二进制文件。
+<p>为了提升解析效率和减少xml文件中的冗余数据，Tangram框架会将编写的xml布局文件编译为二进制文件。<br>
 <img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
 <h3 id="实时预览工具">实时预览工具</h3>
 <p>为了提升开发效率同样推出了<a href="https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview">实时预览工具</a>。</p>
 <p><img src="https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif" alt=""></p>
 <h2 id="原生控件与虚拟控件">原生控件与虚拟控件</h2>
-<p>上面抛出个问题：可以看到控件的命名规则是以N和V开始，有什么区别呢？回复如下。
+<p>上面抛出个问题：可以看到控件的命名规则是以N和V开始，有什么区别呢？回复如下。<br>
 目前VirtualView提供的布局容器包含帧布局和线性布局，网格布局等，没有相对布局和约束布局的这些。因此当我们要实现一起布局效果的时候就需要嵌套很多次， 这样会影响渲染性能。基于以上问题VirtualView提出了原生控件与虚拟化控件，</p>
 <p><img src="https://user-gold-cdn.xitu.io/2018/3/6/161fa989fea82cc1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
 <p>原生控件：就是通过封装了系统原生 View 来实现的控件；（命名规则是以N开始）<br>

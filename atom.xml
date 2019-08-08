@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-06-27T07:36:08.337Z</updated>
+    <updated>2019-08-08T07:08:48.066Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -10,6 +10,292 @@
     <logo>https://huopochuan.github.io//images/avatar.png</logo>
     <icon>https://huopochuan.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, 琥珀川</rights>
+    <entry>
+        <title type="html"><![CDATA[Android端ORM框架调研与应用]]></title>
+        <id>https://huopochuan.github.io//post/orm-kuang-jia-diao-yan</id>
+        <link href="https://huopochuan.github.io//post/orm-kuang-jia-diao-yan">
+        </link>
+        <updated>2019-07-21T05:23:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>摘要：ORM 表示全称为对象关系映射（Object Relational Mapping）。  O 我们理解为java对象  R 我们理解为关系型数据库(sqllite)  M 我们理解为从java对象到关系型数据库建立映射关系的过程是一种为了解决面向对象与关系型数据库存在不匹配现象的技术，简单说，orm通过描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>摘要：ORM 表示全称为对象关系映射（Object Relational Mapping）。  O 我们理解为java对象  R 我们理解为关系型数据库(sqllite)  M 我们理解为从java对象到关系型数据库建立映射关系的过程是一种为了解决面向对象与关系型数据库存在不匹配现象的技术，简单说，orm通过描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中</p>
+<!-- more -->
+<h1 id="orm是什么">ORM是什么</h1>
+<p>ORM 表示全称为对象关系映射（Object Relational Mapping）。<br>
+O 我们理解为java对象<br>
+R 我们理解为关系型数据库(sqllite)<br>
+M 我们理解为从java对象到关系型数据库建立映射关系的过程<br>
+是一种为了解决面向对象与关系型数据库存在不匹配现象的技术，简单说，orm通过描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。<br>
+<img src="https://ws2.sinaimg.cn/large/006tNc79ly1g5rm3qck32j30ca0830sy.jpg" alt=""></p>
+<h1 id="为什么使用orm">为什么使用ORM</h1>
+<blockquote>
+<p>存在即合理</p>
+</blockquote>
+<p>ORM框架的存在大大提高了开发效率，ORM框架会自动为我们生成对象到数据库建立映射关系的逻辑，不需要我们在重复的进行代码编写。如下代码ORM框架会为我们自动生成</p>
+<pre><code>final Cursor _cursor = __db.query(_statement);
+    try {
+      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow(&quot;id&quot;);
+      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow(&quot;name&quot;);
+</code></pre>
+<h1 id="orm框架选型">ORM框架选型</h1>
+<blockquote>
+<p>没有最好，只有最合适</p>
+</blockquote>
+<p>目前业内有很多ORM框架如ORMLite, Sugar ORM, Freezer, DBFlowrequery, GreenDAO，Room，如何在众多中的框架中进行抉择？我们主要从性能和使用方式进行对比，选择最合适的。</p>
+<h2 id="orm框架性能对比">ORM框架性能对比</h2>
+<p>性能对比主要是测试Orm框架增删改查的耗时。这里github上的一个开 源项目已经明确列出了各个ORM框架的性能对比数据。 <a href="https://github.com/AlexeyZatsepin/Android-ORM-benchmark">详情地址</a><br>
+<img src="https://ws1.sinaimg.cn/large/006tNc79ly1g5qfoua77rj30nx05dq3s.jpg" alt=""><br>
+通过数据我们看出GreenDAO, Room框架的整体性能是很出色的。所以最终我们选择这两个框架中进行选择。</p>
+<h2 id="使用方式对比">使用方式对比</h2>
+<p>对于现有的ORM框架在使用方式上其实大同小异，我们在table映射，数据库初始化，增删改查操作，数据库升级和与Rxjava配合使用，这5点进行对比。</p>
+<h3 id="greendao框架">GreenDao框架</h3>
+<p>GreenDao框架目前存在两种使用方式。 一种是通过引入GreenDao的Gradle插件来生成所需要了类，另一种是新建一个java工程通过GreenDao的<a href="http://greenrobot.org/greendao/documentation/generator/">generator</a>来构造所需要的类。<br>
+本文主要讲解第一种使用方式。</p>
+<blockquote>
+<p>In most cases, we recommend to use the new Gradle plugin instead. However, some advanced features are currently only supported by the generator. For example multiple schemas.<br>
+<img src="https://ws1.sinaimg.cn/large/006tNc79ly1g5s6ghsse2j308w02kq39.jpg" alt=""></p>
+</blockquote>
+<h4 id="引入">引入</h4>
+<p>工程中引入GreenDao插件</p>
+<pre><code>// In your root build.gradle file:
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral() // add repository
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.1'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
+    }
+}
+ 
+// In your app projects build.gradle file:
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+
+greendao {
+    schemaVersion 1 //数据库版本号
+    daoPackage 'com.speedystone.greendaodemo.db'// 设置DaoMaster、DaoSession、Dao 包名
+    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+}
+
+dependencies {
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+}
+</code></pre>
+<h4 id="table映射">table映射</h4>
+<p>我们对数据库Table的创建</p>
+<pre><code>@Entity
+public class Student {
+    @Id(autoincrement = true)
+    Long id;
+    @Unique
+    int studentNo;//学号
+    int age; //年龄
+    String telPhone;//手机号
+    String sex; //性别
+    String name;//姓名
+    String address;//家庭住址
+    String schoolName;//学校名字
+    String grade;//几年级
+    }
+</code></pre>
+<h4 id="数据库初始化">数据库初始化</h4>
+<pre><code> /**
+     * 初始化GreenDao,直接在Application中进行初始化操作
+     */
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, &quot;aserbao.db&quot;);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
+    
+    private DaoSession daoSession;
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+</code></pre>
+<h4 id="增删改查操作">增删改查操作</h4>
+<ol>
+<li>添加数据</li>
+</ol>
+<pre><code>daoSession.insert(student); //插入数据
+daoSession.insertOrReplace(student);//插入或替换
+</code></pre>
+<ol start="2">
+<li>删除数据</li>
+</ol>
+<pre><code>daoSession.delete(student);
+daoSession.deleteAll(Student.class);
+</code></pre>
+<ol start="3">
+<li>修改数据</li>
+</ol>
+<pre><code>daoSession.update(student);
+</code></pre>
+<ol start="4">
+<li>查询数据<br>
+方式1：loadAll()：查询所有数据。<br>
+方式2：queryRaw()：根据条件查询。<br>
+方式3：queryBuilder() : 方便查询的创建，后面详细讲解。</li>
+</ol>
+<pre><code> List&lt;Student&gt; students = daoSession.loadAll(Student.class); //方式1
+ List&lt;Student&gt; students = daoSession.queryRaw(Student.class, &quot; where id = ?&quot;, s); //方式2
+   QueryBuilder&lt;Student&gt; qb = daoSession.queryBuilder(Student.class);
+        List&lt;Student&gt; list = qb.list(); // 方式3
+ 
+</code></pre>
+<p>方式3的使用方式比较繁琐，queryBuilder定义了很多sql语句对应的方法如 eq()，like()，between()等等。</p>
+<h4 id="数据库升级">数据库升级</h4>
+<p>GreenDao的升级思路：</p>
+<ol>
+<li>创建临时表TMP_,复制原来的数据库到临时表中；</li>
+<li>删除之前的原表；</li>
+<li>创建新表；</li>
+<li>将临时表中的数据复制到新表中，最后将TMP_表删除掉；<br>
+GreenDao数据库升级步骤较为复杂繁琐，并且我们新增加的和修改的字段做好为String类型，避免字段不能为null的情况发生。</li>
+</ol>
+<h4 id="与rxjava配合使用">与Rxjava配合使用</h4>
+<p>GreenDao支持与Rxjava一起使用每个Dao都有rx()方法返回Observable进行链式调用和线程切换操作。</p>
+<pre><code>GreenDaoUtil.getDaoSession(activity)
+            .getPeopleBeanDao()
+            .queryBuilder()
+            .where(PeopleBeanDao.Properties.Age.gt(30))
+            .rx()
+            .list()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                new Action1&lt;List&lt;PeopleBean&gt;&gt;() {
+                    @Override
+                    public void call(List&lt;PeopleBean&gt; peopleBeen) {
+                    }
+                }, 
+                new Action1&lt;Throwable&gt;() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            );
+</code></pre>
+<h3 id="room框架">ROOM框架</h3>
+<p>ROOM框架是Google在2017年Google IO大会上推出的官方数据框框架。<br>
+<img src="https://ws2.sinaimg.cn/large/006tNc79ly1g5s6ebd783j30go0f2dgo.jpg" alt=""></p>
+<h4 id="引入-2">引入</h4>
+<p>直接在对应的Moudle添加依赖即可</p>
+<pre><code>dependencies {
+ api &quot;android.arch.persistence.room:runtime:$1.1.1&quot;
+ annotationProcessor &quot;android.arch.persistence.room:compiler:$1.1.1&quot;
+}
+</code></pre>
+<h4 id="table映射-2">table映射</h4>
+<pre><code>@Entity(indices = {@Index(value = {&quot;first_name&quot;, &quot;last_name&quot;},
+        unique = true)})
+class User {
+    @PrimaryKey
+    public int id;
+
+    @ColumnInfo(name = &quot;first_name&quot;)
+    public String firstName;
+
+    @ColumnInfo(name = &quot;last_name&quot;)
+    public String lastName;
+
+}
+</code></pre>
+<h4 id="数据库初始化-2">数据库初始化</h4>
+<p>建立数据库映射关系使用Database注解，指定对应的table和版本</p>
+<pre><code>@Database(entities = {User.class}, version = 1)
+public abstract class AppDatabase extends RoomDatabase {
+
+    private static volatile AppDatabase INSTANCE;
+
+    public abstract UserDao userDao();
+
+    public static AppDatabase getInstance(Context context) {
+        if (INSTANCE == null) {
+            synchronized (AppDatabase.class) {
+                if (INSTANCE == null) {
+
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            AppDatabase.class, &quot;sample.db&quot;)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+}
+</code></pre>
+<h4 id="数据增删改查操作">数据增删改查操作</h4>
+<p>对每个数据表的操作，我们均需要定义对应的Dao，并且支持响应式查询。添加方式如下。</p>
+<pre><code>@Dao
+public interface UserDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertUsers(User... users);
+
+    @Insert
+    public void insertBothUsers(User user1, User user2);
+
+    @Insert
+    public void insertUsersAndFriends(User user, List&lt;User&gt; friends);
+
+    @Query(&quot;select * from user&quot;)
+    List&lt;User&gt; getAll();
+}
+</code></pre>
+<h4 id="数据库升级-2">数据库升级</h4>
+<p>每次升级数据库添加Migration即可，实现migrate方法添加数据库对应的修改逻辑</p>
+<pre><code>Room.databaseBuilder(getApplicationContext(), MyDb.class, &quot;database-name&quot;)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
+
+static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+    @Override
+    public void migrate(SupportSQLiteDatabase database) {
+        database.execSQL(&quot;CREATE TABLE `Fruit` (`id` INTEGER, &quot;
+                + &quot;`name` TEXT, PRIMARY KEY(`id`))&quot;);
+    }
+};
+
+static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+    @Override
+    public void migrate(SupportSQLiteDatabase database) {
+        database.execSQL(&quot;ALTER TABLE Book &quot;
+                + &quot; ADD COLUMN pub_year INTEGER&quot;);
+    }
+};
+
+</code></pre>
+<h4 id="与rxjava2-配合使用">与Rxjava2 配合使用</h4>
+<p>由于Room是不能在主线程进行数据库操作的，一在主线程操作，系统就会用java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time. 所以Room支持与Rxjava2配合使用，支持Completable，Single，Maybe，Observable和Flowable</p>
+<pre><code>@Query(“SELECT * FROM Users WHERE id = :userId”)
+Single&lt;User&gt; getUserById(String userId);
+</code></pre>
+<h2 id="对比总结">对比总结</h2>
+<p>通过在使用方式对比，最终决定选择Room框架，主要存在如下几点：</p>
+<ol>
+<li>Room是基于编译时注解，而GreenDao是基于插件来实现自动生成代码。</li>
+<li></li>
+</ol>
+<h1 id="应用">应用</h1>
+<h1 id="总结">总结</h1>
+<h1 id="参考">参考</h1>
+<p>http://greenrobot.org/greendao/<br>
+https://developer.android.com/training/data-storage/room/index.html<br>
+https://github.com/AlexeyZatsepin/Android-ORM-benchmark<br>
+http://liuduo.me/2016/04/02/sqlitelockandwal/<br>
+https://www.jianshu.com/p/b3adf609353a<br>
+https://www.jianshu.com/p/53083f782ea2<br>
+https://blog.csdn.net/pingping_010/article/details/80669282<br>
+https://www.jianshu.com/p/5b75206c24b1<br>
+https://blog.csdn.net/Ricardo6/article/details/88385613<br>
+https://juejin.im/post/5a420ff2f265da431b6d7518<br>
+https://www.jianshu.com/p/2f8e57e440d8<br>
+https://blog.csdn.net/robothost/article/details/70209086</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Tangram动态化方案探索]]></title>
         <id>https://huopochuan.github.io//post/tangram-diao-yan</id>
@@ -25,8 +311,8 @@ Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化�
 Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化，Tangram更关注的是<strong>界面动态化</strong>,<strong>性能</strong>。下面我们来揭开Tangram的面纱。</p>
 <!-- more -->
 <h1 id="布局灵活性">布局灵活性</h1>
-<p>Tangream布局的灵活性是依赖阿里开源<a href="https://github.com/alibaba/vlayout">Vlayout</a>实现的。通过重写Recyclerview的LayoutManger实现自定义灵活布局。首先我们需要理解Tangram模型
-<img src="https://upload-images.jianshu.io/upload_images/944365-eb7c5d4acab30ace.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/680/format/webp" alt="">
+<p>Tangream布局的灵活性是依赖阿里开源<a href="https://github.com/alibaba/vlayout">Vlayout</a>实现的。通过重写Recyclerview的LayoutManger实现自定义灵活布局。首先我们需要理解Tangram模型<br>
+<img src="https://upload-images.jianshu.io/upload_images/944365-eb7c5d4acab30ace.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/680/format/webp" alt=""><br>
 在Tangram框架中界面由卡片（Card） 和 组件（Item）构成。卡片负责布局组件，Tangram框架内置了很多Card样式。（Tangram2.0更新，对Tangram模型进行了重新的定义，从原来的『卡片』+『组件』升级成『布局』+『组件』，即原来的『卡片』认为是一种具有布局能力的组件，具备嵌套另一组件的能力）<br>
 目前卡片(布局)支持的样式如下：<br>
 流式(网格)布局(container-oneColumn)，一拖N布局(container-onePlusN)，浮动布局固定布局(container-float)，吸顶布局(container-sticky)，瀑布流布局(container-waterfall)等。具体可以参考<a href="http://tangram.pingguohe.net/docs/layout-support/inner-support">内置布局支持</a><br>
@@ -97,7 +383,7 @@ Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化�
 默认情况下组件是不触发事件的，只有在模板里显示地声明了才具备触发能力。事件声明属性字段是 flag，其值可以通过 | 组合一次性声明多个。如 <code>flag=&quot;flag_exposure|flag_clickable&quot;</code></p>
 </li>
 <li>
-<p>事件处理
+<p>事件处理<br>
 上面我们提出了Tangram是面向界面的动态化，server下发的也是布局模板。所以Tangram不像RN,Weex,Fultter那样可以编写业务逻辑，Tangram的事件处理需要端去内置处理。</p>
 </li>
 </ol>
@@ -127,13 +413,13 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
     }
 </code></pre>
 <h3 id="编译器编译模板文件">编译器编译模板文件</h3>
-<p>为了提升解析效率和减少xml文件中的冗余数据，Tangram框架会将编写的xml布局文件编译为二进制文件。
+<p>为了提升解析效率和减少xml文件中的冗余数据，Tangram框架会将编写的xml布局文件编译为二进制文件。<br>
 <img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
 <h3 id="实时预览工具">实时预览工具</h3>
 <p>为了提升开发效率同样推出了<a href="https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview">实时预览工具</a>。</p>
 <p><img src="https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif" alt=""></p>
 <h2 id="原生控件与虚拟控件">原生控件与虚拟控件</h2>
-<p>上面抛出个问题：可以看到控件的命名规则是以N和V开始，有什么区别呢？回复如下。
+<p>上面抛出个问题：可以看到控件的命名规则是以N和V开始，有什么区别呢？回复如下。<br>
 目前VirtualView提供的布局容器包含帧布局和线性布局，网格布局等，没有相对布局和约束布局的这些。因此当我们要实现一起布局效果的时候就需要嵌套很多次， 这样会影响渲染性能。基于以上问题VirtualView提出了原生控件与虚拟化控件，</p>
 <p><img src="https://user-gold-cdn.xitu.io/2018/3/6/161fa989fea82cc1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
 <p>原生控件：就是通过封装了系统原生 View 来实现的控件；（命名规则是以N开始）<br>
@@ -252,8 +538,8 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
     }
 </code></pre>
 <h2 id="measurespec-解析">MeasureSpec 解析</h2>
-<p>MeasureSpec可以理解为父View传给子View的测量要求。为啥这么说呢?
-试想一下父View的大小是60dp,子View（TextView）的大小写的是WRAP_CONTENT. 父View一看子View写的是WRAP_CONTENT所以就告诉他，你最大只能60dp不能超过我呀。所以父View就将AT_MOST+60dp传给了子View。
+<p>MeasureSpec可以理解为父View传给子View的测量要求。为啥这么说呢?<br>
+试想一下父View的大小是60dp,子View（TextView）的大小写的是WRAP_CONTENT. 父View一看子View写的是WRAP_CONTENT所以就告诉他，你最大只能60dp不能超过我呀。所以父View就将AT_MOST+60dp传给了子View。<br>
 子View根据传过来的测量要求在测量自已，自已测量文字长度是40dp直接setMeasuredDimension()。父View在onLayout中在根据子View计算的40dp计算一下他的摆放位置，是居中呀还是左对齐呀。</p>
 <p>MeasureSpec的值由mode+size构成 size即View的建议大小，mode有三种模式如下</p>
 <ol>
@@ -584,9 +870,9 @@ width/height 的赋值时机是在onLayout中调用childView.layout(int l, int t
 }
 
 </code></pre>
-<p>归纳总结
-1.消费了DOWN事件的View，后续事件不管触摸点是否在该View内部还是外部，都会分发给该View
-2.消费了DOWN事件的View，如果后续事件在其上层父View分发过程中拦截了，那么该View会收到一个CANCEL事件
+<p>归纳总结<br>
+1.消费了DOWN事件的View，后续事件不管触摸点是否在该View内部还是外部，都会分发给该View<br>
+2.消费了DOWN事件的View，如果后续事件在其上层父View分发过程中拦截了，那么该View会收到一个CANCEL事件<br>
 3.一个View只有可见性为VISIBLE才有可能消费触摸事件，对于那些满足条件但被设置为INVISIBLE或GONE的View，不会消费触摸事件</p>
 <h1 id="滑动冲突解决方式">滑动冲突解决方式</h1>
 <h2 id="外部拦截法修改父view">外部拦截法（修改父View）</h2>
@@ -632,7 +918,7 @@ width/height 的赋值时机是在onLayout中调用childView.layout(int l, int t
 }
 </code></pre>
 <h1 id="参考文献">参考文献</h1>
-<p><a href="https://www.kancloud.cn/digest/defineview/120018">https://www.kancloud.cn/digest/defineview/120018</a>
+<p><a href="https://www.kancloud.cn/digest/defineview/120018">https://www.kancloud.cn/digest/defineview/120018</a><br>
 <a href="https://blog.csdn.net/guolin_blog/article/details/9153747">https://blog.csdn.net/guolin_blog/article/details/9153747</a><br>
 <a href="https://blog.csdn.net/abcdef314159/article/details/51119238">https://blog.csdn.net/abcdef314159/article/details/51119238</a></p>
 ]]></content>
@@ -644,11 +930,11 @@ width/height 的赋值时机是在onLayout中调用childView.layout(int l, int t
         </link>
         <updated>2019-05-02T12:52:19.000Z</updated>
         <summary type="html"><![CDATA[<p>图片于2017.5泰国团建拍摄。</p>
-<p>在开发或面试过程中我们或多或少的会遇到try catch finlly代码块中同时含有return的情况来判断return的值是多少。
+<p>在开发或面试过程中我们或多或少的会遇到try catch finlly代码块中同时含有return的情况来判断return的值是多少。<br>
 不卖关子了直接总结规律。</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>图片于2017.5泰国团建拍摄。</p>
-<p>在开发或面试过程中我们或多或少的会遇到try catch finlly代码块中同时含有return的情况来判断return的值是多少。
+<p>在开发或面试过程中我们或多或少的会遇到try catch finlly代码块中同时含有return的情况来判断return的值是多少。<br>
 不卖关子了直接总结规律。</p>
 <!-- more -->
 <ol>
@@ -742,12 +1028,12 @@ width/height 的赋值时机是在onLayout中调用childView.layout(int l, int t
 <p>局部变量如果没有用final修饰,他的生命周期和方法的生命周期是一样的,当方法弹栈,这个局部变量也会消失,那么如果局部内部类对象还没有马上消失想用这个局部变量,就没有了,如果用final修饰会在类加载的时候进入常量池,即使方法弹栈,常量池的常量还在,也可以继续使用。</p>
 </blockquote>
 <h1 id="1java参数传递类型">1.java参数传递类型</h1>
-<p>1、基本类型作为参数传递时，是传递值的拷贝，无论你怎么改变这个拷贝，原值是不会改变的
+<p>1、基本类型作为参数传递时，是传递值的拷贝，无论你怎么改变这个拷贝，原值是不会改变的<br>
 2、对象作为参数传递时，是把对象在内存中的地址拷贝了一份传给了参数。</p>
 <h1 id="2final修饰变量的含义">2.final修饰变量的含义</h1>
 <ol>
 <li>final当修饰基本数据类型时表示不可改变其值</li>
-<li>final当修饰引用类型变量时表示不可改变引用变量的引用地址
+<li>final当修饰引用类型变量时表示不可改变引用变量的引用地址<br>
 上面的两个校验都是编译器做的检验，如果final的使用不符合上述两种规则，将编译不通过。</li>
 </ol>
 <h1 id="3编译器对匿名内部类的操作">3.编译器对匿名内部类的操作</h1>
@@ -845,7 +1131,7 @@ public class Outer {
 <li>只需关注mackdown编写文章即可</li>
 </ol>
 <h1 id="如何给自己的文章添加目录">如何给自己的文章添加目录</h1>
-<p>在切换主题的时候，发现文章没有目录结构。对于大多数查阅文章的人来说，很多时候第一眼看到就是文章目录，来确认是否是自己需要学习的方向。所以目录功能还是很重要的。
+<p>在切换主题的时候，发现文章没有目录结构。对于大多数查阅文章的人来说，很多时候第一眼看到就是文章目录，来确认是否是自己需要学习的方向。所以目录功能还是很重要的。<br>
 查看作者的升级记录发现支持toc但是需要自己在主题中添加 <a href="https://github.com/getgridea/gridea/releases">升级记录</a></p>
 <blockquote>
 <p>文章支持 @[toc] 显示文章目录，同时增加 post.toc 字段供主题显示</p>
@@ -895,7 +1181,7 @@ public class Outer {
 <!-- more -->
 <p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25o68b912j31900spn0e.jpg" alt=""></p>
 <h2 id="事件驱动">事件驱动</h2>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g299hy0iggj30km0audg5.jpg" alt="">
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g299hy0iggj30km0audg5.jpg" alt=""><br>
 以操作系统为例，我们每次的鼠标点击，键盘按下都会发出一个事件，然后加入操作系统的消息队列中，处理线程提取任务然后分发给对应的处理句柄去处理消息事件。上述的流程即可理解为事件驱动。下面是百度百科的解释</p>
 <blockquote>
 <p>早期则存在许多非事件驱动的程序，这样的程序，在需要等待某个条件触发时，会不断地检查这个条件，直到条件满足，这是很浪费cpu时间的。而事件驱动的程序，则有机会释放cpu从而进入睡眠态（注意是有机会，当然程序也可自行决定不释放cpu），当事件触发时被操作系统唤醒，这样就能更加有效地使用cpu。<br>
@@ -1016,7 +1302,7 @@ public class Outer {
 <p>上面小节我们了解了Handler的休眠逻辑，那如何唤醒呢？无非两种情况<br>
 1.指定的timeoutMillis时间已到，可以理解为自己睡醒了<br>
 2.别人叫醒<br>
-我们可以猜测一下唤醒线程的执行时机实际就是新加入的事件消息是否需要马上执行。
+我们可以猜测一下唤醒线程的执行时机实际就是新加入的事件消息是否需要马上执行。<br>
 我们来分析一下别人叫醒的地方。代码如下：</p>
 <pre><code>boolean enqueueMessage(Message msg, long when) {
 
@@ -1056,7 +1342,7 @@ public class Outer {
             
 </code></pre>
 <p>根据上述代码我们根据msg插入不同，将msg分为三类</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g23b90tfugj30gf05vdg8.jpg" alt="">
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g23b90tfugj30gf05vdg8.jpg" alt=""><br>
 1.如果异步线程向主线程新加入的消息是插入消息队列对头则需要唤醒队列</p>
 <pre><code>if (p == null || when == 0 || when &lt; p.when) {
               // New head, wake up the event queue if blocked.
@@ -1110,7 +1396,7 @@ public class Outer {
 <p>我们如何发送target为null的msg到队列头部呢？可以使用该方法</p>
 <pre><code>int token = mHandler.getLooper().getQueue().postSyncBarrier();
 </code></pre>
-<p>然后我们发送消息时设置当前消息为异步消息就可以了。
+<p>然后我们发送消息时设置当前消息为异步消息就可以了。<br>
 当然我们还需要移除target为null的消息,不然同步消息就永远不执行了。</p>
 <pre><code>mHandler.getLooper().getQueue().removeSyncBarrier(token)
 </code></pre>
@@ -1208,7 +1494,7 @@ main() {
 <a href="http://www.sohu.com/a/145311556_675634">关于MessageQueue</a><br>
 <a href="https://mp.weixin.qq.com/s/KpeBqIEYeOzt_frANoGuSg?">你知道android的MessageQueue.IdleHandler吗</a><br>
 <a href="https://www.xuebuyuan.com/3204676.html">Android Event事件流分析</a><br>
-<a href="https://www.jianshu.com/p/c2e26c6d4ac1">Android应用处理MotionEvent的过程</a>
+<a href="https://www.jianshu.com/p/c2e26c6d4ac1">Android应用处理MotionEvent的过程</a><br>
 <a href="https://www.cnblogs.com/welen/articles/5115213.html">事件驱动</a><br>
 <a href="https://www.zhihu.com/question/20122137/answer/14049112">epoll原理是什么</a></p>
 ]]></content>

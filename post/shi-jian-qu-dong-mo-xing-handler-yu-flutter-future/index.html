@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561620965667">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565248126849">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561620965667" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565248126849" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -182,7 +182,7 @@
 <!-- more -->
 <p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25o68b912j31900spn0e.jpg" alt=""></p>
 <h2 id="事件驱动">事件驱动</h2>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g299hy0iggj30km0audg5.jpg" alt="">
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g299hy0iggj30km0audg5.jpg" alt=""><br>
 以操作系统为例，我们每次的鼠标点击，键盘按下都会发出一个事件，然后加入操作系统的消息队列中，处理线程提取任务然后分发给对应的处理句柄去处理消息事件。上述的流程即可理解为事件驱动。下面是百度百科的解释</p>
 <blockquote>
 <p>早期则存在许多非事件驱动的程序，这样的程序，在需要等待某个条件触发时，会不断地检查这个条件，直到条件满足，这是很浪费cpu时间的。而事件驱动的程序，则有机会释放cpu从而进入睡眠态（注意是有机会，当然程序也可自行决定不释放cpu），当事件触发时被操作系统唤醒，这样就能更加有效地使用cpu。<br>
@@ -303,7 +303,7 @@
 <p>上面小节我们了解了Handler的休眠逻辑，那如何唤醒呢？无非两种情况<br>
 1.指定的timeoutMillis时间已到，可以理解为自己睡醒了<br>
 2.别人叫醒<br>
-我们可以猜测一下唤醒线程的执行时机实际就是新加入的事件消息是否需要马上执行。
+我们可以猜测一下唤醒线程的执行时机实际就是新加入的事件消息是否需要马上执行。<br>
 我们来分析一下别人叫醒的地方。代码如下：</p>
 <pre><code>boolean enqueueMessage(Message msg, long when) {
 
@@ -343,7 +343,7 @@
             
 </code></pre>
 <p>根据上述代码我们根据msg插入不同，将msg分为三类</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g23b90tfugj30gf05vdg8.jpg" alt="">
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g23b90tfugj30gf05vdg8.jpg" alt=""><br>
 1.如果异步线程向主线程新加入的消息是插入消息队列对头则需要唤醒队列</p>
 <pre><code>if (p == null || when == 0 || when &lt; p.when) {
               // New head, wake up the event queue if blocked.
@@ -397,7 +397,7 @@
 <p>我们如何发送target为null的msg到队列头部呢？可以使用该方法</p>
 <pre><code>int token = mHandler.getLooper().getQueue().postSyncBarrier();
 </code></pre>
-<p>然后我们发送消息时设置当前消息为异步消息就可以了。
+<p>然后我们发送消息时设置当前消息为异步消息就可以了。<br>
 当然我们还需要移除target为null的消息,不然同步消息就永远不执行了。</p>
 <pre><code>mHandler.getLooper().getQueue().removeSyncBarrier(token)
 </code></pre>
@@ -495,7 +495,7 @@ main() {
 <a href="http://www.sohu.com/a/145311556_675634">关于MessageQueue</a><br>
 <a href="https://mp.weixin.qq.com/s/KpeBqIEYeOzt_frANoGuSg?">你知道android的MessageQueue.IdleHandler吗</a><br>
 <a href="https://www.xuebuyuan.com/3204676.html">Android Event事件流分析</a><br>
-<a href="https://www.jianshu.com/p/c2e26c6d4ac1">Android应用处理MotionEvent的过程</a>
+<a href="https://www.jianshu.com/p/c2e26c6d4ac1">Android应用处理MotionEvent的过程</a><br>
 <a href="https://www.cnblogs.com/welen/articles/5115213.html">事件驱动</a><br>
 <a href="https://www.zhihu.com/question/20122137/answer/14049112">epoll原理是什么</a></p>
 

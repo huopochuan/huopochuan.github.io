@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1561620965667">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565248126849">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1561620965667" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565248126849" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -238,8 +238,8 @@
     }
 </code></pre>
 <h2 id="measurespec-解析">MeasureSpec 解析</h2>
-<p>MeasureSpec可以理解为父View传给子View的测量要求。为啥这么说呢?
-试想一下父View的大小是60dp,子View（TextView）的大小写的是WRAP_CONTENT. 父View一看子View写的是WRAP_CONTENT所以就告诉他，你最大只能60dp不能超过我呀。所以父View就将AT_MOST+60dp传给了子View。
+<p>MeasureSpec可以理解为父View传给子View的测量要求。为啥这么说呢?<br>
+试想一下父View的大小是60dp,子View（TextView）的大小写的是WRAP_CONTENT. 父View一看子View写的是WRAP_CONTENT所以就告诉他，你最大只能60dp不能超过我呀。所以父View就将AT_MOST+60dp传给了子View。<br>
 子View根据传过来的测量要求在测量自已，自已测量文字长度是40dp直接setMeasuredDimension()。父View在onLayout中在根据子View计算的40dp计算一下他的摆放位置，是居中呀还是左对齐呀。</p>
 <p>MeasureSpec的值由mode+size构成 size即View的建议大小，mode有三种模式如下</p>
 <ol>
