@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565269497737">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565269647027">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565269497737" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565269647027" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -410,9 +410,9 @@ Single&lt;User&gt; getUserById(String userId);
 <p>通过在使用方式对比，最终决定选择Room框架，主要存在如下几点：</p>
 <ol>
 <li>Room是基于APT((Annotation Processing Tool)，而GreenDao是基于插件来实现自动生成代码。每次数据库的变动都会重新生成代码，而Room框架基于APT生成的代码在build目录中的apt目录下，对开发者来说数是无感知的。</li>
-<li>对应增删改查的操作，Room框架更加灵活，只要我们熟练的掌握sql语法即可，而GreenDao对于复杂的查询操作则需要使用GreenDao保证的函数</li>
+<li>对应增删改查的操作，Room框架更加灵活，只要我们熟练的掌握sql语法即可，而GreenDao对于复杂的查询操作则需要使用GreenDao包装的函数</li>
 <li>数据库升级方面Room框架更加灵活，效率更加高效</li>
-<li>Room对多数据库模式的支持更加友好。app内一般都会存在多个数据库。而GreenDao需要新建个java工程才可以支持多数据库模式，然后拷贝代码到app工程当中。</li>
+<li>Room对多数据库模式的支持更加友好。app内一般都会存在多个数据库。而GreenDao需要新建个java工程才可以支持多数据库模式，然后拷贝代码到app工程当中。Room则只需要多添加Database注解即可。</li>
 </ol>
 <h1 id="应用">应用</h1>
 <h1 id="总结">总结</h1>
