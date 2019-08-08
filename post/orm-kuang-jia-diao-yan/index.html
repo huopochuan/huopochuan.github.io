@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565281256891">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1565281598278">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565281256891" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1565281598278" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -93,6 +93,16 @@
           <h2 class="post-title">Android端ORM框架调研与应用</h2>
           <div class="post-info post-detail-info">
             <span><i class="icon-calendar-outline"></i> 2019-07-21</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://huopochuan.github.io//tag/fC5xSKwgd">
+                    ORM
+                    
+                  </a>
+                
+              </span>
             
           </div>
 
@@ -423,17 +433,11 @@ Single&lt;User&gt; getUserById(String userId);
 </blockquote>
 <p>最终选择了Room框架，但是介入的过程中还是遇到了一些问题，在这里记录一下，以防后来的人在踩不必要的坑。</p>
 <ol>
-<li>
-<p>不要忽视的Ignore注解。<br>
-迁移的过程中我们一定会在原来的bean对象去建立映射关系，</p>
-</li>
-<li>
-<p>对于多个合并在一起的操作，考虑是否使用事务</p>
-</li>
-<li>
-<p>混淆配置问题<br>
-Room框架的官方文档和demo中并没有混淆配置的说明，需要注意开启混淆的话需要对集成RoomDatabase的类不要进行混淆。</p>
-</li>
+<li>不要忽视的@Ignore注解。<br>
+迁移的过程中我们大多会在原来的bean对象去建立映射关系，也许之前我们定义的bean并不能与数据库的结构一一对应，所以需要我们对于那些不能对应的字段属性上添加@Ignore注解</li>
+<li>对于多个合并在一起的操作，考虑是否使用事务</li>
+<li>混淆配置问题<br>
+Room框架的官方文档和demo中并没有混淆配置的说明，需要注意开启混淆的话需要对集成RoomDatabase的类不要进行混淆。</li>
 </ol>
 <pre><code>-keep class * extends android.arch.persistence.room.RoomDatabase { *; }
 </code></pre>
