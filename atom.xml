@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-08-08T17:30:36.219Z</updated>
+    <updated>2019-08-08T17:36:51.297Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -292,6 +292,7 @@ Room框架的官方文档和demo中并没有混淆配置的说明，需要注意
 <pre><code>-keep class * extends android.arch.persistence.room.RoomDatabase { *; }
 </code></pre>
 <h1 id="总结">总结</h1>
+<p>本文通过对ORM框架调研，从性能和使用方式上对比，最终引入了Room框架。如有问题欢迎指正，共同学习共同进步。</p>
 <h1 id="参考">参考</h1>
 <p>http://greenrobot.org/greendao/<br>
 https://developer.android.com/training/data-storage/room/index.html<br>
