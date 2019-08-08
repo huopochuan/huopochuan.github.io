@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-08-08T16:26:43.267Z</updated>
+    <updated>2019-08-08T16:28:28.724Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -51,7 +51,7 @@ M 我们理解为从java对象到关系型数据库建立映射关系的过程<b
 <blockquote>
 <p>In most cases, we recommend to use the new Gradle plugin instead. However, some advanced features are currently only supported by the generator. For example multiple schemas.</p>
 </blockquote>
-<p>但是你的应用内有多个数据库( multiple schemas)的话,那只能使用第二种方式，新建个java工程,然后编写数据库结构代码，运行工程后生成我们需要的操作数据库代码。</p>
+<p>但是你的应用内有多个数据库( multiple schemas)的话,那只能使用第二种方式，新建个java工程,然后编写数据库结构代码，运行工程后生成我们需要的操作数据库代码，最后拷贝到项目工程中。</p>
 <h4 id="框架引入">框架引入</h4>
 <p>工程中引入GreenDao插件，同时我们还需要指定数据库版本号，生成代码的包名和对应的代码路径。</p>
 <pre><code>// In your root build.gradle file:
