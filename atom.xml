@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-08-08T07:08:48.066Z</updated>
+    <updated>2019-08-08T12:51:04.512Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -16,11 +16,7 @@
         <link href="https://huopochuan.github.io//post/orm-kuang-jia-diao-yan">
         </link>
         <updated>2019-07-21T05:23:37.000Z</updated>
-        <summary type="html"><![CDATA[<p>摘要：ORM 表示全称为对象关系映射（Object Relational Mapping）。  O 我们理解为java对象  R 我们理解为关系型数据库(sqllite)  M 我们理解为从java对象到关系型数据库建立映射关系的过程是一种为了解决面向对象与关系型数据库存在不匹配现象的技术，简单说，orm通过描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>摘要：ORM 表示全称为对象关系映射（Object Relational Mapping）。  O 我们理解为java对象  R 我们理解为关系型数据库(sqllite)  M 我们理解为从java对象到关系型数据库建立映射关系的过程是一种为了解决面向对象与关系型数据库存在不匹配现象的技术，简单说，orm通过描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中</p>
-<!-- more -->
-<h1 id="orm是什么">ORM是什么</h1>
+        <content type="html"><![CDATA[<h1 id="orm是什么">ORM是什么</h1>
 <p>ORM 表示全称为对象关系映射（Object Relational Mapping）。<br>
 O 我们理解为java对象<br>
 R 我们理解为关系型数据库(sqllite)<br>
@@ -31,7 +27,7 @@ M 我们理解为从java对象到关系型数据库建立映射关系的过程<b
 <blockquote>
 <p>存在即合理</p>
 </blockquote>
-<p>ORM框架的存在大大提高了开发效率，ORM框架会自动为我们生成对象到数据库建立映射关系的逻辑，不需要我们在重复的进行代码编写。如下代码ORM框架会为我们自动生成</p>
+<p>ORM框架的存在大大提高了开发效率，ORM框架会自动为我们生成对象到数据库建立映射关系的逻辑，不需要我们在重复的进行代码编写。如下代码ORM框架会为我们自动生成，是不是很方便。</p>
 <pre><code>final Cursor _cursor = __db.query(_statement);
     try {
       final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow(&quot;id&quot;);
@@ -41,22 +37,23 @@ M 我们理解为从java对象到关系型数据库建立映射关系的过程<b
 <blockquote>
 <p>没有最好，只有最合适</p>
 </blockquote>
-<p>目前业内有很多ORM框架如ORMLite, Sugar ORM, Freezer, DBFlowrequery, GreenDAO，Room，如何在众多中的框架中进行抉择？我们主要从性能和使用方式进行对比，选择最合适的。</p>
+<p>目前业内有很多ORM框架如ORMLite, Sugar ORM, Freezer, DBFlow, GreenDAO，Room等，如何在众多中的框架中进行抉择呢？我们主要从性能和使用方式进行对比，选择最合适的。</p>
 <h2 id="orm框架性能对比">ORM框架性能对比</h2>
-<p>性能对比主要是测试Orm框架增删改查的耗时。这里github上的一个开 源项目已经明确列出了各个ORM框架的性能对比数据。 <a href="https://github.com/AlexeyZatsepin/Android-ORM-benchmark">详情地址</a><br>
+<p>性能对比主要是测试Orm框架增删改查的耗时。这里github上的一个开源项目已经明确列出了各个ORM框架的性能对比数据。 <a href="https://github.com/AlexeyZatsepin/Android-ORM-benchmark">详情地址</a><br>
 <img src="https://ws1.sinaimg.cn/large/006tNc79ly1g5qfoua77rj30nx05dq3s.jpg" alt=""><br>
 通过数据我们看出GreenDAO, Room框架的整体性能是很出色的。所以最终我们选择这两个框架中进行选择。</p>
 <h2 id="使用方式对比">使用方式对比</h2>
 <p>对于现有的ORM框架在使用方式上其实大同小异，我们在table映射，数据库初始化，增删改查操作，数据库升级和与Rxjava配合使用，这5点进行对比。</p>
 <h3 id="greendao框架">GreenDao框架</h3>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g5s6ghsse2j308w02kq39.jpg" alt=""></p>
 <p>GreenDao框架目前存在两种使用方式。 一种是通过引入GreenDao的Gradle插件来生成所需要了类，另一种是新建一个java工程通过GreenDao的<a href="http://greenrobot.org/greendao/documentation/generator/">generator</a>来构造所需要的类。<br>
 本文主要讲解第一种使用方式。</p>
 <blockquote>
-<p>In most cases, we recommend to use the new Gradle plugin instead. However, some advanced features are currently only supported by the generator. For example multiple schemas.<br>
-<img src="https://ws1.sinaimg.cn/large/006tNc79ly1g5s6ghsse2j308w02kq39.jpg" alt=""></p>
+<p>In most cases, we recommend to use the new Gradle plugin instead. However, some advanced features are currently only supported by the generator. For example multiple schemas.</p>
 </blockquote>
+<p>但是你的应用内有多个数据库( multiple schemas)的话,那只能使用第二种方式，新建个java工程,然后编写数据库结构代码，运行工程后生成我们需要的操作数据库代码。</p>
 <h4 id="引入">引入</h4>
-<p>工程中引入GreenDao插件</p>
+<p>工程中引入GreenDao插件，同时我们还需要指定数据库版本号，生成代码的包名和对应的代码路径。</p>
 <pre><code>// In your root build.gradle file:
 buildscript {
     repositories {
@@ -154,7 +151,7 @@ daoSession.deleteAll(Student.class);
 <li>删除之前的原表；</li>
 <li>创建新表；</li>
 <li>将临时表中的数据复制到新表中，最后将TMP_表删除掉；<br>
-GreenDao数据库升级步骤较为复杂繁琐，并且我们新增加的和修改的字段做好为String类型，避免字段不能为null的情况发生。</li>
+GreenDao数据库升级步骤较为复杂繁琐，并且效率比较低。</li>
 </ol>
 <h4 id="与rxjava配合使用">与Rxjava配合使用</h4>
 <p>GreenDao支持与Rxjava一起使用每个Dao都有rx()方法返回Observable进行链式调用和线程切换操作。</p>
@@ -180,8 +177,8 @@ GreenDao数据库升级步骤较为复杂繁琐，并且我们新增加的和修
             );
 </code></pre>
 <h3 id="room框架">ROOM框架</h3>
-<p>ROOM框架是Google在2017年Google IO大会上推出的官方数据框框架。<br>
-<img src="https://ws2.sinaimg.cn/large/006tNc79ly1g5s6ebd783j30go0f2dgo.jpg" alt=""></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g5s6ebd783j30go0f2dgo.jpg" alt=""><br>
+ROOM框架是Google在2017年Google IO大会上推出的官方数据框框架。ROOM框架基于编译时注解，我们通过使用注解然后重新build一下Moudle工程，就会自动生成我们需要的代码。</p>
 <h4 id="引入-2">引入</h4>
 <p>直接在对应的Moudle添加依赖即可</p>
 <pre><code>dependencies {
@@ -190,22 +187,20 @@ GreenDao数据库升级步骤较为复杂繁琐，并且我们新增加的和修
 }
 </code></pre>
 <h4 id="table映射-2">table映射</h4>
+<p>使用Entity注解，在每个属性中需要通过ColumnInfo制定数据库中对应的字段名称</p>
 <pre><code>@Entity(indices = {@Index(value = {&quot;first_name&quot;, &quot;last_name&quot;},
         unique = true)})
 class User {
     @PrimaryKey
     public int id;
-
     @ColumnInfo(name = &quot;first_name&quot;)
     public String firstName;
-
     @ColumnInfo(name = &quot;last_name&quot;)
     public String lastName;
-
 }
 </code></pre>
 <h4 id="数据库初始化-2">数据库初始化</h4>
-<p>建立数据库映射关系使用Database注解，指定对应的table和版本</p>
+<p>建立数据库映射关系使用Database注解，指定该数据库中含有的table和当前数据库版本号</p>
 <pre><code>@Database(entities = {User.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -235,13 +230,7 @@ public abstract class AppDatabase extends RoomDatabase {
 public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertUsers(User... users);
-
-    @Insert
-    public void insertBothUsers(User user1, User user2);
-
-    @Insert
-    public void insertUsersAndFriends(User user, List&lt;User&gt; friends);
-
+		
     @Query(&quot;select * from user&quot;)
     List&lt;User&gt; getAll();
 }
@@ -276,24 +265,16 @@ Single&lt;User&gt; getUserById(String userId);
 <h2 id="对比总结">对比总结</h2>
 <p>通过在使用方式对比，最终决定选择Room框架，主要存在如下几点：</p>
 <ol>
-<li>Room是基于编译时注解，而GreenDao是基于插件来实现自动生成代码。</li>
-<li></li>
+<li>Room是基于APT((Annotation Processing Tool)，而GreenDao是基于插件来实现自动生成代码。每次数据库的变动都会重新生成代码，而Room框架基于APT生成的代码在build目录中的apt目录下，对开发者来说数是无感知的。</li>
+<li>对应增删改查的操作，Room框架更加灵活，只要我们熟练的掌握sql语法即可，而GreenDao对于复杂的查询操作则需要使用GreenDao保证的函数</li>
+<li>数据库升级方面</li>
 </ol>
 <h1 id="应用">应用</h1>
 <h1 id="总结">总结</h1>
 <h1 id="参考">参考</h1>
 <p>http://greenrobot.org/greendao/<br>
 https://developer.android.com/training/data-storage/room/index.html<br>
-https://github.com/AlexeyZatsepin/Android-ORM-benchmark<br>
-http://liuduo.me/2016/04/02/sqlitelockandwal/<br>
-https://www.jianshu.com/p/b3adf609353a<br>
-https://www.jianshu.com/p/53083f782ea2<br>
-https://blog.csdn.net/pingping_010/article/details/80669282<br>
-https://www.jianshu.com/p/5b75206c24b1<br>
-https://blog.csdn.net/Ricardo6/article/details/88385613<br>
-https://juejin.im/post/5a420ff2f265da431b6d7518<br>
-https://www.jianshu.com/p/2f8e57e440d8<br>
-https://blog.csdn.net/robothost/article/details/70209086</p>
+https://github.com/AlexeyZatsepin/Android-ORM-benchmark</p>
 ]]></content>
     </entry>
     <entry>
