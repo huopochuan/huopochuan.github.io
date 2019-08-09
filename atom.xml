@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-08-08T17:38:28.105Z</updated>
+    <updated>2019-08-09T02:03:10.790Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -185,7 +185,7 @@ GreenDao数据库升级步骤较为复杂繁琐，并且效率比较低。</li>
 </code></pre>
 <h3 id="room框架">ROOM框架</h3>
 <p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g5s6ebd783j30go0f2dgo.jpg" alt=""><br>
-ROOM框架是Google在2017年Google IO大会上推出的官方数据框框架。ROOM框架基于编译时注解，我们通过使用注解然后重新build一下Moudle工程，就会自动生成我们需要的代码。</p>
+ROOM框架是Google在2017年Google IO大会上推出的官方数据框框架。ROOM框架基于APT(Annotation Processing Tool)，我们通过使用注解然后重新build一下Moudle工程，就会自动生成我们需要的代码。</p>
 <h4 id="框架引入-2">框架引入</h4>
 <p>直接在对应的Moudle添加依赖即可</p>
 <pre><code>dependencies {
@@ -272,7 +272,7 @@ Single&lt;User&gt; getUserById(String userId);
 <h2 id="对比总结">对比总结</h2>
 <p>通过在使用方式对比，整体上GreenDao与Room在使用方式上差异并不是很大，最终决定选择Room框架，主要存在如下几点：</p>
 <ol>
-<li>Room是基于APT((Annotation Processing Tool)，而GreenDao是基于插件来实现自动生成代码。每次数据库的变动都会重新生成代码，而Room框架基于APT生成的代码在build目录中的apt目录下，对开发者来说数是无感知的。</li>
+<li>Room是基于APT(Annotation Processing Tool)，而GreenDao是基于插件来实现自动生成代码。每次数据库的变动都会重新生成代码，而Room框架基于APT生成的代码在build目录中的apt目录下，对开发者来说数是无感知的。</li>
 <li>对应增删改查的操作，Room框架更加灵活，只要我们熟练的掌握sql语法即可，而GreenDao对于复杂的查询操作则需要使用GreenDao包装的函数</li>
 <li>数据库升级方面Room框架更加灵活，效率更加高效</li>
 <li>Room对多数据库模式的支持更加友好。app内一般都会存在多个数据库。而GreenDao需要新建个java工程才可以支持多数据库模式，然后拷贝代码到app工程当中。Room则只需要多添加Database注解即可。</li>
