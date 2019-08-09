@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-08-09T02:07:00.692Z</updated>
+    <updated>2019-08-09T02:23:34.500Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -295,9 +295,10 @@ Room框架的官方文档和demo中并没有混淆配置的说明，需要注意
 <li>跨进程问题。GreenDao与Room框架都是不支持跨进程的，如果需要支持跨进程操作建议使用ContentProvider。</li>
 </ol>
 <h1 id="参考">参考</h1>
-<p>http://greenrobot.org/greendao/<br>
-https://developer.android.com/training/data-storage/room/index.html<br>
-https://github.com/AlexeyZatsepin/Android-ORM-benchmark</p>
+<p><a href="http://greenrobot.org/greendao/">http://greenrobot.org/greendao/</a></p>
+<p><a href="https://developer.android.com/training/data-storage/room/index.html">https://developer.android.com/training/data-storage/room/index.html<br>
+</a></p>
+<p><a href="https://github.com/AlexeyZatsepin/Android-ORM-benchmark">https://github.com/AlexeyZatsepin/Android-ORM-benchmark</a></p>
 ]]></content>
     </entry>
     <entry>
