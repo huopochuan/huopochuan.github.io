@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-10-10T05:27:22.012Z</updated>
+    <updated>2019-10-10T05:40:39.791Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -53,6 +53,8 @@ BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
 <li>动态模块配置制定title 必须通过如下方式配置 dist:title=&quot;@string/title_dynamic_feature&quot; 不能直接编写字符串 并且改字符串必须写在base moudle中。</li>
 </ol>
 <h1 id="res资源结构">res资源结构</h1>
+<p><img src="http://chuantu.xyz/t6/702/1570685613x3661913030.png" alt=""><br>
+每个feature moudle都会生成自己独立的arsc文件，同是为了不与其他moudle产生冲突，每个moudle其资源id的头两位都是有差异的。正常的情况下</p>
 <h1 id="类文件构建规则">类文件构建规则</h1>
 <h1 id="原理">原理</h1>
 <p>资源加载 与 类加载机制</p>
