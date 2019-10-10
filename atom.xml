@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-10-10T05:21:11.236Z</updated>
+    <updated>2019-10-10T05:27:22.012Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -11,7 +11,7 @@
     <icon>https://huopochuan.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, 琥珀川</rights>
     <entry>
-        <title type="html"><![CDATA[android app bundles解析]]></title>
+        <title type="html"><![CDATA[Android app bundles解析]]></title>
         <id>https://huopochuan.github.io//post/android-app-bundle</id>
         <link href="https://huopochuan.github.io//post/android-app-bundle">
         </link>
@@ -42,14 +42,16 @@ native libraries 和适配当前手机屏幕分辨率的资源</li>
 <li>动态模块按需加载减少apk大小。</li>
 </ol>
 <h1 id="aab-拆分注意事项">AAB 拆分注意事项</h1>
-<p>1	dynamic-feature moudle引用base modle资源时，不能直接使用R.drawdble	 需要使用 [base moudle packagename].R.drawdble的方式<br>
-2	dynamic-feature 项目名称不能以数据开头如58CarLib	需要改写为CarLib<br>
-3	java.io.IOException: Cannot find PROCESSED_RES output for Main{type=MAIN, fullName=flavor1Debug, filters=[], versionCode=-1, versionName=null}异常	需要注释掉build.gradle的splite {abi{}}<br>
-4	 basemoude不可以访问feature moudle中的id	<br>
-CarLib中arssc文件中R.id.title_filter_btn中的值为0x7e0704d8</p>
-<p>BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85</p>
-<p>因为feature与baseMoude都有各自的arsc文件，虽然属性名称一直但是id值是不一致的，所以basemoude中涉及访问feature moudle的id值都需要修改</p>
-<p>5	动态模块配置制定title 必须通过如下方式配置 dist:title=&quot;@string/title_dynamic_feature&quot; 不能直接编写字符串 并且改字符串必须写在base moudle中。</p>
+<ol>
+<li>dynamic-feature moudle引用base modle资源时，不能直接使用R.drawdble	 需要使用 [base moudle packagename].R.drawdble的方式</li>
+<li>dynamic-feature 项目名称不能以数据开头如58CarLib	需要改写为CarLib</li>
+<li>java.io.IOException: Cannot find PROCESSED_RES output for Main{type=MAIN, fullName=flavor1Debug, filters=[], versionCode=-1, versionName=null}异常	需要注释掉build.gradle的splite {abi{}}</li>
+<li>basemoude不可以访问feature moudle中的id	<br>
+CarLib中arssc文件中R.id.title_filter_btn中的值为0x7e0704d8<br>
+BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
+因为feature与baseMoude都有各自的arsc文件，虽然属性名称一直但是id值是不一致的，所以basemoude中涉及访问feature moudle的id值都需要修改</li>
+<li>动态模块配置制定title 必须通过如下方式配置 dist:title=&quot;@string/title_dynamic_feature&quot; 不能直接编写字符串 并且改字符串必须写在base moudle中。</li>
+</ol>
 <h1 id="res资源结构">res资源结构</h1>
 <h1 id="类文件构建规则">类文件构建规则</h1>
 <h1 id="原理">原理</h1>
