@@ -7,14 +7,14 @@
     
 <meta charset="utf-8" >
 
-<title>Android app bundles解析 | 琥珀川</title>
+<title>Android App Bundles解析 | 琥珀川</title>
 <meta name="description" content="大道至简 知易行难">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570686020673">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570688050034">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570686020673" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570688050034" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -87,7 +87,7 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">Android app bundles解析</h2>
+          <h2 class="post-title">Android App Bundles解析</h2>
           <div class="post-info post-detail-info">
             <span><i class="icon-calendar-outline"></i> 2019-09-18</span>
             
@@ -112,6 +112,7 @@
 <li><a href="#res%E8%B5%84%E6%BA%90%E7%BB%93%E6%9E%84">res资源结构</a></li>
 <li><a href="#%E7%B1%BB%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E8%A7%84%E5%88%99">类文件构建规则</a></li>
 <li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
+<li><a href="#%E5%B1%95%E6%9C%9B">展望</a></li>
 <li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
 
@@ -172,10 +173,20 @@ BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
 </ol>
 <h1 id="res资源结构">res资源结构</h1>
 <p><img src="http://chuantu.xyz/t6/702/1570685613x3661913030.png" alt=""><br>
-每个feature moudle都会生成自己独立的arsc文件，同是为了不与其他moudle产生冲突，每个moudle其资源id的头两位都是有差异的。正常的情况下</p>
+每个feature moudle都会生成自己独立的arsc文件，同时为了不与其他moudle产生冲突，每个moudle其资源id的头两位都是有差异的。从图中可以看出car的feature moudle的资源id是以0x7e开始而不是0x7f。<br>
+因此在资源id使用时需要注意一下几点：</p>
+<ol>
+<li>dynamic-feature moudle引用base modle资源时，不能直接使用R.drawdble	 需要使用 [base moudle packagename].R.drawdble的方式</li>
+<li>basemoude不可以访问feature moudle中的id	<br>
+CarLib中arssc文件中R.id.title_filter_btn中的值为0x7e0704d8<br>
+BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
+因为feature与baseMoude都有各自的arsc文件，虽然属性名称一直但是id值是不一致的，所以basemoude中涉及访问feature moudle的id值都需要修改。</li>
+</ol>
 <h1 id="类文件构建规则">类文件构建规则</h1>
 <h1 id="原理">原理</h1>
 <p>资源加载 与 类加载机制</p>
+<h1 id="展望">展望</h1>
+<p>App Bundles 方案在减少APK大小方面，就有很大的优势。但是App Bundles方案依托与Google Play应该才能做到业务模块的按需加载。但是目前爱奇艺开源了<a href="https://github.com/iqiyi/Qigsaw">Qigsaw框架</a>,自己实现了一套类型Google Play的方案，同时保持API的使用与Google Play保持一致，这样就可以做到国内与国外场景的自由切换。</p>
 <h1 id="参考">参考</h1>
 <p>https://juejin.im/entry/5b1e233ef265da6e0d7a33b3<br>
 https://blog.csdn.net/u010479969/article/details/81261<br>
