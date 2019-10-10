@@ -7,7 +7,7 @@
     
 <meta charset="utf-8" >
 
-<title>如何傻瓜式搭建属于你自己的博客 | 琥珀川</title>
+<title>android app bundles解析 | 琥珀川</title>
 <meta name="description" content="大道至简 知易行难">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,12 +87,9 @@
       <div class="content-container">
         <div class="post-detail">
           
-            <div class="feature-container" style="background-image: url('https://huopochuan.github.io//post-images/ru-he-sha-gua-shi-da-jian-shu-yu-ni-zi-ji-de-bo-ke.png')">
-            </div>
-          
-          <h2 class="post-title">如何傻瓜式搭建属于你自己的博客</h2>
+          <h2 class="post-title">android app bundles解析</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-04-28</span>
+            <span><i class="icon-calendar-outline"></i> 2019-09-18</span>
             
           </div>
 
@@ -107,9 +104,14 @@
       <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
     <strong class="toc-title">文章目录</strong>
            <ul class="markdownIt-TOC">
-<li><a href="#get-start">get Start</a></li>
-<li><a href="#%E4%BC%98%E5%8A%BF">优势</a></li>
-<li><a href="#%E5%A6%82%E4%BD%95%E7%BB%99%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%9B%AE%E5%BD%95">如何给自己的文章添加目录</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFandroid-app-bundles">什么是Android App Bundles</a></li>
+<li><a href="#%E5%8A%A8%E6%80%81%E4%BA%A4%E4%BB%98google-play-dynamic-delivery">动态交付（Google Play Dynamic Delivery）</a><br>
+*</li>
+<li><a href="#%E4%BD%BF%E7%94%A8-android-app-bundles%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%BB%93%E6%9E%84">使用 Android App bundles项目依赖结构</a></li>
+<li><a href="#aab-%E6%8B%86%E5%88%86%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">AAB 拆分注意事项</a></li>
+<li><a href="#res%E8%B5%84%E6%BA%90%E7%BB%93%E6%9E%84">res资源结构</a></li>
+<li><a href="#%E7%B1%BB%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E8%A7%84%E5%88%99">类文件构建规则</a></li>
+<li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
 <li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
 
@@ -132,64 +134,60 @@
 
 
           <div class="post-content">
-            <p>日常浏览github的时候，发现了 <a href="https://github.com/getgridea/gridea">Gridea</a> 。使用界面如下</p>
-<!-- more -->
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g2i9zjkx6hj31ag0u04cx.jpg" alt=""></p>
-<h1 id="get-start">get Start</h1>
-<p>只需配置github相关参数即可，点击同步会自动将静态Html文件上传的github仓库。是不是很简单！</p>
-<h1 id="优势">优势</h1>
+            <h1 id="什么是android-app-bundles">什么是Android App Bundles</h1>
+<p>Android App Bundles是 Android 新推出的一种官方发布格式(.aab)。通过使用Android App Bundle你可以减少应用的包大小，从而提升安装成功率并减少卸载量。<br>
+<img src="https://developer.android.com/images/app-bundle/aab_format-2x.png" alt="APP bundle文件格式"><br>
+App Bundle将这些特性在多个维度进行拆分，在资源维度，ABI维度和Language维度进行了拆分，你只要按需组装你的Apk然后安装即可。如果你的手机是一个x86，xhdpi的手机，你在google play应用市场下载apk时，gogle play会获取手机的信息，然后根据App Bundle会帮你拼装好一个apk，这个apk的资源只有xhdpi的，而且so库只有x86，其他无关的都会剔除。从而减少了apk的大小。<br>
+<img src="https://yqfile.alicdn.com/a3da66b4772bee3e696da8772410c32ee53c723e.gif" alt="APP bundle原理"></p>
+<h1 id="动态交付google-play-dynamic-delivery">动态交付（Google Play Dynamic Delivery）</h1>
+<p><img src="https://developer.android.com/images/app-bundle/apk_splits_tree-2x.png" alt=""><br>
+通过Android App bundles可以基于维度的选择减少apk大小，另外Google Play还提供了动态交付功能。Android App Bundle 支持模块化，通过Dynamic Delivery with split APKs，将一个apk拆分成多个apk，按需加载（包括加载C/C++ libraries）</p>
 <ol>
-<li>主题切换更加方便</li>
-<li>图片资源上传更加方便</li>
-<li>支持自定义主题</li>
-<li>只需关注mackdown编写文章即可</li>
+<li>Base Apk 首次安装的apk，公共代码和资源，所以其他的模块都基于Base Apk</li>
+<li>Configuration APKs<br>
+native libraries 和适配当前手机屏幕分辨率的资源</li>
+<li>Dynamic feature APKs<br>
+不需要在首次安装就加载的模块</li>
 </ol>
-<h1 id="如何给自己的文章添加目录">如何给自己的文章添加目录</h1>
-<p>在切换主题的时候，发现文章没有目录结构。对于大多数查阅文章的人来说，很多时候第一眼看到就是文章目录，来确认是否是自己需要学习的方向。所以目录功能还是很重要的。<br>
-查看作者的升级记录发现支持toc但是需要自己在主题中添加 <a href="https://github.com/getgridea/gridea/releases">升级记录</a></p>
-<blockquote>
-<p>文章支持 @[toc] 显示文章目录，同时增加 post.toc 字段供主题显示</p>
-</blockquote>
-<p>Html静态文件是通过<a href="https://ejs.bootcss.com/">模块引擎EJS构建</a>，我们只需在对应主题下的post.ejs文件中添加如下代码即可。</p>
-<pre><code>&lt;p class=&quot;show-toc-btn&quot; id=&quot;show-toc-btn&quot; onclick=&quot;showToc();&quot; style=&quot;display:none&quot;&gt;
-          &lt;span class=&quot;btn-bg&quot;&gt;&lt;/span&gt;
-          &lt;span class=&quot;btn-text&quot;&gt;文章导航&lt;/span&gt;
-          &lt;/p&gt;
-  &lt;div id=&quot;toc-article&quot; class=&quot;toc-article&quot;&gt;
-      &lt;span id=&quot;toc-close&quot; class=&quot;toc-close&quot; title=&quot;隐藏导航&quot; onclick=&quot;showBtn();&quot;&gt;×&lt;/span&gt;
-    &lt;strong class=&quot;toc-title&quot;&gt;文章目录&lt;/strong&gt;
-           &lt;%- post.toc %&gt;
-         &lt;/div&gt;
-   &lt;script type=&quot;text/javascript&quot;&gt;
-  function showToc(){
-    var toc_article = document.getElementById(&quot;toc-article&quot;);
-    var show_toc_btn = document.getElementById(&quot;show-toc-btn&quot;);
-    toc_article.setAttribute(&quot;style&quot;,&quot;display:block&quot;);
-    show_toc_btn.setAttribute(&quot;style&quot;,&quot;display:none&quot;);
-    };
-  function showBtn(){
-    var toc_article = document.getElementById(&quot;toc-article&quot;);
-    var show_toc_btn = document.getElementById(&quot;show-toc-btn&quot;);
-    toc_article.setAttribute(&quot;style&quot;,&quot;display:none&quot;);
-    show_toc_btn.setAttribute(&quot;style&quot;,&quot;display:block&quot;);
-    };
-   &lt;/script&gt;
-
-</code></pre>
-<p>效果如下 <a href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future/">博客地址</a></p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g2ia03cl9fj31jl0u0jve.jpg" alt=""></p>
+<h2 id=""></h2>
+<h1 id="使用-android-app-bundles项目依赖结构">使用 Android App bundles项目依赖结构</h1>
+<p><img src="http://chuantu.xyz/t6/702/1570674856x2073530529.jpg" alt=""><br>
+从上图可以看出，使用AAB,项目的依赖结构发生了变化。有base和feature0模块，在base中无法直接引用feature模块的类，feature模块可以直接依赖base模块。<br>
+应用模块化带来的好处：</p>
+<ol>
+<li>并行开发：将应用拆分不同的模块，各个团队开发自己负责的模块。</li>
+<li>加快编译时间：Gradle 的并行项目执行优化，编译系统就能够并行地编译多个模块，从而显著减少编译时间。</li>
+<li>动态模块按需加载减少apk大小。</li>
+</ol>
+<h1 id="aab-拆分注意事项">AAB 拆分注意事项</h1>
+<p>1	dynamic-feature moudle引用base modle资源时，不能直接使用R.drawdble	 需要使用 [base moudle packagename].R.drawdble的方式<br>
+2	dynamic-feature 项目名称不能以数据开头如58CarLib	需要改写为CarLib<br>
+3	java.io.IOException: Cannot find PROCESSED_RES output for Main{type=MAIN, fullName=flavor1Debug, filters=[], versionCode=-1, versionName=null}异常	需要注释掉build.gradle的splite {abi{}}<br>
+4	 basemoude不可以访问feature moudle中的id	<br>
+CarLib中arssc文件中R.id.title_filter_btn中的值为0x7e0704d8</p>
+<p>BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85</p>
+<p>因为feature与baseMoude都有各自的arsc文件，虽然属性名称一直但是id值是不一致的，所以basemoude中涉及访问feature moudle的id值都需要修改</p>
+<p>5	动态模块配置制定title 必须通过如下方式配置 dist:title=&quot;@string/title_dynamic_feature&quot; 不能直接编写字符串 并且改字符串必须写在base moudle中。</p>
+<h1 id="res资源结构">res资源结构</h1>
+<h1 id="类文件构建规则">类文件构建规则</h1>
+<h1 id="原理">原理</h1>
+<p>资源加载 与 类加载机制</p>
 <h1 id="参考">参考</h1>
-<p><a href="http://lawlite.me/2017/04/17/Hexo-yilia%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95%E5%92%8C%E6%B7%BB%E5%8A%A0%E8%A7%86%E9%A2%91/">Hexo+yilia主题实现文章目录和添加视频 </a><br>
-<a href="https://github.com/getgridea/gridea">Gridea</a></p>
+<p>https://juejin.im/entry/5b1e233ef265da6e0d7a33b3<br>
+https://blog.csdn.net/u010479969/article/details/81261<br>
+https://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/<br>
+https://zhuanlan.zhihu.com/p/34346219<br>
+https://developer.android.com/guide/app-bundle/<br>
+https://developer.android.com/studio/projects/dynamic-delivery</p>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://huopochuan.github.io//post/shi-jian-qu-dong-mo-xing-handler-yu-flutter-future">
+            <a class="purple-link" href="https://huopochuan.github.io//post/orm-kuang-jia-diao-yan">
               <h3 class="post-title">
-                下一篇：事件驱动模型 Handler 与 Flutter future
+                下一篇：Android端ORM框架调研与应用
               </h3>
             </a>
           </div>
