@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570688124483">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570975574609">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570688124483" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570975574609" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -180,7 +180,7 @@
           <div class="post-content">
             <p>4月11日华为在P30的发布会上，华为消费者终端业务CEO余承东公布了方舟编译器，并宣布开源，称可提升app性能。表示开发者将开发好的APK用该编译器编译一下，即可大大提升App性能。从图中可以看出原理和Android系统的Ahead of Time与Just in Time类似。有网友猜想apk通过编译器会编译成机器码。让我们拭目以待吧。</p>
 <!-- more -->
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25o68b912j31900spn0e.jpg" alt=""></p>
+<figure data-type="image" tabindex="1"><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25o68b912j31900spn0e.jpg" alt=""></figure>
 <h2 id="事件驱动">事件驱动</h2>
 <p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g299hy0iggj30km0audg5.jpg" alt=""><br>
 以操作系统为例，我们每次的鼠标点击，键盘按下都会发出一个事件，然后加入操作系统的消息队列中，处理线程提取任务然后分发给对应的处理句柄去处理消息事件。上述的流程即可理解为事件驱动。下面是百度百科的解释</p>
@@ -192,7 +192,7 @@
 目前windows,linux等都是事件驱动的，只有一些单片机可能是非事件驱动的。</p>
 </blockquote>
 <h2 id="事件驱动模型-handler">事件驱动模型 Handler</h2>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g2981864wuj31g20omq5d.jpg" alt=""></p>
+<figure data-type="image" tabindex="2"><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g2981864wuj31g20omq5d.jpg" alt=""></figure>
 <p>无论在Android开发还是Android面试中经常使用和被问到的就是handler,根据上述事件驱动的描述来看handler本质就是事件驱动模型。在Android系统中每次点击事件、activity与service的启动，生命周期的执行、view的布局事件等，Android系统均会把上述事件转化成一个消息msg，放在消息队列MessageQueen中。由每个App进程的主线程去不断的获取消息并分发给句柄Handler去处理。下面我们分析一下handler中的一些事件驱动的策略。</p>
 <h3 id="androd中的几个使用场景">Androd中的几个使用场景</h3>
 <p>为了证实我们上面提出的观点，我们看看在源码里的体现，我们只看消息的接收处理的逻辑，因为Android是基于C/S架构，我们的事件产生都是经过server端产生然后通过binder通信传递给Client（App进程）。</p>
@@ -443,7 +443,7 @@
 <p>2.resume方法中数据填充太耗时，我们同样可以加到idelHadler回调中加快展示速度。</p>
 <h2 id="事件驱动模型-flutter-future">事件驱动模型 Flutter future</h2>
 <p>相信一些小伙伴已经接触了Flutter开发，Flutter也是事件驱动的，也有自己的Event Loop。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25ochxfxcj30d30e23z9.jpg" alt=""></p>
+<figure data-type="image" tabindex="3"><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g25ochxfxcj30d30e23z9.jpg" alt=""></figure>
 <p>可以看出其有两个消息队列 微任务队列(MicroTask queue)和事件队列(Event queue)</p>
 <ol>
 <li>事件队列包含外部事件，例如I/O, Timer，绘制事件等等</li>

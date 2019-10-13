@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570688124483">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570975574609">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570688124483" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570975574609" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -185,7 +185,7 @@ Tangram的动态化技术并不像RN WEEX Flutter那样做到完全的动态化�
 <p>上面提到了卡片(布局)，下面介绍一下卡片操作的对象<code>组件</code>。Tangram框架中将组件分为原生组件和动态组件。原生组件可以理解同我们日常开发首页item一样将编写ViewHolder然后根据type进行注册。这里重点说一下动态组件，动态组件是Tangram动态化的另一重要体现。<br>
 动态组件(VirtualView)是阿里推出的组件动态更新解决方案，解决APP native页面更新样式时，需要发版处理。适合经常做运营推广的页面。</p>
 <h2 id="virtualview使用流程">VirtualView使用流程</h2>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g4balm7kw5j30h90fsabd.jpg" alt=""></p>
+<figure data-type="image" tabindex="1"><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g4balm7kw5j30h90fsabd.jpg" alt=""></figure>
 <p>可以看出VirtualView的整体框架View模板与数据分离，先下发模板布局，在下发数据进行模板填充。</p>
 <h3 id="模板文件编写">模板文件编写</h3>
 <p>VirtualView框架内置了一些基础原子控件(NText,VText,NImage,NLine,VLine...)和基础容器控件(FrameLayout,GridLayout,VHLayout,NFrameLayout,NGridLayout,NVHLayout...)。我们可以使用这些提供的控件去编写我们的XML布局文件。（可以看到控件的命名规则是以N和V开始，有什么区别呢？）<br>
@@ -266,11 +266,11 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
 <img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt=""></p>
 <h3 id="实时预览工具">实时预览工具</h3>
 <p>为了提升开发效率同样推出了<a href="https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview">实时预览工具</a>。</p>
-<p><img src="https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif" alt=""></p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif" alt=""></figure>
 <h2 id="原生控件与虚拟控件">原生控件与虚拟控件</h2>
 <p>上面抛出个问题：可以看到控件的命名规则是以N和V开始，有什么区别呢？回复如下。<br>
 目前VirtualView提供的布局容器包含帧布局和线性布局，网格布局等，没有相对布局和约束布局的这些。因此当我们要实现一起布局效果的时候就需要嵌套很多次， 这样会影响渲染性能。基于以上问题VirtualView提出了原生控件与虚拟化控件，</p>
-<p><img src="https://user-gold-cdn.xitu.io/2018/3/6/161fa989fea82cc1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
+<figure data-type="image" tabindex="3"><img src="https://user-gold-cdn.xitu.io/2018/3/6/161fa989fea82cc1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></figure>
 <p>原生控件：就是通过封装了系统原生 View 来实现的控件；（命名规则是以N开始）<br>
 虚拟化控件：使用 canvas 绘制创建的控件，它需要依托一个原生容器控件作为宿主容器，承重其最终的展示；（命名规则是以V开始）</p>
 <blockquote>

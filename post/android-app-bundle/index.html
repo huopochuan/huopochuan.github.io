@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570688124483">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1570975574609">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570688124483" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1570975574609" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -106,10 +106,12 @@
            <ul class="markdownIt-TOC">
 <li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFandroid-app-bundles">什么是Android App Bundles</a></li>
 <li><a href="#%E5%8A%A8%E6%80%81%E4%BA%A4%E4%BB%98google-play-dynamic-delivery">动态交付（Google Play Dynamic Delivery）</a></li>
+<li><a href="#bundletool">Bundletool</a></li>
 <li><a href="#%E4%BD%BF%E7%94%A8-android-app-bundles%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%BB%93%E6%9E%84">使用 Android App bundles项目依赖结构</a></li>
 <li><a href="#aab-%E6%8B%86%E5%88%86%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">AAB 拆分注意事项</a></li>
 <li><a href="#res%E8%B5%84%E6%BA%90%E7%BB%93%E6%9E%84">res资源结构</a></li>
 <li><a href="#%E7%B1%BB%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E8%A7%84%E5%88%99">类文件构建规则</a></li>
+<li><a href="#%E6%B7%B7%E6%B7%86%E8%A7%84%E5%88%99">混淆规则</a></li>
 <li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
 <li><a href="#%E5%B1%95%E6%9C%9B">展望</a></li>
 <li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
@@ -137,7 +139,9 @@
             <h1 id="什么是android-app-bundles">什么是Android App Bundles</h1>
 <p>Android App Bundles是 Android 新推出的一种官方发布格式(.aab)。通过使用Android App Bundle你可以减少应用的包大小，从而提升安装成功率并减少卸载量。<br>
 <img src="https://developer.android.com/images/app-bundle/aab_format-2x.png" alt="APP bundle文件格式"><br>
-App Bundle将这些特性在多个维度进行拆分，在资源维度，ABI维度和Language维度进行了拆分，你只要按需组装你的Apk然后安装即可。如果你的手机是一个x86，xhdpi的手机，你在google play应用市场下载apk时，gogle play会获取手机的信息，然后根据App Bundle会帮你拼装好一个apk，这个apk的资源只有xhdpi的，而且so库只有x86，其他无关的都会剔除。从而减少了apk的大小。<br>
+<img src="https://s2.ax1x.com/2019/10/13/uxKNin.jpg" alt="Android App Bundles 文件格式"><br>
+从上图可以看出App Bundles文件格式，他包含Base Moudle和我们拆分的Feature Module文件夹，签名文件和其他的配置文件。每个Moudle文件夹内包含dex，manifest，res，和一个resources.pb文件。和APK的文件结构基本保持一致。base module和每个Dynamic Feature Module都包含各自的代码和资源，它们组成了原先apk文件的内容。<br>
+Google Play就是基于对aab文件处理，将App Bundle在多个维度进行拆分，在资源维度，ABI维度和Language维度进行了拆分，你只要按需组装你的Apk然后安装即可。如果你的手机是一个x86，xhdpi的手机，你在google play应用市场下载apk时，gogle play会获取手机的信息，然后根据App Bundle会帮你拼装好一个apk，这个apk的资源只有xhdpi的，而且so库只有x86，其他无关的都会剔除。从而减少了apk的大小。<br>
 <img src="https://yqfile.alicdn.com/a3da66b4772bee3e696da8772410c32ee53c723e.gif" alt="APP bundle原理"></p>
 <h1 id="动态交付google-play-dynamic-delivery">动态交付（Google Play Dynamic Delivery）</h1>
 <p><img src="https://developer.android.com/images/app-bundle/apk_splits_tree-2x.png" alt=""><br>
@@ -149,6 +153,27 @@ native libraries 和适配当前手机屏幕分辨率的资源</li>
 <li>Dynamic feature APKs<br>
 不需要在首次安装就加载的模块</li>
 </ol>
+<p>启用改功能需要我们在base module中集成Play Core Library。用户在Google Play下载一个通过Android App Bundle 方式开发的应用时，只会下载base module对应的apk文件，Dynamic Feature Module对应的apk文件会在运行时按需下载。Play Core Library用来在App运行时请求下载Dynamic Feature Module对应的apk。可以查看<a href="https://developer.android.com/guide/app-bundle/playcore">Play Core API 使用</a></p>
+<h1 id="bundletool">Bundletool</h1>
+<p>我们通过android studio 的build bundle功能生成aab格式文件，我们必须测试 Google Play 使用该 Android App Bundle 生成 APK 的情形。验证方式1：bundletool 命令行工具进行测试。验证方式2：通过 Google Play 将您的 app bundle 上传到 Play 管理中心并使用测试轨道进行测试。<br>
+下面我们看看Bundletool的具体使用方式</p>
+<ol>
+<li>使用bundletool build-apks 命令从 app bundle 生成一组 APK</li>
+</ol>
+<pre><code>java -jar bundletool-all-0.10.3.jar build-apks --bundle=58WuxianClient.aab --output=my_app.apks
+</code></pre>
+<p><img src="https://s2.ax1x.com/2019/10/13/uxd856.jpg" alt="apks文件结构"><br>
+<img src="https://s2.ax1x.com/2019/10/13/uxdkEq.jpg" alt="apks文件结构"><br>
+我看查看一下apks的文件解结构，分为两个目录splits和standalones<br>
+splits目录：可以看出splits就是对各个moudle的在资源维度，ABI维度和Language维度的拆分。base moudle和car moudle基于维度各自产生了apk集合。当我们使用app bundle上传到google play后，在google play安装apk时（手机android版本&gt;=21即android 5.0），google play就会在apk集合中找到和手机语言，API,分辨率相同的apk安装到手机从而减少apk大小。<br>
+standalones目录：因为对于小于21的android手机是不支持多apk的模式安装的，同时也不支持按需加载，所以对于该类型的手机要生成一个APK,当然也在维度进行了拆分。每个包的大小都在58M左右。与现在的58APP相比减少了30M（30%）。</p>
+<ol start="2">
+<li>通过install-apks命令将 APK 部署到连接的设备（andoid 版本为5.1 OPPO R9）</li>
+</ol>
+<pre><code>java -jar bundletool-all-0.10.3.jar install-apks --apks=my_app.apks
+</code></pre>
+<p><img src="https://s2.ax1x.com/2019/10/13/uxUXpF.jpg" alt="推送到app的文件结构"><br>
+从文件结构可以看出我们在使用</p>
 <h1 id="使用-android-app-bundles项目依赖结构">使用 Android App bundles项目依赖结构</h1>
 <p><img src="http://chuantu.xyz/t6/702/1570674856x2073530529.jpg" alt=""><br>
 从上图可以看出，使用AAB,项目的依赖结构发生了变化。有base和feature0模块，在base中无法直接引用feature模块的类，feature模块可以直接依赖base模块。<br>
@@ -181,6 +206,7 @@ BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
 因为feature与baseMoude都有各自的arsc文件，虽然属性名称一直但是id值是不一致的，所以basemoude中涉及访问feature moudle的id值都需要修改。</li>
 </ol>
 <h1 id="类文件构建规则">类文件构建规则</h1>
+<h1 id="混淆规则">混淆规则</h1>
 <h1 id="原理">原理</h1>
 <p>资源加载 与 类加载机制</p>
 <h1 id="展望">展望</h1>
@@ -191,7 +217,10 @@ https://blog.csdn.net/u010479969/article/details/81261<br>
 https://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/<br>
 https://zhuanlan.zhihu.com/p/34346219<br>
 https://developer.android.com/guide/app-bundle/<br>
-https://developer.android.com/studio/projects/dynamic-delivery</p>
+https://developer.android.com/studio/projects/dynamic-delivery<br>
+https://developer.android.com/studio/command-line/bundletool<br>
+https://developer.android.com/guide/app-bundle/playcore<br>
+https://github.com/android/app-bundle-samples/tree/master/DynamicFeatures</p>
 
           </div>
         </div>
