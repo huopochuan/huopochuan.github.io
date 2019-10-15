@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-10-14T03:20:53.970Z</updated>
+    <updated>2019-10-15T09:28:32.048Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -35,8 +35,14 @@ native libraries 和适配当前手机屏幕分辨率的资源</li>
 对于上述三个类型apk</li>
 </ol>
 <p>启用改功能需要我们在base module中集成Play Core Library。用户在Google Play下载一个通过Android App Bundle 方式开发的应用时，只会下载base module对应的apk文件，Dynamic Feature Module对应的apk文件会在运行时按需下载。Play Core Library用来在App运行时请求下载Dynamic Feature Module对应的apk。可以查看<a href="https://developer.android.com/guide/app-bundle/playcore">Play Core API 使用</a></p>
-<h1 id="版本管理问题">版本管理问题?</h1>
-<p>如果每次app发版如何做到版本管理。</p>
+<h1 id="google-play-在下载与更新apk是如何处理按需模块与基本模块的呢">Google play 在下载与更新APK是如何处理按需模块与基本模块的呢？</h1>
+<p><a href="https://codelabs.developers.google.com/codelabs/on-demand-dynamic-delivery/index.html#7">https://codelabs.developers.google.com/codelabs/on-demand-dynamic-delivery/index.html#7</a></p>
+<blockquote>
+<p>Note:<br>
+To test the download of an on-demand module it's not enough to update the application on the device because the update operation also updates all the on-demand modules that are already installed.<br>
+To test the download of the module, you have to uninstall the application and install it again. In this way the on-demand modules are not going to be installed.</p>
+</blockquote>
+<p>可以看出Google Play的下载与更新APK的逻辑很简单，每次下载时都会只下载非按需加载模块，下载了基本模块之后，就可以按需加载其他模块。如果之后我升级了APK，按需在加载模块是怎么处理的呢？Google Play会同时为我们更新。这样我们无需为按需加载模块做版本兼容处理。Base Moudle与 Dynamic Moudle版本永远都会是保存一直的。因为Google Play都是基于一个AAB文件构建出APK交付给用户。</p>
 <h1 id="bundletool">Bundletool</h1>
 <p>我们通过android studio 的build bundle功能生成aab格式文件，我们必须测试 Google Play 使用该 Android App Bundle 生成 APK 的情形。验证方式1：bundletool 命令行工具进行测试。验证方式2：通过 Google Play 将您的 app bundle 上传到 Play 管理中心并使用测试轨道进行测试。<br>
 下面我们看看Bundletool的具体使用方式</p>
@@ -123,6 +129,7 @@ BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
 <h1 id="混淆规则">混淆规则</h1>
 <h1 id="原理">原理</h1>
 <p>资源加载 与 类加载机制</p>
+<h1 id="问题点">问题点</h1>
 <h1 id="展望">展望</h1>
 <p>App Bundles 方案在减少APK大小方面，就有很大的优势。但是App Bundles方案依托与Google Play应该才能做到业务模块的按需加载。但是目前爱奇艺开源了<a href="https://github.com/iqiyi/Qigsaw">Qigsaw框架</a>,自己实现了一套类型Google Play的方案，同时保持API的使用与Google Play保持一致，这样就可以做到国内与国外场景的自由切换。</p>
 <h1 id="参考">参考</h1>
@@ -135,7 +142,8 @@ https://developer.android.com/studio/projects/dynamic-delivery<br>
 https://developer.android.com/studio/command-line/bundletool<br>
 https://developer.android.com/guide/app-bundle/playcore<br>
 https://github.com/android/app-bundle-samples/tree/master/DynamicFeatures<br>
-https://zhuanlan.zhihu.com/p/83411322</p>
+https://zhuanlan.zhihu.com/p/83411322<br>
+https://codelabs.developers.google.com/codelabs/on-demand-dynamic-delivery/</p>
 ]]></content>
     </entry>
     <entry>
