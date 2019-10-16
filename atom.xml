@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-10-16T05:46:21.724Z</updated>
+    <updated>2019-10-16T06:33:19.382Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -51,19 +51,15 @@ To test the download of the module, you have to uninstall the application and in
 <h1 id="bundletool">Bundletool</h1>
 <p>我们通过android studio 的build bundle功能生成aab格式文件，我们必须测试 Google Play 使用该 Android App Bundle 生成 APK 的情形。验证方式1：bundletool 命令行工具进行测试。验证方式2：通过 Google Play 将您的 app bundle 上传到 Play 管理中心并使用测试轨道进行测试。<br>
 下面我们看看Bundletool的具体使用方式</p>
-<ol>
-<li>使用bundletool build-apks 命令从 app bundle 生成一组 APK</li>
-</ol>
+<h2 id="使用bundletool-build-apks-命令从-app-bundle-生成一组-apk">使用bundletool build-apks 命令从 app bundle 生成一组 APK</h2>
 <pre><code>java -jar bundletool-all-0.10.3.jar build-apks --bundle=58WuxianClient.aab --output=my_app.apks
 </code></pre>
 <p><img src="https://s2.ax1x.com/2019/10/13/uxd856.jpg" alt="apks文件结构"><br>
 <img src="https://s2.ax1x.com/2019/10/13/uxdkEq.jpg" alt="apks文件结构"><br>
 我看查看一下apks的文件解结构，分为两个目录splits和standalones<br>
 splits目录：可以看出splits就是对各个moudle的在资源维度，ABI维度和Language维度的拆分。base moudle和car moudle基于维度各自产生了apk集合。当我们使用app bundle上传到google play后，在google play安装apk时（手机android版本&gt;=21即android 5.0），google play就会在apk集合中找到和手机语言，API,分辨率相同的apk安装到手机从而减少apk大小。<br>
-standalones目录：因为对于小于21的android手机是不支持多apk的模式安装的，同时也不支持按需加载，所以对于该类型的手机要生成一个APK,当然也在维度进行了拆分。每个包的大小都在58M左右。与现在的58APP相比减少了30M（30%）。</p>
-<ol start="2">
-<li>通过install-apks命令将 APK 部署到连接的设备（andoid 版本为5.1 OPPO R9）</li>
-</ol>
+standalones目录：因为对于小于21的android手机是不支持多apk的模式安装的，同时也不支持按需加载，所以对于该类型的手机要生成一个APK,当然也在维度进行了拆分。每个包的大小都在93.9M左右。(与现在的9.1.0版本相比增大了3M)</p>
+<h2 id="通过install-apks命令将-apk-部署到连接的设备andoid-版本为51-oppo-r9">通过install-apks命令将 APK 部署到连接的设备（andoid 版本为5.1 OPPO R9）</h2>
 <pre><code>java -jar bundletool-all-0.10.3.jar install-apks --apks=my_app.apks
 </code></pre>
 <p><img src="https://s2.ax1x.com/2019/10/13/uxUXpF.jpg" alt="推送到app的文件结构"><br>
@@ -85,10 +81,8 @@ package:/data/app/com.wuba-flDXC2tcSXaidf_VbJVuMQ==/split_config.armeabi.apk
 package:/data/app/com.wuba-flDXC2tcSXaidf_VbJVuMQ==/split_config.xxhdpi.apk
 package:/data/app/com.wuba-flDXC2tcSXaidf_VbJVuMQ==/split_config.zh.apk
 </code></pre>
-<ol start="3">
-<li>根据aab文件生成一个全量apk<br>
-bundletool 只生成一个包含应用的所有代码和资源的 APK，以使该 APK 与应用支持的所有设备配置兼容，使用 universal 参数。</li>
-</ol>
+<h2 id="根据aab文件生成一个全量apk">根据aab文件生成一个全量apk</h2>
+<p>bundletool 只生成一个包含应用的所有代码和资源的 APK，以使该 APK 与应用支持的所有设备配置兼容，使用 universal 参数。</p>
 <pre><code>java -jar bundletool-all-0.10.3.jar build-apks --bundle=58WuxianClient.aab --output=all.apks  --mode=universal
 </code></pre>
 <figure data-type="image" tabindex="1"><img src="https://s2.ax1x.com/2019/10/16/Ki6DmR.jpg" alt=""></figure>
@@ -96,9 +90,7 @@ bundletool 只生成一个包含应用的所有代码和资源的 APK，以使�
 <img src="https://s2.ax1x.com/2019/10/16/Ki6Htf.md.jpg" alt="9.1.0APK"><br>
 <img src="https://s2.ax1x.com/2019/10/16/KigQZn.jpg" alt="aab"><br>
 通过对比我们发现res文件增加了2.6M lib文件增加0.1M  asset文件增加0.1 代码增加0.7M</p>
-<ol start="4">
-<li>获取当前设备的信息文件</li>
-</ol>
+<h2 id="获取当前设备的信息文件">获取当前设备的信息文件</h2>
 <pre><code>java -jar bundletool-all-0.10.3.jar get-device-spec --output=device-spec.json
 </code></pre>
 <p>设备信息文件内容</p>
@@ -124,6 +116,7 @@ bundletool 只生成一个包含应用的所有代码和资源的 APK，以使�
 <li>动态模块按需加载减少apk大小。</li>
 </ol>
 <h1 id="动态模块上传到maven">动态模块上传到maven?</h1>
+<p>我们知道library工程模块可以通过aar的方式上传到maven仓库，动态模块的构建产物是apk可以上传到maven仓库吗？不可以。通过 Android App bundles模块化拆分的项目如果你想要编译它，必须要源码依赖工程。这样每个业务线开发时只能查看自己业务都构建功能，不可以查看其他业务线的功能。</p>
 <h1 id="aab-拆分注意事项">AAB 拆分注意事项</h1>
 <ol>
 <li>dynamic-feature moudle引用base modle资源时，不能直接使用R.drawdble	 需要使用 [base moudle packagename].R.drawdble的方式</li>
