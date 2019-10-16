@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://huopochuan.github.io/</id>
     <title>琥珀川</title>
-    <updated>2019-10-16T06:36:10.416Z</updated>
+    <updated>2019-10-16T06:37:35.154Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://huopochuan.github.io/"/>
     <link rel="self" href="https://huopochuan.github.io//atom.xml"/>
@@ -174,7 +174,17 @@ https://github.com/google/bundletool</p>
         <link href="https://huopochuan.github.io//post/orm-kuang-jia-diao-yan">
         </link>
         <updated>2019-07-21T05:23:37.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="orm是什么">ORM是什么</h1>
+        <summary type="html"><![CDATA[<p>ORM 表示全称为对象关系映射（Object Relational Mapping）。<br>
+O 可以理解为java对象<br>
+R 可以理解为关系型数据库(sqllite)<br>
+M 可以理解为从java对象到关系型数据库建立映射关系的过程</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>ORM 表示全称为对象关系映射（Object Relational Mapping）。<br>
+O 可以理解为java对象<br>
+R 可以理解为关系型数据库(sqllite)<br>
+M 可以理解为从java对象到关系型数据库建立映射关系的过程</p>
+<!-- more -->
+<h1 id="orm是什么">ORM是什么</h1>
 <p>ORM 表示全称为对象关系映射（Object Relational Mapping）。<br>
 O 可以理解为java对象<br>
 R 可以理解为关系型数据库(sqllite)<br>
