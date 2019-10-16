@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1571131709348">
+<link rel="shortcut icon" href="https://huopochuan.github.io//favicon.ico?v=1571204779031">
 <link rel="stylesheet" href="https://huopochuan.github.io//styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://huopochuan.github.io/">
-        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1571131709348" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://huopochuan.github.io//images/avatar.png?v=1571204779031" alt="" width="32px" height="32px">
       </a>
       <a href="https://huopochuan.github.io/">
         <h1 class="site-title">琥珀川</h1>
@@ -87,9 +87,22 @@
       <div class="content-container">
         <div class="post-detail">
           
+            <div class="feature-container" style="background-image: url('https://developer.android.google.cn/images/app-bundle/app-bundle-apks.svg')">
+            </div>
+          
           <h2 class="post-title">Android App Bundles解析</h2>
           <div class="post-info post-detail-info">
             <span><i class="icon-calendar-outline"></i> 2019-09-18</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://huopochuan.github.io//tag/l0MG6ihGZ">
+                    android app bundle
+                    
+                  </a>
+                
+              </span>
             
           </div>
 
@@ -109,12 +122,11 @@
 <li><a href="#google-play-%E5%9C%A8%E4%B8%8B%E8%BD%BD%E4%B8%8E%E6%9B%B4%E6%96%B0apk%E6%98%AF%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%8C%89%E9%9C%80%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%9D%97%E7%9A%84%E5%91%A2">Google play 在下载与更新APK是如何处理按需模块与基本模块的呢？</a></li>
 <li><a href="#bundletool">Bundletool</a></li>
 <li><a href="#%E4%BD%BF%E7%94%A8-android-app-bundles%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%BB%93%E6%9E%84">使用 Android App bundles项目依赖结构</a></li>
+<li><a href="#%E5%8A%A8%E6%80%81%E6%A8%A1%E5%9D%97%E4%B8%8A%E4%BC%A0%E5%88%B0maven">动态模块上传到maven?</a></li>
 <li><a href="#aab-%E6%8B%86%E5%88%86%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">AAB 拆分注意事项</a></li>
 <li><a href="#res%E8%B5%84%E6%BA%90%E7%BB%93%E6%9E%84">res资源结构</a></li>
 <li><a href="#%E7%B1%BB%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E8%A7%84%E5%88%99">类文件构建规则</a></li>
-<li><a href="#%E6%B7%B7%E6%B7%86%E8%A7%84%E5%88%99">混淆规则</a></li>
 <li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
-<li><a href="#%E9%97%AE%E9%A2%98%E7%82%B9">问题点</a></li>
 <li><a href="#%E5%B1%95%E6%9C%9B">展望</a></li>
 <li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
@@ -138,8 +150,11 @@
 
 
           <div class="post-content">
-            <h1 id="什么是android-app-bundles">什么是Android App Bundles</h1>
-<p>Android App Bundles是 Android 新推出的一种官方发布格式(.aab)。通过使用Android App Bundle你可以减少应用的包大小，从而提升安装成功率并减少卸载量。<br>
+            <p>Android App Bundles是 Android 新推出的一种官方发布格式(.aab)。通过使用Android App Bundle你可以减少应用的包大小，从而提升安装成功率并减少卸载量。</p>
+<!-- more -->
+<h1 id="什么是android-app-bundles">什么是Android App Bundles</h1>
+<p><img src="https://developer.android.google.cn/images/app-bundle/app-bundle-logo.svg" alt=""><br>
+Android App Bundles是 Android 新推出的一种官方发布格式(.aab)。通过使用Android App Bundle你可以减少应用的包大小，从而提升安装成功率并减少卸载量。<br>
 <img src="https://developer.android.com/images/app-bundle/aab_format-2x.png" alt="APP bundle文件格式"><br>
 <img src="https://s2.ax1x.com/2019/10/13/uxKNin.jpg" alt="Android App Bundles 文件格式"><br>
 从上图可以看出App Bundles文件格式，他包含Base Moudle和我们拆分的Feature Module文件夹，签名文件和其他的配置文件。每个Moudle文件夹内包含dex，manifest，res，和一个resources.pb文件。和APK的文件结构基本保持一致。base module和每个Dynamic Feature Module都包含各自的代码和资源，它们组成了原先apk文件的内容。<br>
@@ -203,6 +218,17 @@ package:/data/app/com.wuba-flDXC2tcSXaidf_VbJVuMQ==/split_config.xxhdpi.apk
 package:/data/app/com.wuba-flDXC2tcSXaidf_VbJVuMQ==/split_config.zh.apk
 </code></pre>
 <ol start="3">
+<li>根据aab文件生成一个全量apk<br>
+bundletool 只生成一个包含应用的所有代码和资源的 APK，以使该 APK 与应用支持的所有设备配置兼容，使用 universal 参数。</li>
+</ol>
+<pre><code>java -jar bundletool-all-0.10.3.jar build-apks --bundle=58WuxianClient.aab --output=all.apks  --mode=universal
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://s2.ax1x.com/2019/10/16/Ki6DmR.jpg" alt=""></figure>
+<p>我们是基于9.1.0版本只对二手车业务进行了改造发现生成全量apk包大小为(95.5M)增加了4.8M,那这些大小增加在哪里呢？<br>
+<img src="https://s2.ax1x.com/2019/10/16/Ki6Htf.md.jpg" alt="9.1.0APK"><br>
+<img src="https://s2.ax1x.com/2019/10/16/KigQZn.jpg" alt="aab"><br>
+通过对比我们发现res文件增加了2.6M lib文件增加0.1M  asset文件增加0.1 代码增加0.7M</p>
+<ol start="4">
 <li>获取当前设备的信息文件</li>
 </ol>
 <pre><code>java -jar bundletool-all-0.10.3.jar get-device-spec --output=device-spec.json
@@ -216,8 +242,12 @@ package:/data/app/com.wuba-flDXC2tcSXaidf_VbJVuMQ==/split_config.zh.apk
   &quot;sdkVersion&quot;: 22
 }
 </code></pre>
+<p>通过上述的booltool命令是使用方法，也许我们已经产出了如何应用与58工程，来加快apk编译与为后期使用App Bundle场景的改造。<br>
+1.将58工程基于App Bundle改造为Base Moudle与feature Moudle<br>
+2.改造完成开发模式直接点击构建就可以了，android stuido直接会将split apk推送到手机设备(android 5.0+)<br>
+3.对于正式版本构建第一步使用gradle命令构建aab格式文件，第二步使用universal 参数将aab转换为一个全量的apk,当做正式包使用。（后续的渠道包操作都是基于这个apk进行操作）</p>
 <h1 id="使用-android-app-bundles项目依赖结构">使用 Android App bundles项目依赖结构</h1>
-<p><img src="http://chuantu.xyz/t6/702/1570674856x2073530529.jpg" alt=""><br>
+<p><img src="https://s2.ax1x.com/2019/10/16/KinFqP.jpg" alt=""><br>
 从上图可以看出，使用AAB,项目的依赖结构发生了变化。有base和feature0模块，在base中无法直接引用feature模块的类，feature模块可以直接依赖base模块。<br>
 应用模块化带来的好处：</p>
 <ol>
@@ -225,6 +255,7 @@ package:/data/app/com.wuba-flDXC2tcSXaidf_VbJVuMQ==/split_config.zh.apk
 <li>加快编译时间：Gradle 的并行项目执行优化，编译系统就能够并行地编译多个模块，从而显著减少编译时间。</li>
 <li>动态模块按需加载减少apk大小。</li>
 </ol>
+<h1 id="动态模块上传到maven">动态模块上传到maven?</h1>
 <h1 id="aab-拆分注意事项">AAB 拆分注意事项</h1>
 <ol>
 <li>dynamic-feature moudle引用base modle资源时，不能直接使用R.drawdble	 需要使用 [base moudle packagename].R.drawdble的方式</li>
@@ -235,10 +266,16 @@ CarLib中arssc文件中R.id.title_filter_btn中的值为0x7e0704d8<br>
 BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
 因为feature与baseMoude都有各自的arsc文件，虽然属性名称一直但是id值是不一致的，所以basemoude中涉及访问feature moudle的id值都需要修改</li>
 <li>动态模块配置制定title 必须通过如下方式配置 dist:title=&quot;@string/title_dynamic_feature&quot; 不能直接编写字符串 并且改字符串必须写在base moudle中。</li>
+<li>当打开on-demand（按需加载）时，必须开启Fusing（熔断操作）才能正常的让Api21以下的手机使用module</li>
+<li>一般情况下，动态模块下发之后需要重启App才能加载成功，但是如果你使用SplitCompat library，就可以立即生效</li>
+<li>如果下载的模块太大，需要用户确认，GP要求大于10MB需要用户确认</li>
+<li>国际上可以使用Google Play的Play Core Lib直接从gp后台下载我们上传好的dynamic module.</li>
+<li>module中的AndroidManifest中定义的Activity不能有exported:true因为别的app不知道你何时安装好模块从而会引发问题</li>
+<li>proguard文件在生效的时候会merge base module和所有的dynamic module中的文件，所以在编写proguard的时候要注意这个问题。</li>
 </ol>
 <h1 id="res资源结构">res资源结构</h1>
-<figure data-type="image" tabindex="1"><img src="http://chuantu.xyz/t6/702/1570685613x3661913030.png" alt=""></figure>
-<p>每个feature moudle都会生成自己独立的arsc文件，同时为了不与其他moudle产生冲突，每个moudle其资源id的头两位都是有差异的。从图中可以看出car的feature moudle的资源id是以0x7e开始而不是0x7f。<br>
+<p><img src="https://s2.ax1x.com/2019/10/16/KinMMn.md.png" alt=""><br>
+每个feature moudle都会生成自己独立的arsc文件，同时为了不与其他moudle产生冲突，每个moudle其资源id的头两位都是有差异的。从图中可以看出car的feature moudle的资源id是以0x7e开始而不是0x7f。<br>
 因此在资源id使用时需要注意一下几点：</p>
 <ol>
 <li>dynamic-feature moudle引用base modle资源时，不能直接使用R.drawdble需要使用 [base moudle packagename].R.drawdble的方式</li>
@@ -248,11 +285,10 @@ BaseMoude中arssc文件中R.id.title_filter_btn中的值为0x7f090d85<br>
 因为feature与baseMoude都有各自的arsc文件，虽然属性名称一直但是id值是不一致的，所以basemoude中涉及访问feature moudle的id值都需要修改。</li>
 </ol>
 <h1 id="类文件构建规则">类文件构建规则</h1>
-<h1 id="混淆规则">混淆规则</h1>
 <h1 id="原理">原理</h1>
 <p>资源加载 与 类加载机制</p>
-<h1 id="问题点">问题点</h1>
 <h1 id="展望">展望</h1>
+<p>构建速度方面：</p>
 <p>App Bundles 方案在减少APK大小方面，就有很大的优势。但是App Bundles方案依托与Google Play应该才能做到业务模块的按需加载。但是目前爱奇艺开源了<a href="https://github.com/iqiyi/Qigsaw">Qigsaw框架</a>,自己实现了一套类型Google Play的方案，同时保持API的使用与Google Play保持一致，这样就可以做到国内与国外场景的自由切换。</p>
 <h1 id="参考">参考</h1>
 <p>https://juejin.im/entry/5b1e233ef265da6e0d7a33b3<br>
@@ -265,7 +301,10 @@ https://developer.android.com/studio/command-line/bundletool<br>
 https://developer.android.com/guide/app-bundle/playcore<br>
 https://github.com/android/app-bundle-samples/tree/master/DynamicFeatures<br>
 https://zhuanlan.zhihu.com/p/83411322<br>
-https://codelabs.developers.google.com/codelabs/on-demand-dynamic-delivery/</p>
+https://codelabs.developers.google.com/codelabs/on-demand-dynamic-delivery/<br>
+https://codelabs.developers.google.com/codelabs/your-first-dynamic-app/index.htm<br>
+https://github.com/fireantzhang/AppBundleDemo<br>
+https://github.com/google/bundletool</p>
 
           </div>
         </div>
